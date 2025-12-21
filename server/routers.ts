@@ -5,17 +5,12 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import * as db from "./db";
 import { TRPCError } from "@trpc/server";
-
-// Admin-only procedure
-const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
-  if (ctx.user.role !== 'admin') {
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
-  }
-  return next({ ctx });
-});
+import { adminProcedure } from "./_core/adminProcedure";
+import { inventoryRouter } from "./routers/inventory";
 
 export const appRouter = router({
   system: systemRouter,
+  inventory: inventoryRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

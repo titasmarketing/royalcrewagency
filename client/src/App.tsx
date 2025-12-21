@@ -9,8 +9,11 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminCalendar from "./pages/AdminCalendar";
 import AdminServices from "./pages/AdminServices";
 import AdminStaff from "./pages/AdminStaff";
+import AdminClients from "./pages/AdminClients";
+import AdminInventory from "./pages/AdminInventory";
 import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
+import ClientPortal from "./pages/ClientPortal";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -21,8 +24,11 @@ function Router() {
       <Route path={"/admin/calendar"} component={AdminCalendar} />
       <Route path={"/admin/services"} component={AdminServices} />
       <Route path={"/admin/staff"} component={AdminStaff} />
+      <Route path={"/admin/clients"} component={AdminClients} />
+      <Route path={"/admin/inventory"} component={AdminInventory} />
       <Route path={"/servicos"} component={Services} />
       <Route path={"/servicos/:slug"} component={ServiceDetail} />
+      <Route path={"/cliente"} component={ClientPortal} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
