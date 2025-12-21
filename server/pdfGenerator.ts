@@ -103,7 +103,7 @@ export async function generateContract(data: ContractData): Promise<Buffer> {
     doc
       .fontSize(14)
       .fillColor("#D4AF37")
-      .text(`R$ ${data.totalPrice}`, { align: "left" })
+      .text(`£ ${data.totalPrice}`, { align: "left" })
       .moveDown(2);
 
     // Cláusulas contratuais
@@ -341,8 +341,8 @@ export async function generateInvoice(data: {
         .fontSize(9)
         .text(service.description, 50, currentY, { width: 200 })
         .text(service.quantity.toString(), 260, currentY, { width: 40 })
-        .text(`R$ ${service.unitPrice}`, 310, currentY, { width: 80 })
-        .text(`R$ ${service.total}`, 400, currentY, { width: 100 });
+        .text(`£ ${service.unitPrice}`, 310, currentY, { width: 80 })
+        .text(`£ ${service.total}`, 400, currentY, { width: 100 });
 
       currentY += 20;
     });
@@ -358,11 +358,11 @@ export async function generateInvoice(data: {
     doc
       .fontSize(10)
       .text("Subtotal:", 350, currentY)
-      .text(`R$ ${data.subtotal}`, 450, currentY);
+      .text(`£ ${data.subtotal}`, 450, currentY);
 
     currentY += 20;
 
-    doc.text("Impostos:", 350, currentY).text(`R$ ${data.taxes}`, 450, currentY);
+    doc.text("Impostos:", 350, currentY).text(`£ ${data.taxes}`, 450, currentY);
 
     currentY += 20;
 
@@ -370,7 +370,7 @@ export async function generateInvoice(data: {
       .fontSize(12)
       .fillColor("#D4AF37")
       .text("TOTAL:", 350, currentY)
-      .text(`R$ ${data.total}`, 450, currentY);
+      .text(`£ ${data.total}`, 450, currentY);
 
     // Footer
     doc

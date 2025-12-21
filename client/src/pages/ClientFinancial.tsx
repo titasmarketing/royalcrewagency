@@ -91,7 +91,7 @@ export default function ClientFinancial() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-yellow-600">
-                R$ {totalPending.toFixed(2)}
+                £ {totalPending.toFixed(2)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 {invoices.filter((i) => i.status === "pending" || i.status === "overdue").length} fatura(s)
@@ -108,7 +108,7 @@ export default function ClientFinancial() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-600">
-                R$ {totalPaid.toFixed(2)}
+                £ {totalPaid.toFixed(2)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 {invoices.filter((i) => i.status === "paid").length} pagamento(s)
@@ -191,7 +191,7 @@ export default function ClientFinancial() {
                       <div className="text-right flex items-center gap-4">
                         <div>
                           <div className={`text-xl font-bold ${statusBadge.color}`}>
-                            R$ {invoice.amount.toFixed(2)}
+                            £ {invoice.amount.toFixed(2)}
                           </div>
                           <Badge variant={statusBadge.variant} className="mt-1">
                             {statusBadge.label}
@@ -245,7 +245,7 @@ export default function ClientFinancial() {
                         <div className="text-right flex items-center gap-4">
                           <div>
                             <div className="text-xl font-bold text-yellow-600">
-                              R$ {invoice.amount.toFixed(2)}
+                              £ {invoice.amount.toFixed(2)}
                             </div>
                             <Badge variant={statusBadge.variant} className="mt-1">
                               {statusBadge.label}
@@ -286,7 +286,7 @@ export default function ClientFinancial() {
                         <div className="text-right flex items-center gap-4">
                           <div>
                             <div className="text-xl font-bold text-green-600">
-                              R$ {invoice.amount.toFixed(2)}
+                              £ {invoice.amount.toFixed(2)}
                             </div>
                             <Badge variant={statusBadge.variant} className="mt-1">
                               {statusBadge.label}
@@ -327,7 +327,7 @@ export default function ClientFinancial() {
                         <div className="text-right flex items-center gap-4">
                           <div>
                             <div className="text-xl font-bold text-red-600">
-                              R$ {invoice.amount.toFixed(2)}
+                              £ {invoice.amount.toFixed(2)}
                             </div>
                             <Badge variant={statusBadge.variant} className="mt-1">
                               {statusBadge.label}

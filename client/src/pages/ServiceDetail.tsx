@@ -168,7 +168,7 @@ export default function ServiceDetail() {
                     <div>
                       <p className="text-sm text-muted-foreground mb-2">A partir de</p>
                       <p className="text-4xl font-bold text-accent">
-                        R$ {parseFloat(service.basePrice).toFixed(2)}
+                        £ {parseFloat(service.basePrice).toFixed(2)}
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">Valor pode variar conforme o evento</p>
                     </div>

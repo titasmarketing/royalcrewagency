@@ -159,7 +159,7 @@ export default function AdminServices() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="basePrice">Preço Base (R$)</Label>
+                  <Label htmlFor="basePrice">Preço Base (£)</Label>
                   <Input
                     id="basePrice"
                     type="number"
@@ -272,7 +272,7 @@ export default function AdminServices() {
                   <div className="text-sm text-muted-foreground">
                     <p><strong>URL:</strong> /servicos/{service.slug}</p>
                     {service.basePrice && (
-                      <p><strong>Preço base:</strong> R$ {parseFloat(service.basePrice).toFixed(2)}</p>
+                      <p><strong>Preço base:</strong> £ {parseFloat(service.basePrice).toFixed(2)}</p>
                     )}
                   </div>
 

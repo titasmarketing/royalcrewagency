@@ -228,7 +228,7 @@ export default function ClientPortal() {
                             <div>
                               <p className="text-sm font-medium text-foreground">Valor Total</p>
                               <p className="text-sm text-muted-foreground">
-                                R$ {parseFloat(event.totalPrice).toFixed(2)}
+                                £ {parseFloat(event.totalPrice).toFixed(2)}
                               </p>
                             </div>
                           </div>

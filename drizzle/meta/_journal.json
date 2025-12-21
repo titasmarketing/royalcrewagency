@@ -22,6 +22,20 @@
       "when": 1766342280729,
       "tag": "0002_abandoned_malcolm_colcord",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1766342853986,
+      "tag": "0003_lumpy_nomad",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1766343089363,
+      "tag": "0004_milky_marvel_zombies",
+      "breakpoints": true
     }
   ]
 }

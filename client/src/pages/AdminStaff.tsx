@@ -176,7 +176,7 @@ export default function AdminStaff() {
                     {member.hourlyRate && (
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <DollarSign className="h-4 w-4" />
-                        <span>R$ {parseFloat(member.hourlyRate).toFixed(2)}/hora</span>
+                        <span>£ {parseFloat(member.hourlyRate).toFixed(2)}/hora</span>
                       </div>
                     )}
                     {member.city && (

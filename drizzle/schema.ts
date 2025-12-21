@@ -27,6 +27,21 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 // ============================================================================
+// SITE CONTENT (CMS)
+// ============================================================================
+
+export const siteContent = mysqlTable("site_content", {
+  id: int("id").autoincrement().primaryKey(),
+  section: varchar("section", { length: 100 }).notNull().unique(),
+  content: text("content").notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SiteContent = typeof siteContent.$inferSelect;
+export type InsertSiteContent = typeof siteContent.$inferInsert;
+
+// ============================================================================
 // SERVICES (CMS)
 // ============================================================================
 
@@ -92,7 +107,6 @@ export const staffMembers = mysqlTable("staff_members", {
   profileImage: text("profileImage"),
   bio: text("bio"),
   status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending").notNull(),
-  cpf: varchar("cpf", { length: 14 }),
   phone: varchar("phone", { length: 20 }),
   experience: text("experience"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

@@ -14,7 +14,7 @@ export const recruitmentRouter = router({
         name: z.string(),
         email: z.string().email(),
         phone: z.string(),
-        cpf: z.string().optional(),
+
         address: z.string().optional(),
         city: z.string().optional(),
         state: z.string().optional(),
@@ -48,7 +48,7 @@ export const recruitmentRouter = router({
           hourlyRate: input.hourlyRate ? input.hourlyRate : null,
           bio: input.bio || null,
           experience: input.experience || null,
-          cpf: input.cpf || null,
+  
           phone: input.phone,
           address: input.address || null,
           city: input.city || null,
@@ -88,7 +88,6 @@ export const recruitmentRouter = router({
         name: users.name,
         email: users.email,
         phone: staffMembers.phone,
-        cpf: staffMembers.cpf,
         specialties: staffMembers.specialties,
         experience: staffMembers.experience,
         bio: staffMembers.bio,

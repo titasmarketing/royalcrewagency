@@ -137,3 +137,19 @@
 - [x] Notificação ao admin quando novo cadastro chegar
 - [ ] Email de confirmação para candidato aprovado
 - [x] Integração com sistema de autenticação
+
+### 🔧 MELHORIAS URGENTES
+- [ ] Remover campo CPF (sistema roda no Reino Unido)
+- [ ] Melhorar Home Page com seções completas (estatísticas, depoimentos, galeria, FAQ)
+- [ ] Criar CMS para gerenciar conteúdo do site no admin
+- [ ] Melhorar Portal do Cliente com mais funcionalidades
+- [ ] Redesign da página de recrutamento com mais informações e visual premium
+- [ ] Adicionar seção de benefícios e diferenciais na home
+- [ ] Criar galeria de eventos realizados
+- [ ] Adicionar seção de depoimentos de clientes
+
+### 💷 CORREÇÃO DE MOEDA
+- [x] Alterar todos os preços de R$ (Real) para £ (Libra Esterlina)
+- [x] Atualizar labels de "Preço Base (R$)" para "Base Price (£)"
+- [x] Corrigir formatação de valores monetários em toda a plataforma
+- [x] Atualizar documentos PDF para usar £ ao invés de R$

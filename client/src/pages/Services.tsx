@@ -75,7 +75,7 @@ export default function Services() {
                         <div className="text-right">
                           <p className="text-xs text-muted-foreground">A partir de</p>
                           <p className="text-lg font-bold text-accent">
-                            R$ {parseFloat(service.basePrice).toFixed(2)}
+                            £ {parseFloat(service.basePrice).toFixed(2)}
                           </p>
                         </div>
                       )}
@@ -125,7 +125,7 @@ export default function Services() {
                         <div className="text-right">
                           <p className="text-xs text-muted-foreground">A partir de</p>
                           <p className="text-lg font-bold text-foreground">
-                            R$ {parseFloat(service.basePrice).toFixed(2)}
+                            £ {parseFloat(service.basePrice).toFixed(2)}
                           </p>
                         </div>
                       )}

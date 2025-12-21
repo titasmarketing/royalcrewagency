@@ -14,7 +14,7 @@ export default function RecruitmentPortal() {
     name: "",
     email: "",
     phone: "",
-    cpf: "",
+
     address: "",
     city: "",
     state: "",
@@ -242,15 +242,7 @@ export default function RecruitmentPortal() {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="cpf">CPF</Label>
-                      <Input
-                        id="cpf"
-                        placeholder="000.000.000-00"
-                        value={formData.cpf}
-                        onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
-                      />
-                    </div>
+
                   </div>
                 </div>
 
@@ -338,7 +330,7 @@ export default function RecruitmentPortal() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="hourlyRate">Pretensão Salarial (R$/hora)</Label>
+                    <Label htmlFor="hourlyRate">Pretensão Salarial (£/hora)</Label>
                     <Input
                       id="hourlyRate"
                       type="number"

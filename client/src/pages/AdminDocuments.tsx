@@ -192,7 +192,7 @@ export default function AdminDocuments() {
                             {event.location && <span>📍 {event.location}</span>}
                             {event.totalPrice && (
                               <span className="font-medium text-accent">
-                                R$ {parseFloat(event.totalPrice).toFixed(2)}
+                                £ {parseFloat(event.totalPrice).toFixed(2)}
                               </span>
                             )}
                           </CardDescription>

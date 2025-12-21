@@ -153,7 +153,7 @@ export default function AdminMatchmaking() {
                 <Input
                   id="budget"
                   type="number"
-                  placeholder="R$ 0.00"
+                  placeholder="£ 0.00"
                   value={maxBudget}
                   onChange={(e) => setMaxBudget(e.target.value)}
                 />
@@ -202,7 +202,7 @@ export default function AdminMatchmaking() {
                                 </div>
                                 <span className="text-muted-foreground">•</span>
                                 <span className="text-sm text-muted-foreground">
-                                  R$ {parseFloat(match.hourlyRate).toFixed(2)}/hora
+                                  £ {parseFloat(match.hourlyRate).toFixed(2)}/hora
                                 </span>
                               </div>
                             </div>

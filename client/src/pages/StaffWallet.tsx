@@ -99,7 +99,7 @@ export default function StaffWallet() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-yellow-600">
-                R$ {totalPending.toFixed(2)}
+                £ {totalPending.toFixed(2)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 {transactions.filter((t) => t.status === "pending").length} evento(s) pendente(s)
@@ -116,7 +116,7 @@ export default function StaffWallet() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-600">
-                R$ {totalPaid.toFixed(2)}
+                £ {totalPaid.toFixed(2)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 {transactions.filter((t) => t.status === "paid" || t.status === "bonus").length} pagamento(s)
@@ -133,7 +133,7 @@ export default function StaffWallet() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-blue-600">
-                R$ {totalBonus.toFixed(2)}
+                £ {totalBonus.toFixed(2)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 {transactions.filter((t) => t.status === "bonus").length} bônus recebido(s)
@@ -198,7 +198,7 @@ export default function StaffWallet() {
 
                       <div className="text-right">
                         <div className={`text-xl font-bold ${statusBadge.color}`}>
-                          R$ {transaction.amount.toFixed(2)}
+                          £ {transaction.amount.toFixed(2)}
                         </div>
                         <Badge variant={statusBadge.variant} className="mt-1">
                           {statusBadge.label}
@@ -239,7 +239,7 @@ export default function StaffWallet() {
 
                         <div className="text-right">
                           <div className="text-xl font-bold text-yellow-600">
-                            R$ {transaction.amount.toFixed(2)}
+                            £ {transaction.amount.toFixed(2)}
                           </div>
                           <Badge variant={statusBadge.variant} className="mt-1">
                             {statusBadge.label}
@@ -275,7 +275,7 @@ export default function StaffWallet() {
 
                         <div className="text-right">
                           <div className="text-xl font-bold text-green-600">
-                            R$ {transaction.amount.toFixed(2)}
+                            £ {transaction.amount.toFixed(2)}
                           </div>
                           <Badge variant={statusBadge.variant} className="mt-1">
                             {statusBadge.label}
@@ -315,7 +315,7 @@ export default function StaffWallet() {
 
                         <div className="text-right">
                           <div className="text-xl font-bold text-blue-600">
-                            R$ {transaction.amount.toFixed(2)}
+                            £ {transaction.amount.toFixed(2)}
                           </div>
                           <Badge variant={statusBadge.variant} className="mt-1">
                             {statusBadge.label}

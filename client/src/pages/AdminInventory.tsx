@@ -162,7 +162,7 @@ export default function AdminInventory() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="unitCost">Custo Unitário (R$)</Label>
+                  <Label htmlFor="unitCost">Custo Unitário (£)</Label>
                   <Input
                     id="unitCost"
                     type="number"
@@ -216,7 +216,7 @@ export default function AdminInventory() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
-                R$ {inventory?.reduce((acc: number, item: any) => 
+                £ {inventory?.reduce((acc: number, item: any) => 
                   acc + (item.currentStock * parseFloat(item.unitCost || "0")), 0
                 ).toFixed(2) || "0.00"}
               </div>
@@ -307,14 +307,14 @@ export default function AdminInventory() {
                         <div className="flex items-center justify-between text-sm pt-2 border-t">
                           <span className="text-muted-foreground">Custo Unitário:</span>
                           <span className="font-medium text-foreground">
-                            R$ {parseFloat(item.unitCost).toFixed(2)}
+                            £ {parseFloat(item.unitCost).toFixed(2)}
                           </span>
                         </div>
                       )}
                       <div className="flex items-center justify-between text-sm font-bold pt-2 border-t">
                         <span className="text-foreground">Valor Total:</span>
                         <span className="text-accent">
-                          R$ {(item.currentStock * parseFloat(item.unitCost || "0")).toFixed(2)}
+                          £ {(item.currentStock * parseFloat(item.unitCost || "0")).toFixed(2)}
                         </span>
                       </div>
                     </div>

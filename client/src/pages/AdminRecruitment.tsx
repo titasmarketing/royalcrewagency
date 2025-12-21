@@ -174,19 +174,14 @@ export default function AdminRecruitment() {
                                   <span>{app.phone}</span>
                                 </div>
                               )}
-                              {app.cpf && (
-                                <div className="flex items-center gap-2 text-sm">
-                                  <Briefcase className="h-4 w-4 text-muted-foreground" />
-                                  <span>CPF: {app.cpf}</span>
-                                </div>
-                              )}
+
                             </div>
 
                             <div className="space-y-2">
                               {app.hourlyRate && (
                                 <div className="text-sm">
                                   <span className="text-muted-foreground">Pretensão:</span>{" "}
-                                  <span className="font-semibold">R$ {app.hourlyRate}/hora</span>
+                                  <span className="font-semibold">£ {app.hourlyRate}/hora</span>
                                 </div>
                               )}
                               <div className="text-sm">
