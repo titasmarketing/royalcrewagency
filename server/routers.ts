@@ -203,7 +203,7 @@ export const appRouter = router({
         longitude: z.string().optional(),
         address: z.string().optional(),
         city: z.string().optional(),
-        state: z.string().optional(),
+        county: z.string().optional(),
         profileImage: z.string().optional(),
         bio: z.string().optional(),
       }))
@@ -221,7 +221,7 @@ export const appRouter = router({
         longitude: z.string().optional(),
         address: z.string().optional(),
         city: z.string().optional(),
-        state: z.string().optional(),
+        county: z.string().optional(),
         isActive: z.boolean().optional(),
         profileImage: z.string().optional(),
         bio: z.string().optional(),
@@ -264,7 +264,7 @@ export const appRouter = router({
         document: z.string().optional(),
         address: z.string().optional(),
         city: z.string().optional(),
-        state: z.string().optional(),
+        county: z.string().optional(),
         zipCode: z.string().optional(),
         notes: z.string().optional(),
       }))

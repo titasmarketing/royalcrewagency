@@ -182,7 +182,7 @@ export default function AdminStaff() {
                     {member.city && (
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <MapPin className="h-4 w-4" />
-                        <span>{member.city}, {member.state}</span>
+                        <span>{member.city}, {member.county}</span>
                       </div>
                     )}
                   </div>

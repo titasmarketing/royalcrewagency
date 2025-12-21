@@ -134,15 +134,14 @@ export default function Home() {
           </div>
           <nav className="flex items-center gap-4">
             <Link href="/servicos">
-              <Button variant="ghost">Serviços</Button>
+              <Button variant="ghost">Services</Button>
             </Link>
-            {isAuthenticated ? (
-              <Button asChild>
-                <Link href="/admin">Painel Admin</Link>
-              </Button>
-            ) : (
+            <Link href="/cliente">
+              <Button variant="ghost">Client Portal</Button>
+            </Link>
+            {!isAuthenticated && (
               <Button asChild variant="outline">
-                <a href={getLoginUrl()}>Entrar</a>
+                <a href={getLoginUrl()}>Login</a>
               </Button>
             )}
           </nav>
@@ -342,25 +341,26 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Serviços</h3>
+              <h3 className="font-semibold mb-4">Services</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Casamentos</li>
-                <li>Eventos Corporativos</li>
-                <li>Festas Privadas</li>
-                <li>Galas & Premiações</li>
+                <li>Weddings</li>
+                <li>Corporate Events</li>
+                <li>Private Parties</li>
+                <li>Galas & Awards</li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Empresa</h3>
+              <h3 className="font-semibold mb-4">Company</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/trabalhe-conosco">Trabalhe Conosco</Link></li>
-                <li>Sobre Nós</li>
-                <li>Contato</li>
+                <li><Link href="/trabalhe-conosco">Work With Us</Link></li>
+                <li>About Us</li>
+                <li>Contact</li>
                 <li>Blog</li>
+                <li><Link href="/admin" className="text-xs opacity-50 hover:opacity-100">Admin</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Contato</h3>
+              <h3 className="font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>London, United Kingdom</li>
                 <li>contact@royalcrew.uk</li>

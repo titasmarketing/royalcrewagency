@@ -153,3 +153,23 @@
 - [x] Atualizar labels de "Preço Base (R$)" para "Base Price (£)"
 - [x] Corrigir formatação de valores monetários em toda a plataforma
 - [x] Atualizar documentos PDF para usar £ ao invés de R$
+
+### 🔄 REORGANIZAÇÃO DO HEADER
+- [x] Remover botão "Painel Admin" do header
+- [x] Adicionar botão "Portal do Cliente" no header
+- [x] Adicionar link "Admin" no footer (discreto)
+
+### 🇬🇧 ADAPTAÇÃO PARA REINO UNIDO
+- [ ] Adaptar formulário de cadastro para padrão UK
+- [ ] Mudar "Estado" para "County" (condados UK)
+- [ ] Adicionar campo "Postcode" (código postal UK)
+- [ ] Atualizar formato de endereço (Address Line 1, Line 2, Postcode)
+- [ ] Atualizar placeholders com exemplos UK
+- [ ] Traduzir todos os textos para inglês
+
+### 🇬🇧 ADAPTAÇÃO PARA REINO UNIDO (MANTER PORTUGUÊS)
+- [x] Adaptar formato de telefone para UK (+44)
+- [x] Mudar "Estado" para "Condado" 
+- [x] Adicionar campo "Código Postal" (postcode UK)
+- [x] Atualizar placeholders: Londres, Greater London, SW1A 1AA
+- [x] Atualizar exemplo de telefone: +44 20 1234 5678

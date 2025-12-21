@@ -17,7 +17,8 @@ export default function RecruitmentPortal() {
 
     address: "",
     city: "",
-    state: "",
+    county: "",
+    postcode: "",
     bio: "",
     experience: "",
     specialties: [] as string[],
@@ -235,7 +236,7 @@ export default function RecruitmentPortal() {
                       <Label htmlFor="phone">Telefone *</Label>
                       <Input
                         id="phone"
-                        placeholder="(11) 98765-4321"
+                        placeholder="+44 20 1234 5678"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         required
@@ -254,7 +255,7 @@ export default function RecruitmentPortal() {
                       <Label htmlFor="address">Endereço</Label>
                       <Input
                         id="address"
-                        placeholder="Rua, número, complemento"
+                        placeholder="123 High Street, Flat 4"
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                       />
@@ -264,19 +265,28 @@ export default function RecruitmentPortal() {
                       <Label htmlFor="city">Cidade</Label>
                       <Input
                         id="city"
-                        placeholder="São Paulo"
+                        placeholder="London"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="state">Estado</Label>
+                      <Label htmlFor="county">Condado</Label>
                       <Input
-                        id="state"
-                        placeholder="SP"
-                        value={formData.state}
-                        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                        id="county"
+                        placeholder="Greater London"
+                        value={formData.county}
+                        onChange={(e) => setFormData({ ...formData, county: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="postcode">Código Postal</Label>
+                      <Input
+                        id="postcode"
+                        placeholder="SW1A 1AA"
+                        value={formData.postcode}
+                        onChange={(e) => setFormData({ ...formData, postcode: e.target.value })}
                       />
                     </div>
                   </div>
