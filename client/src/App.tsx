@@ -11,6 +11,7 @@ import AdminServices from "./pages/AdminServices";
 import AdminStaff from "./pages/AdminStaff";
 import AdminClients from "./pages/AdminClients";
 import AdminInventory from "./pages/AdminInventory";
+import AdminDocuments from "./pages/AdminDocuments";
 import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import ClientPortal from "./pages/ClientPortal";
@@ -26,6 +27,7 @@ function Router() {
       <Route path={"/admin/staff"} component={AdminStaff} />
       <Route path={"/admin/clients"} component={AdminClients} />
       <Route path={"/admin/inventory"} component={AdminInventory} />
+      <Route path={"/admin/documents"} component={AdminDocuments} />
       <Route path={"/servicos"} component={Services} />
       <Route path={"/servicos/:slug"} component={ServiceDetail} />
       <Route path={"/cliente"} component={ClientPortal} />

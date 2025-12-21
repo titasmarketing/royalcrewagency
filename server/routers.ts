@@ -7,10 +7,12 @@ import * as db from "./db";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure } from "./_core/adminProcedure";
 import { inventoryRouter } from "./routers/inventory";
+import { documentsRouter } from "./routers/documents";
 
 export const appRouter = router({
   system: systemRouter,
   inventory: inventoryRouter,
+  documents: documentsRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

@@ -133,17 +133,19 @@ export default function AdminDashboard() {
             </Card>
           </Link>
 
-          <Card className="border-2 hover:border-accent/50 transition-all cursor-pointer">
-            <CardHeader>
-              <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-                <FileText className="h-6 w-6 text-accent" />
-              </div>
-              <CardTitle>Documentos</CardTitle>
-              <CardDescription>
-                Gere contratos, ordens de serviço e notas fiscais automaticamente
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <Link href="/admin/documents">
+            <Card className="border-2 hover:border-accent/50 transition-all cursor-pointer">
+              <CardHeader>
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+                  <FileText className="h-6 w-6 text-accent" />
+                </div>
+                <CardTitle>Documentos</CardTitle>
+                <CardDescription>
+                  Gere contratos, ordens de serviço e notas fiscais
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
 
           <Card className="border-2 hover:border-accent/50 transition-all cursor-pointer">
             <CardHeader>
