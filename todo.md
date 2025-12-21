@@ -114,3 +114,15 @@
 - [ ] Sistema de busca avançada
 - [ ] Exportação de dados
 - [ ] Logs de atividades
+
+### 🚀 NOVAS FUNCIONALIDADES EM DESENVOLVIMENTO
+- [x] Calendário de disponibilidade individual do staff
+- [x] Sistema de bloqueio de datas para staff
+- [ ] Detecção automática de conflitos de agenda
+- [ ] Alertas visuais para conflitos de escala
+- [x] Portal do cliente com tracking em tempo real
+- [x] Mapa interativo com localização da equipe
+- [x] Status do evento (equipe em deslocamento, no local, serviço iniciado)
+- [x] Carteira financeira do staff (A receber, Pago, Bônus)
+- [x] Área financeira do cliente (boletos, notas fiscais, status)
+- [x] Sistema de extrato financeiro detalhado

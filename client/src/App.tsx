@@ -16,6 +16,10 @@ import AdminMatchmaking from "./pages/AdminMatchmaking";
 import Services from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import ClientPortal from "./pages/ClientPortal";
+import StaffAvailability from "./pages/StaffAvailability";
+import StaffWallet from "./pages/StaffWallet";
+import ClientTracking from "./pages/ClientTracking";
+import ClientFinancial from "./pages/ClientFinancial";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -33,6 +37,10 @@ function Router() {
       <Route path={"/servicos"} component={Services} />
       <Route path={"/servicos/:slug"} component={ServiceDetail} />
       <Route path={"/cliente"} component={ClientPortal} />
+      <Route path={"/staff/disponibilidade"} component={StaffAvailability} />
+      <Route path={"/staff/carteira"} component={StaffWallet} />
+      <Route path={"/cliente/tracking"} component={ClientTracking} />
+      <Route path={"/cliente/financeiro"} component={ClientFinancial} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
