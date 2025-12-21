@@ -28,13 +28,18 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/admin"} component={AdminDashboard} />
-      <Route path={"/admin/calendar"} component={AdminCalendar} />
-      <Route path={"/admin/services"} component={AdminServices} />
+      <Route path={"/admin"}>
+        {() => {
+          window.location.href = "/admin/calendario";
+          return null;
+        }}
+      </Route>
+      <Route path={"/admin/calendario"} component={AdminCalendar} />
+      <Route path={"/admin/servicos"} component={AdminServices} />
       <Route path={"/admin/staff"} component={AdminStaff} />
-      <Route path={"/admin/clients"} component={AdminClients} />
-      <Route path={"/admin/inventory"} component={AdminInventory} />
-      <Route path={"/admin/documents"} component={AdminDocuments} />
+      <Route path={"/admin/clientes"} component={AdminClients} />
+      <Route path={"/admin/estoque"} component={AdminInventory} />
+      <Route path={"/admin/documentos"} component={AdminDocuments} />
       <Route path={"/admin/matchmaking"} component={AdminMatchmaking} />
       <Route path={"/servicos"} component={Services} />
       <Route path={"/servicos/:slug"} component={ServiceDetail} />

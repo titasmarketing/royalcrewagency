@@ -173,3 +173,9 @@
 - [x] Adicionar campo "Código Postal" (postcode UK)
 - [x] Atualizar placeholders: Londres, Greater London, SW1A 1AA
 - [x] Atualizar exemplo de telefone: +44 20 1234 5678
+
+### 📱 IMPLEMENTAR DASHBOARDLAYOUT COM SIDEBAR
+- [x] Usar DashboardLayout em todas as páginas admin
+- [x] Configurar menu lateral com todas as opções
+- [x] Remover página AdminDashboard com cards
+- [x] Redirecionar /admin para /admin/calendario
