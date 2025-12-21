@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
-import { Calendar, Users, Package, TrendingUp, FileText, DollarSign, User, Warehouse, Sparkles } from "lucide-react";
+import { Calendar, Users, Package, TrendingUp, FileText, DollarSign, User, Warehouse, Sparkles, UserPlus } from "lucide-react";
 import { Link } from "wouter";
 
 export default function AdminDashboard() {
@@ -114,6 +114,20 @@ export default function AdminDashboard() {
                 <CardTitle>Matchmaking IA</CardTitle>
                 <CardDescription>
                   Algoritmo inteligente para escala de equipe
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link href="/admin/candidaturas">
+            <Card className="border-2 hover:border-accent/50 transition-all cursor-pointer">
+              <CardHeader>
+                <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+                  <UserPlus className="h-6 w-6 text-accent" />
+                </div>
+                <CardTitle>Candidaturas</CardTitle>
+                <CardDescription>
+                  Aprove novos profissionais para a equipe
                 </CardDescription>
               </CardHeader>
             </Card>

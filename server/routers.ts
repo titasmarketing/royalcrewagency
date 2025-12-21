@@ -7,11 +7,13 @@ import * as db from "./db";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure } from "./_core/adminProcedure";
 import { inventoryRouter } from "./routers/inventory";
+import { recruitmentRouter } from "./routers/recruitment";
 import { documentsRouter } from "./routers/documents";
 
 export const appRouter = router({
   system: systemRouter,
   inventory: inventoryRouter,
+  recruitment: recruitmentRouter,
   documents: documentsRouter,
   
   auth: router({

@@ -20,6 +20,8 @@ import StaffAvailability from "./pages/StaffAvailability";
 import StaffWallet from "./pages/StaffWallet";
 import ClientTracking from "./pages/ClientTracking";
 import ClientFinancial from "./pages/ClientFinancial";
+import RecruitmentPortal from "./pages/RecruitmentPortal";
+import AdminRecruitment from "./pages/AdminRecruitment";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -41,6 +43,8 @@ function Router() {
       <Route path={"/staff/carteira"} component={StaffWallet} />
       <Route path={"/cliente/tracking"} component={ClientTracking} />
       <Route path={"/cliente/financeiro"} component={ClientFinancial} />
+      <Route path={"/trabalhe-conosco"} component={RecruitmentPortal} />
+      <Route path={"/admin/candidaturas"} component={AdminRecruitment} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

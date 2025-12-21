@@ -75,6 +75,9 @@ export default function Home() {
                     Ver Serviços
                   </Link>
                 </Button>
+                <Button variant="outline" size="lg" onClick={() => (window.location.href = "/trabalhe-conosco")}>
+                  Trabalhe Conosco
+                </Button>
                 {!isAuthenticated && (
                   <Button asChild size="lg" variant="outline">
                     <a href={getLoginUrl()}>Entrar</a>

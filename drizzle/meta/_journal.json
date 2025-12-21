@@ -15,6 +15,13 @@
       "when": 1766339713714,
       "tag": "0001_skinny_black_cat",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1766342280729,
+      "tag": "0002_abandoned_malcolm_colcord",
+      "breakpoints": true
     }
   ]
 }

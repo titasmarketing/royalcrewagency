@@ -126,3 +126,14 @@
 - [x] Carteira financeira do staff (A receber, Pago, Bônus)
 - [x] Área financeira do cliente (boletos, notas fiscais, status)
 - [x] Sistema de extrato financeiro detalhado
+
+### 🎯 PORTAL DE RECRUTAMENTO
+- [x] Página pública de cadastro de staff (/trabalhe-conosco)
+- [x] Formulário completo de inscrição
+- [ ] Upload de foto de perfil para S3
+- [x] Campos: nome, email, telefone, CPF, experiência, especialidades
+- [x] Sistema de status (Pendente, Aprovado, Reprovado)
+- [x] Página no admin para gerenciar candidatos
+- [x] Notificação ao admin quando novo cadastro chegar
+- [ ] Email de confirmação para candidato aprovado
+- [x] Integração com sistema de autenticação

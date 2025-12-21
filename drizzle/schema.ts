@@ -91,6 +91,10 @@ export const staffMembers = mysqlTable("staff_members", {
   isActive: boolean("isActive").default(true).notNull(),
   profileImage: text("profileImage"),
   bio: text("bio"),
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending").notNull(),
+  cpf: varchar("cpf", { length: 14 }),
+  phone: varchar("phone", { length: 20 }),
+  experience: text("experience"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
