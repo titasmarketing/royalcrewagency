@@ -112,11 +112,11 @@ export default function Home() {
       {/* Hero Section with Quick Booking Form */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1519167758481-83f29da8c6b9?auto=format&fit=crop&q=80&w=2000" alt="Luxury Event" className="w-full h-full object-cover opacity-20 scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0c1b33] via-transparent to-[#0c1b33]" />
+          <img src="https://images.unsplash.com/photo-1519167758481-83f29da8c6b9?auto=format&fit=crop&q=80&w=2000" alt="Luxury Event" className="w-full h-full object-cover opacity-70 scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0c1b33]/60 via-[#0c1b33]/40 to-[#0c1b33]/80" />
         </div>
         
-        <div className="relative z-10 px-6 max-w-5xl mx-auto w-full flex flex-col items-center justify-center text-center space-y-12">
+        <div className="relative z-10 px-6 max-w-5xl mx-auto w-full flex flex-col items-center justify-center text-center space-y-8">
           {/* Hero Text */}
           <div className="space-y-8">
             <div className="flex items-center gap-4 justify-center">
@@ -124,28 +124,22 @@ export default function Home() {
                <Crown className="w-8 h-8 text-[#D4AF37]" />
                <div className="h-px w-12 bg-[#D4AF37]"></div>
             </div>
-            <h1 className="text-5xl md:text-8xl font-light tracking-[0.1em] text-white uppercase leading-tight">
+            <h1 className="text-4xl md:text-6xl font-light tracking-[0.1em] text-white uppercase leading-tight">
               A Elite da <br/><span className="text-[#D4AF37] font-bold">Hospitalidade</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 font-light tracking-wide leading-relaxed italic max-w-2xl mx-auto">
               Oferecemos o staff mais qualificado do Reino Unido para casamentos e eventos corporativos de alto padrão.
             </p>
-            <div className="flex gap-6 items-center justify-center">
-              <div className="flex -space-x-3">
-                 {[1,2,3,4].map(i => <img key={i} src={`https://i.pravatar.cc/150?u=${i}`} className="w-10 h-10 rounded-full border-2 border-[#0c1b33]" alt="Staff" />)}
-              </div>
-              <p className="text-xs text-gray-400 uppercase tracking-widest font-bold">+1,200 Profissionais Verificados</p>
-            </div>
           </div>
 
           {/* Quick Booking Card */}
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-3xl">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-5xl">
             <h3 className="text-white font-bold tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-2 justify-center">
               <Zap className="w-4 h-4 text-[#D4AF37]" /> Reserva Imediata
             </h3>
             
             <form onSubmit={handleStartBooking} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Data do Evento</Label>
                   <Input 
@@ -170,9 +164,6 @@ export default function Home() {
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Horas de Serviço</Label>
                   <Input 
@@ -198,7 +189,7 @@ export default function Home() {
 
               <div className="pt-4">
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Selecione o Staff Necessário:</p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[160px] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 max-h-[120px] overflow-y-auto pr-2 custom-scrollbar">
                   {staffTypes.map(skill => (
                     <button
                       key={skill}

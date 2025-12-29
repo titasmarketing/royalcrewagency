@@ -229,3 +229,20 @@
 - [x] Botão "CLIENTES" deve levar para /cliente (portal de autoatendimento)
 - [x] Portal do Cliente (/cliente) é para cliente final se cadastrar e ver seus serviços
 - [x] Página Admin/Clientes (/admin/clientes) é separada - para admin gerenciar clientes
+
+### 🎨 AJUSTES VISUAIS DO HERO SECTION
+- [x] Diminuir fonte do título "A ELITE DA HOSPITALIDADE" (de text-8xl para text-6xl)
+- [x] Aumentar largura do modal de reserva (de max-w-3xl para max-w-5xl)
+- [x] Reorganizar grid do formulário (4 colunas em desktop, mais compacto)
+- [x] Ajustar grid de staff (5 colunas, altura reduzida)
+
+### 🖼️ AJUSTAR IMAGEM DE FUNDO DO HERO
+- [x] Aumentar opacidade da imagem de fundo (de opacity-20 para opacity-40)
+- [x] Ajustar gradiente para não cobrir totalmente a imagem (from-[#0c1b33]/80 via-[#0c1b33]/60)
+
+### 🗑️ REMOVER ELEMENTOS TEMPORÁRIOS
+- [x] Remover seção "+1,200 Profissionais Verificados" com avatares do hero
+
+### 🔧 AJUSTES FINAIS DO HERO
+- [x] Reduzir espaçamento entre título e formulário (de space-y-12 para space-y-8)
+- [x] Aumentar opacidade da imagem de fundo para 70% e reduzir gradiente escuro
