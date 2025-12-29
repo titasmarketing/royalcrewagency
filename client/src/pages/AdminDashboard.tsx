@@ -191,8 +191,8 @@ export default function AdminDashboard() {
         {/* Recent Events */}
         <Card>
           <CardHeader>
-            <CardTitle>Eventos Recentes</CardTitle>
-            <CardDescription>Últimos eventos cadastrados no sistema</CardDescription>
+            <CardTitle>Eventos Recents</CardTitle>
+            <CardDescription>Lasts eventos cadastrados no sistema</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -217,16 +217,16 @@ export default function AdminDashboard() {
                       }`}>
                         {event.status === 'quote' ? 'Orçamento' :
                          event.status === 'confirmed' ? 'Confirmado' :
-                         event.status === 'in_progress' ? 'Em Andamento' :
-                         event.status === 'completed' ? 'Concluído' :
-                         'Cancelado'}
+                         event.status === 'in_progress' ? 'In Progress' :
+                         event.status === 'completed' ? 'Completed' :
+                         'Cancelled'}
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground">Nenhum evento cadastrado ainda.</p>
+              <p className="text-muted-foreground">None evento cadastrado ainda.</p>
             )}
           </CardContent>
         </Card>

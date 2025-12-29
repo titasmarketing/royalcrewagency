@@ -25,7 +25,7 @@ export default function AdminMatchmaking() {
 
     setSearching(true);
 
-    // Simular busca de matchmaking
+    // Yesular busca de matchmaking
     setTimeout(() => {
       const mockMatches = [
         {
@@ -122,7 +122,7 @@ export default function AdminMatchmaking() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="location">Localização *</Label>
+                <Label htmlFor="location">Locationização *</Label>
                 <Input
                   id="location"
                   placeholder="Ex: São Paulo, SP"
@@ -132,7 +132,7 @@ export default function AdminMatchmaking() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="role">Função Necessária *</Label>
+                <Label htmlFor="role">Role Necessária *</Label>
                 <Select value={requiredRole} onValueChange={setRequiredRole}>
                   <SelectTrigger id="role">
                     <SelectValue placeholder="Selecione" />
@@ -149,7 +149,7 @@ export default function AdminMatchmaking() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="budget">Orçamento Máximo/Hora</Label>
+                <Label htmlFor="budget">Orçamento Maximum/Time</Label>
                 <Input
                   id="budget"
                   type="number"

@@ -243,7 +243,7 @@ export default function AdminDocuments() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center h-64">
                 <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">Nenhum evento cadastrado</p>
+                <p className="text-muted-foreground">None evento cadastrado</p>
               </CardContent>
             </Card>
           )}

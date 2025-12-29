@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 export default function AdminInventory() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formDate, setFormDate] = useState({
     name: "",
     category: "",
     unit: "un",
@@ -47,7 +47,7 @@ export default function AdminInventory() {
   });
 
   const resetForm = () => {
-    setFormData({
+    setFormDate({
       name: "",
       category: "",
       unit: "un",
@@ -58,7 +58,7 @@ export default function AdminInventory() {
   };
 
   const handleCreateItem = () => {
-    createItem.mutate(formData);
+    createItem.mutate(formDate);
   };
 
   const getStockStatus = (current: number, min: number) => {
@@ -100,11 +100,11 @@ export default function AdminInventory() {
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome do Item *</Label>
+                  <Label htmlFor="name">Name do Item *</Label>
                   <Input
                     id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    value={formDate.name}
+                    onChange={(e) => setFormDate({ ...formDate, name: e.target.value })}
                     placeholder="Ex: Taça de Gin"
                   />
                 </div>
@@ -114,20 +114,20 @@ export default function AdminInventory() {
                     <Label htmlFor="category">Category</Label>
                     <Input
                       id="category"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      value={formDate.category}
+                      onChange={(e) => setFormDate({ ...formDate, category: e.target.value })}
                       placeholder="Ex: Louças"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="unit">Unidade</Label>
-                    <Select value={formData.unit} onValueChange={(value) => setFormData({ ...formData, unit: value })}>
+                    <Label htmlFor="unit">Unit</Label>
+                    <Select value={formDate.unit} onValueChange={(value) => setFormDate({ ...formDate, unit: value })}>
                       <SelectTrigger id="unit">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="un">Unidade (un)</SelectItem>
+                        <SelectItem value="un">Unit (un)</SelectItem>
                         <SelectItem value="kg">Quilograma (kg)</SelectItem>
                         <SelectItem value="l">Litro (l)</SelectItem>
                         <SelectItem value="m">Metro (m)</SelectItem>
@@ -143,19 +143,19 @@ export default function AdminInventory() {
                     <Input
                       id="currentStock"
                       type="number"
-                      value={formData.currentStock}
-                      onChange={(e) => setFormData({ ...formData, currentStock: e.target.value })}
+                      value={formDate.currentStock}
+                      onChange={(e) => setFormDate({ ...formDate, currentStock: e.target.value })}
                       placeholder="0"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="minStock">Inventory Mínimo</Label>
+                    <Label htmlFor="minStock">Inventory Minimum</Label>
                     <Input
                       id="minStock"
                       type="number"
-                      value={formData.minStock}
-                      onChange={(e) => setFormData({ ...formData, minStock: e.target.value })}
+                      value={formDate.minStock}
+                      onChange={(e) => setFormDate({ ...formDate, minStock: e.target.value })}
                       placeholder="0"
                     />
                   </div>
@@ -167,8 +167,8 @@ export default function AdminInventory() {
                     id="unitCost"
                     type="number"
                     step="0.01"
-                    value={formData.unitCost}
-                    onChange={(e) => setFormData({ ...formData, unitCost: e.target.value })}
+                    value={formDate.unitCost}
+                    onChange={(e) => setFormDate({ ...formDate, unitCost: e.target.value })}
                     placeholder="0.00"
                   />
                 </div>
@@ -178,7 +178,7 @@ export default function AdminInventory() {
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleCreateItem} disabled={!formData.name}>
+                <Button onClick={handleCreateItem} disabled={!formDate.name}>
                   Add Item
                 </Button>
               </DialogFooter>
@@ -212,7 +212,7 @@ export default function AdminInventory() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Valor Total</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Value Total</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
@@ -300,7 +300,7 @@ export default function AdminInventory() {
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Mínimo:</span>
+                        <span className="text-muted-foreground">Minimum:</span>
                         <span className="text-muted-foreground">{item.minStock} {item.unit}</span>
                       </div>
                       {item.unitCost && (
@@ -312,7 +312,7 @@ export default function AdminInventory() {
                         </div>
                       )}
                       <div className="flex items-center justify-between text-sm font-bold pt-2 border-t">
-                        <span className="text-foreground">Valor Total:</span>
+                        <span className="text-foreground">Value Total:</span>
                         <span className="text-accent">
                           £ {(item.currentStock * parseFloat(item.unitCost || "0")).toFixed(2)}
                         </span>
@@ -336,10 +336,10 @@ export default function AdminInventory() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Package className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">Nenhum item no estoque ainda</p>
+              <p className="text-muted-foreground mb-4">None item no estoque ainda</p>
               <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Add Primeiro Item
+                Add First Item
               </Button>
             </CardContent>
           </Card>

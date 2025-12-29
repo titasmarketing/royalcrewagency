@@ -67,7 +67,7 @@ export default function AdminClients() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Novos este mês</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">News este mês</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
@@ -147,7 +147,7 @@ export default function AdminClients() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Users className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Nenhum cliente cadastrado ainda</p>
+              <p className="text-muted-foreground">None cliente cadastrado ainda</p>
             </CardContent>
           </Card>
         )}

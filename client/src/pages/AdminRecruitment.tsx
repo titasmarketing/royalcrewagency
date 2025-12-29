@@ -73,7 +73,7 @@ export default function AdminRecruitment() {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                 <Clock className="h-4 w-4 text-yellow-600" />
-                Pendentes
+                Pendings
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -86,7 +86,7 @@ export default function AdminRecruitment() {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-600" />
-                Aprovados
+                Approveds
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -101,14 +101,14 @@ export default function AdminRecruitment() {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                 <XCircle className="h-4 w-4 text-red-600" />
-                Rejeitados
+                Rejecteds
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-red-600">
                 {applications?.filter((a) => a.status === "rejected").length || 0}
               </div>
-              <p className="text-xs text-muted-foreground mt-1">Não aprovados</p>
+              <p className="text-xs text-muted-foreground mt-1">No aprovados</p>
             </CardContent>
           </Card>
         </div>
@@ -122,12 +122,12 @@ export default function AdminRecruitment() {
           <CardContent>
             <Tabs defaultValue="pending">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="pending">Pendentes ({pendingCount})</TabsTrigger>
+                <TabsTrigger value="pending">Pendings ({pendingCount})</TabsTrigger>
                 <TabsTrigger value="approved">
-                  Aprovados ({applications?.filter((a) => a.status === "approved").length || 0})
+                  Approveds ({applications?.filter((a) => a.status === "approved").length || 0})
                 </TabsTrigger>
                 <TabsTrigger value="rejected">
-                  Rejeitados ({applications?.filter((a) => a.status === "rejected").length || 0})
+                  Rejecteds ({applications?.filter((a) => a.status === "rejected").length || 0})
                 </TabsTrigger>
               </TabsList>
 
@@ -135,7 +135,7 @@ export default function AdminRecruitment() {
               <TabsContent value="pending" className="space-y-4 mt-4">
                 {applications?.filter((a) => a.status === "pending").length === 0 ? (
                   <div className="text-center py-12 text-muted-foreground">
-                    Nenhuma candidatura pendente no momento
+                    Nonea candidatura pendente no momento
                   </div>
                 ) : (
                   applications
@@ -158,7 +158,7 @@ export default function AdminRecruitment() {
                             </div>
                             <Badge variant="secondary" className="gap-1">
                               <Clock className="h-3 w-3" />
-                              Pendente
+                              Pending
                             </Badge>
                           </div>
 
@@ -236,7 +236,7 @@ export default function AdminRecruitment() {
               <TabsContent value="approved" className="space-y-4 mt-4">
                 {applications?.filter((a) => a.status === "approved").length === 0 ? (
                   <div className="text-center py-12 text-muted-foreground">
-                    Nenhuma candidatura aprovada ainda
+                    Nonea candidatura aprovada ainda
                   </div>
                 ) : (
                   applications
@@ -251,7 +251,7 @@ export default function AdminRecruitment() {
                             </div>
                             <Badge variant="default" className="gap-1 bg-green-600">
                               <CheckCircle className="h-3 w-3" />
-                              Aprovado
+                              Approved
                             </Badge>
                           </div>
                         </CardContent>
@@ -264,7 +264,7 @@ export default function AdminRecruitment() {
               <TabsContent value="rejected" className="space-y-4 mt-4">
                 {applications?.filter((a) => a.status === "rejected").length === 0 ? (
                   <div className="text-center py-12 text-muted-foreground">
-                    Nenhuma candidatura rejeitada
+                    Nonea candidatura rejeitada
                   </div>
                 ) : (
                   applications
@@ -279,7 +279,7 @@ export default function AdminRecruitment() {
                             </div>
                             <Badge variant="destructive" className="gap-1">
                               <XCircle className="h-3 w-3" />
-                              Rejeitado
+                              Rejected
                             </Badge>
                           </div>
                         </CardContent>

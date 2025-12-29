@@ -71,7 +71,7 @@ export default function AdminStaff() {
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Fechar
+                  Close
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -115,7 +115,7 @@ export default function AdminStaff() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Avaliação Média</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Avaliação Medium</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
@@ -221,10 +221,10 @@ export default function AdminStaff() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Users className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">Nenhum membro de staff cadastrado ainda</p>
+              <p className="text-muted-foreground mb-4">None membro de staff cadastrado ainda</p>
               <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Add Primeiro Membro
+                Add First Membro
               </Button>
             </CardContent>
           </Card>

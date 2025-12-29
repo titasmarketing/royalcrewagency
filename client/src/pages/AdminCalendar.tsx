@@ -110,15 +110,15 @@ export default function AdminCalendar() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-blue-500" />
-                  <span>Em Andamento</span>
+                  <span>In Progress</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-gray-500" />
-                  <span>Concluído</span>
+                  <span>Completed</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-red-500" />
-                  <span>Cancelado</span>
+                  <span>Cancelled</span>
                 </div>
               </div>
             </div>
@@ -186,7 +186,7 @@ export default function AdminCalendar() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Em Andamento</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">In Progress</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600">
@@ -197,7 +197,7 @@ export default function AdminCalendar() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Concluídos</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Completeds</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-gray-600">
@@ -208,7 +208,7 @@ export default function AdminCalendar() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Cancelados</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Cancelleds</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">

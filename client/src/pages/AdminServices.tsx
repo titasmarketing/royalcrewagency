@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 export default function AdminServices() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formDate, setFormDate] = useState({
     name: "",
     slug: "",
     shortDescription: "",
@@ -50,7 +50,7 @@ export default function AdminServices() {
   });
 
   const resetForm = () => {
-    setFormData({
+    setFormDate({
       name: "",
       slug: "",
       shortDescription: "",
@@ -65,7 +65,7 @@ export default function AdminServices() {
   };
 
   const handleCreateService = () => {
-    createService.mutate(formData);
+    createService.mutate(formDate);
   };
 
   const handleToggleActive = (id: number, isActive: boolean) => {
@@ -86,7 +86,7 @@ export default function AdminServices() {
   };
 
   const handleNameChange = (name: string) => {
-    setFormData({ ...formData, name, slug: generateSlug(name) });
+    setFormDate({ ...formDate, name, slug: generateSlug(name) });
   };
 
   return (
@@ -107,9 +107,9 @@ export default function AdminServices() {
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Criar New Service</DialogTitle>
+                <DialogTitle>Create New Service</DialogTitle>
                 <DialogDescription>
-                  O serviço será automaticamente publicado no site com URL /services/{formData.slug || "slug-do-servico"}
+                  The service will be automatically published on the website with URL /services/{formDate.slug || "slug-do-servico"}
                 </DialogDescription>
               </DialogHeader>
               
@@ -118,7 +118,7 @@ export default function AdminServices() {
                   <Label htmlFor="name">Service Name *</Label>
                   <Input
                     id="name"
-                    value={formData.name}
+                    value={formDate.name}
                     onChange={(e) => handleNameChange(e.target.value)}
                     placeholder="Ex: Bar de Gin Premium"
                   />
@@ -128,12 +128,12 @@ export default function AdminServices() {
                   <Label htmlFor="slug">Slug (URL) *</Label>
                   <Input
                     id="slug"
-                    value={formData.slug}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                    value={formDate.slug}
+                    onChange={(e) => setFormDate({ ...formDate, slug: e.target.value })}
                     placeholder="bar-de-gin-premium"
                   />
                   <p className="text-xs text-muted-foreground">
-                    URL: /services/{formData.slug || "slug-do-servico"}
+                    URL: /services/{formDate.slug || "slug-do-servico"}
                   </p>
                 </div>
 
@@ -141,8 +141,8 @@ export default function AdminServices() {
                   <Label htmlFor="shortDescription">Description Curta</Label>
                   <Input
                     id="shortDescription"
-                    value={formData.shortDescription}
-                    onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                    value={formDate.shortDescription}
+                    onChange={(e) => setFormDate({ ...formDate, shortDescription: e.target.value })}
                     placeholder="Resumo para cards e previews"
                   />
                 </div>
@@ -151,8 +151,8 @@ export default function AdminServices() {
                   <Label htmlFor="description">Description Completa</Label>
                   <Textarea
                     id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    value={formDate.description}
+                    onChange={(e) => setFormDate({ ...formDate, description: e.target.value })}
                     placeholder="Description detalhada do serviço"
                     rows={4}
                   />
@@ -164,8 +164,8 @@ export default function AdminServices() {
                     id="basePrice"
                     type="number"
                     step="0.01"
-                    value={formData.basePrice}
-                    onChange={(e) => setFormData({ ...formData, basePrice: e.target.value })}
+                    value={formDate.basePrice}
+                    onChange={(e) => setFormDate({ ...formDate, basePrice: e.target.value })}
                     placeholder="0.00"
                   />
                 </div>
@@ -177,8 +177,8 @@ export default function AdminServices() {
                   </div>
                   <Switch
                     id="isActive"
-                    checked={formData.isActive}
-                    onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked })}
+                    checked={formDate.isActive}
+                    onCheckedChange={(checked) => setFormDate({ ...formDate, isActive: checked })}
                   />
                 </div>
 
@@ -189,8 +189,8 @@ export default function AdminServices() {
                   </div>
                   <Switch
                     id="isFeatured"
-                    checked={formData.isFeatured}
-                    onCheckedChange={(checked) => setFormData({ ...formData, isFeatured: checked })}
+                    checked={formDate.isFeatured}
+                    onCheckedChange={(checked) => setFormDate({ ...formDate, isFeatured: checked })}
                   />
                 </div>
 
@@ -202,8 +202,8 @@ export default function AdminServices() {
                       <Label htmlFor="seoTitle">Título SEO</Label>
                       <Input
                         id="seoTitle"
-                        value={formData.seoTitle}
-                        onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
+                        value={formDate.seoTitle}
+                        onChange={(e) => setFormDate({ ...formDate, seoTitle: e.target.value })}
                         placeholder="Título para mecanismos de busca"
                       />
                     </div>
@@ -212,8 +212,8 @@ export default function AdminServices() {
                       <Label htmlFor="seoDescription">Description SEO</Label>
                       <Textarea
                         id="seoDescription"
-                        value={formData.seoDescription}
-                        onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
+                        value={formDate.seoDescription}
+                        onChange={(e) => setFormDate({ ...formDate, seoDescription: e.target.value })}
                         placeholder="Description para mecanismos de busca"
                         rows={2}
                       />
@@ -223,8 +223,8 @@ export default function AdminServices() {
                       <Label htmlFor="seoKeywords">Palavras-chave</Label>
                       <Input
                         id="seoKeywords"
-                        value={formData.seoKeywords}
-                        onChange={(e) => setFormData({ ...formData, seoKeywords: e.target.value })}
+                        value={formDate.seoKeywords}
+                        onChange={(e) => setFormDate({ ...formDate, seoKeywords: e.target.value })}
                         placeholder="bar, gin, premium, eventos"
                       />
                     </div>
@@ -236,8 +236,8 @@ export default function AdminServices() {
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleCreateService} disabled={!formData.name || !formData.slug}>
-                  Criar Serviço
+                <Button onClick={handleCreateService} disabled={!formDate.name || !formDate.slug}>
+                  Create Serviço
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -272,7 +272,7 @@ export default function AdminServices() {
                   <div className="text-sm text-muted-foreground">
                     <p><strong>URL:</strong> /services/{service.slug}</p>
                     {service.basePrice && (
-                      <p><strong>Preço base:</strong> £ {parseFloat(service.basePrice).toFixed(2)}</p>
+                      <p><strong>Price base:</strong> £ {parseFloat(service.basePrice).toFixed(2)}</p>
                     )}
                   </div>
 
@@ -316,10 +316,10 @@ export default function AdminServices() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Package className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">Nenhum serviço cadastrado ainda</p>
+              <p className="text-muted-foreground mb-4">None serviço cadastrado ainda</p>
               <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Criar Primeiro Serviço
+                Create First Serviço
               </Button>
             </CardContent>
           </Card>

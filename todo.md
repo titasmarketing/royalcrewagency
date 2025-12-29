@@ -293,3 +293,10 @@
 - [x] Traduzir AdminMatchmaking
 - [x] Traduzir AdminRecruitment
 - [x] Traduzir AdminDashboard
+
+### 📝 TRADUZIR MODAIS/DIALOGS DAS PÁGINAS ADMIN
+- [x] Traduzir formulários dentro dos modais (labels, placeholders)
+- [x] Traduzir mensagens de validação
+- [x] Traduzir botões de ação nos modais (Save, Cancel, Create, Update, Delete)
+- [x] Traduzir títulos e descrições dos dialogs
+- [x] 150+ traduções aplicadas em 9 páginas admin
