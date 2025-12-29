@@ -344,3 +344,15 @@
 - [x] Script Python não funcionou - feito edições manuais com file edit
 - [x] Traduzir TODOS os textos em português restantes (12 traduções aplicadas)
 - [x] Verificado cada linha do arquivo
+
+### 🔧 TRADUÇÃO DO STAFFPORTAL (USUÁRIO REPORTOU)
+- [x] Traduzir "BEM-VINDO AO SEU PORTAL PROFISSIONAL" → "WELCOME TO YOUR PROFESSIONAL PORTAL"
+- [x] Traduzir "MINHA WALLET" → "MY WALLET"
+- [x] Traduzir "A RECEBER" → "TO RECEIVE"
+- [x] Traduzir "PAGO" → "PAID"
+- [x] Traduzir "BÔNUS" → "BONUS"
+- [x] Traduzir "MEUS JOBS" → "MY JOBS"
+- [x] Traduzir "Você ainda não possui trabalhos agendados." → "You don't have any scheduled jobs yet."
+- [x] Traduzir "MINHA AVAILABILITY" → "MY AVAILABILITY"
+- [x] Traduzir "CALENDAR DE DISPONIBILIDADE EM BREVE" → "AVAILABILITY CALENDAR COMING SOON"
+- [x] 18 traduções aplicadas com sucesso

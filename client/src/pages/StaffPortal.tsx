@@ -17,7 +17,7 @@ export default function StaffPortal() {
   if (!user) {
     return (
       <div className="min-h-screen bg-[#0c1b33] flex items-center justify-center text-[#D4AF37]">
-        Carregando Portal Staff...
+        Loading Staff Portal...
       </div>
     );
   }
@@ -61,7 +61,7 @@ export default function StaffPortal() {
             Olá, {user.name?.split(" ")[0]}
           </h1>
           <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">
-            Bem-vindo ao seu portal profissional
+            Welcome to your professional portal
           </p>
         </header>
 
@@ -71,17 +71,17 @@ export default function StaffPortal() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-[#0c1b33] mb-4 uppercase tracking-wider">
-                  Seu Perfil
+                  Your Profile
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex items-center gap-3">
                     <Star className="w-5 h-5 text-[#D4AF37]" />
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Avaliação
+                        Rating
                       </p>
                       <p className="text-lg font-bold text-[#0c1b33]">
-                        {myProfile.rating ? `${myProfile.rating}/5.0` : "Sem avaliações"}
+                        {myProfile.rating ? `${myProfile.rating}/5.0` : "No ratings"}
                       </p>
                     </div>
                   </div>
@@ -89,10 +89,10 @@ export default function StaffPortal() {
                     <DollarSign className="w-5 h-5 text-[#D4AF37]" />
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Taxa Horária
+                        Hourly Rate
                       </p>
                       <p className="text-lg font-bold text-[#0c1b33]">
-                        £{myProfile.hourlyRate}/hora
+                        £{myProfile.hourlyRate}/hour
                       </p>
                     </div>
                   </div>
@@ -100,10 +100,10 @@ export default function StaffPortal() {
                     <MapPin className="w-5 h-5 text-[#D4AF37]" />
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Localização
+                        Location
                       </p>
                       <p className="text-lg font-bold text-[#0c1b33]">
-                        {myProfile.county || "Não informado"}
+                        {myProfile.county || "Not informed"}
                       </p>
                     </div>
                   </div>
@@ -114,7 +114,7 @@ export default function StaffPortal() {
                         Specialties
                       </p>
                       <p className="text-lg font-bold text-[#0c1b33]">
-                        {myProfile.specialties || "Não informado"}
+                        {myProfile.specialties || "Not informed"}
                       </p>
                     </div>
                   </div>
@@ -122,7 +122,7 @@ export default function StaffPortal() {
               </div>
               <div className="mt-6 md:mt-0">
                 <Button className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider">
-                  Edit Perfil
+                  Edit Profile
                 </Button>
               </div>
             </div>
@@ -132,34 +132,34 @@ export default function StaffPortal() {
         {/* Wallet do Staff */}
         <Card className="mb-12 border-[#D4AF37]/30 shadow-xl bg-white p-8">
           <h2 className="text-2xl font-bold text-[#0c1b33] mb-6 uppercase tracking-wider">
-            Minha Wallet
+            My Wallet
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
               <p className="text-[10px] uppercase tracking-widest text-blue-600 font-bold mb-2">
-                A Receber
+                To Receive
               </p>
               <p className="text-3xl font-bold text-blue-900">£0.00</p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg border border-green-200">
               <p className="text-[10px] uppercase tracking-widest text-green-600 font-bold mb-2">
-                Pago
+                Paid
               </p>
               <p className="text-3xl font-bold text-green-900">£0.00</p>
             </div>
             <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 rounded-lg border border-yellow-200">
               <p className="text-[10px] uppercase tracking-widest text-yellow-600 font-bold mb-2">
-                Bônus
+                Bonus
               </p>
               <p className="text-3xl font-bold text-yellow-900">£0.00</p>
             </div>
           </div>
         </Card>
 
-        {/* Meus Jobs */}
+        {/* My Jobs */}
         <div className="space-y-8">
           <h2 className="text-lg font-bold text-[#0c1b33] uppercase tracking-[0.2em] border-l-4 border-[#D4AF37] pl-4">
-            Meus Jobs
+            My Jobs
           </h2>
 
           {isLoading ? (
@@ -168,7 +168,7 @@ export default function StaffPortal() {
             </div>
           ) : !myJobs || myJobs.length === 0 ? (
             <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
-              Você ainda não possui trabalhos agendados.
+              You don't have any scheduled jobs yet.
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">
@@ -219,12 +219,12 @@ export default function StaffPortal() {
         {/* Calendar de Availability */}
         <Card className="mt-12 border-[#D4AF37]/30 shadow-xl bg-white p-8">
           <h2 className="text-2xl font-bold text-[#0c1b33] mb-6 uppercase tracking-wider">
-            Minha Availability
+            My Availability
           </h2>
           <div className="bg-gray-50 p-12 rounded-lg border-2 border-dashed border-gray-200 text-center text-gray-400">
             <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
             <p className="text-sm uppercase tracking-wider">
-              Calendar de disponibilidade em breve
+              Availability calendar coming soon
             </p>
           </div>
         </Card>
