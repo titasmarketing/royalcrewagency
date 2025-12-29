@@ -101,7 +101,7 @@ export default function Home() {
             <div className="flex items-center gap-4">
               <Link href="/cliente">
                 <Button className="flex items-center gap-2 text-[10px] h-11 bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 tracking-[0.3em]">
-                  <LayoutDashboard className="w-4 h-4" /> PORTAIS
+                  <LayoutDashboard className="w-4 h-4" /> CLIENTES
                 </Button>
               </Link>
             </div>

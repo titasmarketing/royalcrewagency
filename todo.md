@@ -223,3 +223,9 @@
 - [x] Implementar Portal do Staff (/staff) usando StaffRegistration.tsx do EventMaster Pro
 - [x] Atualizar footer com links para Admin e Staff
 - [ ] Melhorar página de recrutamento usando Recruitment.tsx
+
+### 🚨 CORREÇÕES URGENTES - NAVBAR E PORTAL DO CLIENTE
+- [x] Trocar botão "PORTAIS" por "CLIENTES" na navbar da home
+- [x] Botão "CLIENTES" deve levar para /cliente (portal de autoatendimento)
+- [x] Portal do Cliente (/cliente) é para cliente final se cadastrar e ver seus serviços
+- [x] Página Admin/Clientes (/admin/clientes) é separada - para admin gerenciar clientes
