@@ -19,7 +19,7 @@ export default function AdminDashboard() {
       color: "text-accent",
     },
     {
-      title: "Staff Ativo",
+      title: "Staff Active",
       value: staff?.filter(s => s.isActive).length || 0,
       icon: Users,
       description: "Membros ativos",

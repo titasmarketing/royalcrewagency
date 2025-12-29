@@ -214,7 +214,7 @@ export default function AdminRecruitment() {
                               disabled={approveMutation.isPending}
                             >
                               <CheckCircle className="h-4 w-4" />
-                              Aprovar
+                              Approve
                             </Button>
                             <Button
                               onClick={() => handleReject(app.id)}
@@ -223,7 +223,7 @@ export default function AdminRecruitment() {
                               disabled={rejectMutation.isPending}
                             >
                               <XCircle className="h-4 w-4" />
-                              Rejeitar
+                              Reject
                             </Button>
                           </div>
                         </CardContent>

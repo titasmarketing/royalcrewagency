@@ -281,3 +281,15 @@
 - [x] Traduzir "Informações Profissionais" → "Professional Information"
 - [x] Traduzir "Specialties / Funções" → "Specialties / Roles"
 - [x] Traduzir todos os placeholders e botões
+
+### 🏢 TRADUZIR PÁGINAS ADMIN
+- [x] Traduzir DashboardLayout (menu lateral: Calendar, Services, Team, Clients, Inventory, Documents, Matchmaking, Applications)
+- [x] Traduzir AdminCalendar
+- [x] Traduzir AdminServices
+- [x] Traduzir AdminStaff
+- [x] Traduzir AdminClients
+- [x] Traduzir AdminInventory
+- [x] Traduzir AdminDocuments
+- [x] Traduzir AdminMatchmaking
+- [x] Traduzir AdminRecruitment
+- [x] Traduzir AdminDashboard

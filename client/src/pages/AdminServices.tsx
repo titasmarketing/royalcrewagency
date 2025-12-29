@@ -96,18 +96,18 @@ export default function AdminServices() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Services</h1>
-            <p className="text-muted-foreground">CMS dinâmico - Services aparecem automaticamente no site</p>
+            <p className="text-muted-foreground">Dynamic CMS - Services appear automatically on the website</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button className="gap-2">
                 <Plus className="h-4 w-4" />
-                Novo Serviço
+                New Service
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Criar Novo Serviço</DialogTitle>
+                <DialogTitle>Criar New Service</DialogTitle>
                 <DialogDescription>
                   O serviço será automaticamente publicado no site com URL /services/{formData.slug || "slug-do-servico"}
                 </DialogDescription>
@@ -115,7 +115,7 @@ export default function AdminServices() {
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome do Serviço *</Label>
+                  <Label htmlFor="name">Service Name *</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -138,7 +138,7 @@ export default function AdminServices() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="shortDescription">Descrição Curta</Label>
+                  <Label htmlFor="shortDescription">Description Curta</Label>
                   <Input
                     id="shortDescription"
                     value={formData.shortDescription}
@@ -148,18 +148,18 @@ export default function AdminServices() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Descrição Completa</Label>
+                  <Label htmlFor="description">Description Completa</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Descrição detalhada do serviço"
+                    placeholder="Description detalhada do serviço"
                     rows={4}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="basePrice">Preço Base (£)</Label>
+                  <Label htmlFor="basePrice">Base Price (£)</Label>
                   <Input
                     id="basePrice"
                     type="number"
@@ -172,7 +172,7 @@ export default function AdminServices() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="isActive">Serviço Ativo</Label>
+                    <Label htmlFor="isActive">Serviço Active</Label>
                     <p className="text-xs text-muted-foreground">Exibir no site público</p>
                   </div>
                   <Switch
@@ -184,7 +184,7 @@ export default function AdminServices() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="isFeatured">Serviço em Destaque</Label>
+                    <Label htmlFor="isFeatured">Serviço em Featured</Label>
                     <p className="text-xs text-muted-foreground">Aparece no banner da home</p>
                   </div>
                   <Switch
@@ -209,12 +209,12 @@ export default function AdminServices() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="seoDescription">Descrição SEO</Label>
+                      <Label htmlFor="seoDescription">Description SEO</Label>
                       <Textarea
                         id="seoDescription"
                         value={formData.seoDescription}
                         onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
-                        placeholder="Descrição para mecanismos de busca"
+                        placeholder="Description para mecanismos de busca"
                         rows={2}
                       />
                     </div>
@@ -263,7 +263,7 @@ export default function AdminServices() {
                         )}
                       </CardTitle>
                       <CardDescription className="mt-2">
-                        {service.shortDescription || "Sem descrição"}
+                        {service.shortDescription || "No description"}
                       </CardDescription>
                     </div>
                   </div>
@@ -286,12 +286,12 @@ export default function AdminServices() {
                       {service.isActive ? (
                         <>
                           <Eye className="h-4 w-4" />
-                          Ativo
+                          Active
                         </>
                       ) : (
                         <>
                           <EyeOff className="h-4 w-4" />
-                          Inativo
+                          Inactive
                         </>
                       )}
                     </Button>
@@ -302,7 +302,7 @@ export default function AdminServices() {
                       onClick={() => handleToggleFeatured(service.id, !service.isFeatured)}
                     >
                       <Star className={`h-4 w-4 ${service.isFeatured ? 'fill-accent text-accent' : ''}`} />
-                      {service.isFeatured ? 'Destaque' : 'Normal'}
+                      {service.isFeatured ? 'Featured' : 'Normal'}
                     </Button>
                     <Button size="sm" variant="outline">
                       <Edit className="h-4 w-4" />

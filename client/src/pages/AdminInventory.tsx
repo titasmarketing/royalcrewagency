@@ -87,7 +87,7 @@ export default function AdminInventory() {
             <DialogTrigger asChild>
               <Button className="gap-2">
                 <Plus className="h-4 w-4" />
-                Novo Item
+                New Item
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -111,7 +111,7 @@ export default function AdminInventory() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="category">Categoria</Label>
+                    <Label htmlFor="category">Category</Label>
                     <Input
                       id="category"
                       value={formData.category}
@@ -225,7 +225,7 @@ export default function AdminInventory() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Categorias</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Categorys</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600">

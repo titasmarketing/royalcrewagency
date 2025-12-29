@@ -63,7 +63,7 @@ export default function AdminCalendar() {
           </div>
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
-            Novo Evento
+            New Event
           </Button>
         </div>
 

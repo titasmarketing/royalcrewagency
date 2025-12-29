@@ -59,7 +59,7 @@ export default function AdminStaff() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add Novo Membro</DialogTitle>
+                <DialogTitle>Add New Member</DialogTitle>
                 <DialogDescription>
                   Adicione um novo membro à equipe da Royal Crew
                 </DialogDescription>
@@ -93,7 +93,7 @@ export default function AdminStaff() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Ativos</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Actives</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
@@ -104,7 +104,7 @@ export default function AdminStaff() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Inativos</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Inactives</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-gray-600">
@@ -152,11 +152,11 @@ export default function AdminStaff() {
                       <div className="flex items-center gap-2 mt-2">
                         {member.isActive ? (
                           <Badge variant="default" className="bg-green-100 text-green-800 hover:bg-green-100">
-                            Ativo
+                            Active
                           </Badge>
                         ) : (
                           <Badge variant="secondary">
-                            Inativo
+                            Inactive
                           </Badge>
                         )}
                       </div>

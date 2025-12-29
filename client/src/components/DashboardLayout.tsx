@@ -28,14 +28,14 @@ import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: Calendar, label: "Calendário", path: "/admin/calendar" },
-  { icon: Package, label: "Serviços", path: "/admin/services" },
-  { icon: Users, label: "Equipe", path: "/admin/staff" },
-  { icon: UserCircle, label: "Clientes", path: "/admin/clients" },
-  { icon: Box, label: "Estoque", path: "/admin/inventory" },
-  { icon: FileText, label: "Documentos", path: "/admin/documents" },
+  { icon: Calendar, label: "Calendar", path: "/admin/calendar" },
+  { icon: Package, label: "Services", path: "/admin/services" },
+  { icon: Users, label: "Team", path: "/admin/staff" },
+  { icon: UserCircle, label: "Clients", path: "/admin/clients" },
+  { icon: Box, label: "Inventory", path: "/admin/inventory" },
+  { icon: FileText, label: "Documents", path: "/admin/documents" },
   { icon: Target, label: "Matchmaking", path: "/admin/matchmaking" },
-  { icon: UserPlus, label: "Candidaturas", path: "/admin/applications" },
+  { icon: UserPlus, label: "Applications", path: "/admin/applications" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
