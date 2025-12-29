@@ -147,9 +147,9 @@ export default function AdminCalendar() {
                   dayMaxEvents={true}
                   weekends={true}
                   height="auto"
-                  locale="pt-br"
+                  locale="en-gb"
                   buttonText={{
-                    today: 'Hoje',
+                    today: 'Today',
                     month: 'Month',
                     week: 'Week',
                     day: 'Day'

@@ -310,3 +310,9 @@
 - [x] Traduzir status (Orçamento → Budget, Confirmado → Confirmed, Completeds → Completed, Cancelleds → Cancelled)
 - [x] Traduzir mensagens de estado vazio (None serviço cadastrado → No services registered, Create First Serviço → Create First Service)
 - [x] 100+ traduções aplicadas em 11 arquivos (9 Admin + ClientPortal + StaffPortal)
+
+### 📅 MELHORAR NAVEGAÇÃO DO CALENDÁRIO
+- [x] Adicionar botões de seta (< >) para navegar entre meses (já existem no FullCalendar: prev,next)
+- [x] Traduzir locale de "pt-br" → "en-gb"
+- [x] Traduzir buttonText: "Hoje" → "Today"
+- [x] Agora mostra "December 2025" ao invés de "dezembro de 2025"
