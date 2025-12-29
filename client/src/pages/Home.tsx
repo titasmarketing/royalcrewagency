@@ -1,374 +1,245 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
-  Crown, 
-  Calendar, 
-  Users, 
-  Star, 
-  CheckCircle, 
-  TrendingUp,
-  Award,
-  Shield,
-  Zap,
-  Heart,
-  MapPin,
-  Clock,
-  DollarSign
+  Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle, 
+  Calendar, Clock, PartyPopper, ArrowRight, Zap, ShieldCheck,
+  Award, TrendingUp, Package
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
+import { useState, useRef } from "react";
 
 export default function Home() {
-  const { user, isAuthenticated } = useAuth();
+  const servicesRef = useRef<HTMLDivElement | null>(null);
+  const aboutRef = useRef<HTMLDivElement | null>(null);
+  const workRef = useRef<HTMLDivElement | null>(null);
 
-  const stats = [
-    { value: "500+", label: "Eventos Realizados", icon: Calendar },
-    { value: "200+", label: "Profissionais Ativos", icon: Users },
-    { value: "98%", label: "Satisfação", icon: Star },
-    { value: "50+", label: "Clientes Premium", icon: Award },
-  ];
-
-  const services = [
-    {
-      title: "Casamentos",
-      description: "Equipe especializada para tornar seu dia inesquecível",
-      icon: Heart,
-      color: "text-pink-600",
-      bgColor: "bg-pink-50",
-    },
-    {
-      title: "Eventos Corporativos",
-      description: "Profissionais para conferências, lançamentos e networking",
-      icon: TrendingUp,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
-    },
-    {
-      title: "Festas Privadas",
-      description: "Aniversários, comemorações e celebrações exclusivas",
-      icon: Star,
-      color: "text-yellow-600",
-      bgColor: "bg-yellow-50",
-    },
-    {
-      title: "Galas & Premiações",
-      description: "Serviço premium para eventos de alto padrão",
-      icon: Award,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "CEO, Tech Innovations Ltd",
-      content: "A Royal Crew transformou nosso evento corporativo em uma experiência memorável. Profissionalismo impecável!",
-      rating: 5,
-      avatar: "SJ",
-    },
-    {
-      name: "Michael & Emma",
-      role: "Casamento - Junho 2024",
-      content: "Nossa equipe foi perfeita! Atenciosos, pontuais e fizeram nosso casamento ser exatamente como sonhamos.",
-      rating: 5,
-      avatar: "M&E",
-    },
-    {
-      name: "David Thompson",
-      role: "Event Manager, Luxury Hotels",
-      content: "Trabalhamos com a Royal Crew há 2 anos. Sempre entregam qualidade excepcional e equipes altamente treinadas.",
-      rating: 5,
-      avatar: "DT",
-    },
-  ];
-
-  const benefits = [
-    {
-      icon: Shield,
-      title: "Profissionais Verificados",
-      description: "Todos os membros passam por rigoroso processo de seleção e background check",
-    },
-    {
-      icon: Zap,
-      title: "Resposta Rápida",
-      description: "Orçamento em até 24h e confirmação de equipe em tempo recorde",
-    },
-    {
-      icon: Star,
-      title: "Qualidade Garantida",
-      description: "98% de satisfação dos clientes e avaliação média de 4.9/5 estrelas",
-    },
-    {
-      icon: Clock,
-      title: "Pontualidade",
-      description: "Equipes sempre chegam 30min antes para garantir setup perfeito",
-    },
-    {
-      icon: DollarSign,
-      title: "Preço Justo",
-      description: "Transparência total e melhor custo-benefício do mercado",
-    },
-    {
-      icon: MapPin,
-      title: "Cobertura Nacional",
-      description: "Atendemos todo o Reino Unido com a mesma excelência",
-    },
-  ];
+  const scrollTo = (ref: React.RefObject<HTMLDivElement | null>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-accent/5 to-background">
-      {/* Header/Navbar */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-accent flex items-center justify-center">
-              <Crown className="h-6 w-6 text-accent-foreground" />
+    <div className="min-h-screen flex flex-col bg-[#001F3F] font-sans selection:bg-[#D4AF37] selection:text-white relative">
+      
+      {/* Navbar Royal */}
+      <nav className="bg-[#001F3F]/90 backdrop-blur-md border-b border-[#D4AF37]/20 sticky top-0 z-50 py-2">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between h-20 items-center">
+            <div className="flex flex-col items-center cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+              <div className="text-[#D4AF37] mb-1"><Crown className="w-6 h-6" /></div>
+              <span className="text-xl font-bold tracking-[0.2em] text-white uppercase">Royal Crew</span>
+              <span className="text-[10px] tracking-[0.4em] text-[#D4AF37] -mt-1">EST. 2024</span>
             </div>
-            <div>
-              <h1 className="font-bold text-lg">Royal Crew Agency</h1>
-              <p className="text-xs text-muted-foreground">GOD MODE Platform</p>
+            
+            <div className="hidden md:flex items-center space-x-10">
+              <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Início</button>
+              <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">A Agência</button>
+              <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Serviços</button>
+              <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Recrutamento</button>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Link href="/servicos">
+                <Button variant="ghost" className="text-white hover:text-[#D4AF37] text-[10px] uppercase tracking-widest">
+                  Serviços
+                </Button>
+              </Link>
+              <Link href="/cliente">
+                <Button className="flex items-center gap-2 text-[10px] h-11 bg-[#D4AF37] text-[#001F3F] hover:bg-[#D4AF37]/90">
+                  <LayoutDashboard className="w-4 h-4" /> Portal do Cliente
+                </Button>
+              </Link>
             </div>
           </div>
-          <nav className="flex items-center gap-4">
-            <Link href="/servicos">
-              <Button variant="ghost">Services</Button>
-            </Link>
-            <Link href="/cliente">
-              <Button variant="ghost">Client Portal</Button>
-            </Link>
-            {!isAuthenticated && (
-              <Button asChild variant="outline">
-                <a href={getLoginUrl()}>Login</a>
-              </Button>
-            )}
-          </nav>
         </div>
-      </header>
+      </nav>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container max-w-6xl">
-          <div className="text-center">
-            <Badge className="mb-6 gap-2" variant="outline">
-              <Crown className="h-3 w-3" />
-              Plataforma Premium de Gestão de Eventos
-            </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Gestão de Eventos em Modo{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent/60">
-                Deus
-              </span>
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              A plataforma all-in-one que integra CMS, CRM, ERP e gestão logística em tempo real para sua agência de eventos.
-            </p>
-            <div className="flex items-center justify-center gap-4">
-              <div className="flex items-center justify-center gap-4">
-                <Button asChild size="lg" className="gap-2">
-                  <Link href="/servicos">
-                    <Crown className="h-4 w-4" />
-                    Ver Serviços
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" onClick={() => (window.location.href = "/trabalhe-conosco")}>
-                  Trabalhe Conosco
-                </Button>
-                {!isAuthenticated && (
-                  <Button asChild size="lg" variant="outline">
-                    <a href={getLoginUrl()}>Entrar</a>
-                  </Button>
-                )}
-              </div>
-            </div>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#001F3F] via-transparent to-[#001F3F]" />
+        </div>
+        
+        <div className="relative z-10 px-6 max-w-7xl mx-auto w-full text-center">
+          <div className="flex items-center gap-4 mb-8 justify-center">
+            <div className="h-px w-12 bg-[#D4AF37]"></div>
+            <Crown className="w-8 h-8 text-[#D4AF37]" />
+            <div className="h-px w-12 bg-[#D4AF37]"></div>
+          </div>
+          <h1 className="text-5xl md:text-8xl font-light mb-8 tracking-[0.1em] text-white uppercase leading-tight">
+            Gestão de Eventos em <br/><span className="text-[#D4AF37] font-bold">Modo Deus</span>
+          </h1>
+          <p className="text-xl md:text-2xl mb-10 text-gray-300 font-light tracking-wide leading-relaxed italic max-w-3xl mx-auto">
+            A plataforma all-in-one que integra CMS, CRM, ERP e gestão logística em tempo real para sua agência de eventos.
+          </p>
+          <div className="flex gap-6 items-center justify-center mb-12">
+            <Link href="/servicos">
+              <Button className="h-14 px-8 tracking-[0.3em] bg-[#D4AF37] text-[#001F3F] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all">
+                Ver Serviços <ArrowRight className="w-4 h-4 ml-2 inline-block" />
+              </Button>
+            </Link>
+            <Link href="/trabalhe-conosco">
+              <Button variant="outline" className="h-14 px-8 tracking-[0.3em] border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#001F3F]">
+                Trabalhe Conosco
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-accent/5">
-        <div className="container max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, idx) => {
-              const Icon = stat.icon;
-              return (
-                <div key={idx} className="text-center">
-                  <div className="h-16 w-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-8 w-8 text-accent" />
-                  </div>
-                  <div className="text-4xl font-bold text-foreground mb-2">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+      <section className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { label: 'Eventos Realizados', value: '500+', icon: Calendar },
+            { label: 'Profissionais Ativos', value: '200+', icon: Users },
+            { label: 'Satisfação', value: '98%', icon: Star },
+            { label: 'Clientes Premium', value: '50+', icon: Award },
+          ].map((stat, i) => (
+            <div key={i} className="text-center border-r border-gray-100 last:border-none">
+              <stat.icon className="w-8 h-8 mx-auto mb-3 text-[#D4AF37]" />
+              <p className="text-3xl font-bold text-[#001F3F] mb-1 tracking-tighter">{stat.value}</p>
+              <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* A Agência Section */}
+      <section ref={aboutRef} className="py-32 bg-[#fcfcfc] relative z-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+          <div className="relative">
+            <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-3xl"></div>
+            <img 
+              src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800" 
+              alt="Luxury Agency" 
+              className="relative rounded-2xl shadow-2xl z-10 w-full" 
+            />
+          </div>
+          <div className="space-y-8">
+            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block">Excelência Royal</span>
+            <h2 className="text-5xl font-light text-[#001F3F] tracking-tight leading-tight">Onde a <span className="font-bold">Elegância</span> encontra o <span className="font-bold">Profissionalismo</span></h2>
+            <p className="text-gray-600 leading-relaxed text-lg font-light">
+              Não somos apenas uma agência de staffing. Somos o parceiro estratégico que garante que cada interação no seu evento reflita os padrões mais elevados de hospitalidade luxuosa.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
+              <div className="flex gap-4 items-start">
+                <ShieldCheck className="text-[#D4AF37] w-6 h-6 shrink-0" />
+                <div>
+                  <h4 className="text-sm font-bold text-[#001F3F] uppercase">Seguro e Verificado</h4>
+                  <p className="text-xs text-gray-500 mt-1">Processo rigoroso de seleção e antecedentes.</p>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-20 px-4">
-        <div className="container max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Nossos Serviços</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Equipes especializadas para cada tipo de evento, garantindo excelência em todos os detalhes
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, idx) => {
-              const Icon = service.icon;
-              return (
-                <Card key={idx} className="border-2 hover:border-accent/50 transition-all cursor-pointer">
-                  <CardContent className="pt-6">
-                    <div className={`h-14 w-14 rounded-lg ${service.bgColor} flex items-center justify-center mb-4`}>
-                      <Icon className={`h-7 w-7 ${service.color}`} />
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">{service.title}</h3>
-                    <p className="text-sm text-muted-foreground">{service.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-          <div className="text-center mt-8">
-            <Button asChild size="lg" variant="outline">
-              <Link href="/servicos">Ver Todos os Serviços</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-20 px-4 bg-accent/5">
-        <div className="container max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Por Que Escolher a Royal Crew?</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Diferenciais que nos tornam a escolha número 1 para eventos premium
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, idx) => {
-              const Icon = benefit.icon;
-              return (
-                <div key={idx} className="flex gap-4">
-                  <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="h-6 w-6 text-accent" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-foreground mb-2">{benefit.title}</h3>
-                    <p className="text-sm text-muted-foreground">{benefit.description}</p>
-                  </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <Clock className="text-[#D4AF37] w-6 h-6 shrink-0" />
+                <div>
+                  <h4 className="text-sm font-bold text-[#001F3F] uppercase">Suporte 24/7</h4>
+                  <p className="text-xs text-gray-500 mt-1">Equipe disponível a qualquer momento.</p>
                 </div>
-              );
-            })}
+              </div>
+              <div className="flex gap-4 items-start">
+                <TrendingUp className="text-[#D4AF37] w-6 h-6 shrink-0" />
+                <div>
+                  <h4 className="text-sm font-bold text-[#001F3F] uppercase">Matchmaking IA</h4>
+                  <p className="text-xs text-gray-500 mt-1">Algoritmo inteligente de seleção de staff.</p>
+                </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <Package className="text-[#D4AF37] w-6 h-6 shrink-0" />
+                <div>
+                  <h4 className="text-sm font-bold text-[#001F3F] uppercase">Gestão Completa</h4>
+                  <p className="text-xs text-gray-500 mt-1">CMS, CRM, ERP integrados em uma plataforma.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 px-4">
-        <div className="container max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">O Que Nossos Clientes Dizem</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Depoimentos reais de quem confiou na Royal Crew para seus eventos
-            </p>
+      {/* Serviços Section */}
+      <section ref={servicesRef} className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Nossos Serviços</span>
+            <h2 className="text-5xl font-light text-[#001F3F] tracking-tight">Soluções <span className="font-bold">Premium</span></h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, idx) => (
-              <Card key={idx} className="border-2">
-                <CardContent className="pt-6">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 italic">"{testimonial.content}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center font-bold text-accent">
-                      {testimonial.avatar}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                    </div>
-                  </div>
-                </CardContent>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: 'Bartenders', icon: '🍸', desc: 'Mixologistas especializados' },
+              { title: 'Garçons', icon: '🍽️', desc: 'Serviço de mesa impecável' },
+              { title: 'Recepcionistas', icon: '👔', desc: 'Primeira impressão perfeita' },
+              { title: 'Seguranças', icon: '🛡️', desc: 'Proteção discreta e eficiente' },
+            ].map((service, i) => (
+              <Card key={i} className="border-2 border-border hover:border-[#D4AF37] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20">
+                <CardHeader>
+                  <div className="text-4xl mb-4">{service.icon}</div>
+                  <CardTitle className="text-[#001F3F]">{service.title}</CardTitle>
+                  <CardDescription>{service.desc}</CardDescription>
+                </CardHeader>
               </Card>
             ))}
           </div>
+
+          <div className="text-center mt-12">
+            <Link href="/servicos">
+              <Button className="h-12 px-8 bg-[#D4AF37] text-[#001F3F] hover:bg-[#D4AF37]/90">
+                Ver Todos os Serviços <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-accent/10 to-accent/5">
-        <div className="container max-w-4xl text-center">
-          <Crown className="h-16 w-16 text-accent mx-auto mb-6" />
-          <h2 className="text-4xl font-bold text-foreground mb-4">
-            Pronto para Elevar Seu Evento ao Próximo Nível?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Entre em contato conosco e descubra como a Royal Crew pode transformar seu evento em uma experiência inesquecível
+      {/* Recrutamento Section */}
+      <section ref={workRef} className="py-32 bg-[#001F3F]">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <Crown className="w-12 h-12 text-[#D4AF37] mx-auto mb-6" />
+          <h2 className="text-4xl md:text-5xl font-light text-white mb-6 tracking-tight">Junte-se à <span className="font-bold text-[#D4AF37]">Elite</span></h2>
+          <p className="text-xl text-gray-300 mb-10 font-light">
+            Procuramos profissionais excepcionais para fazer parte da nossa equipe premium.
           </p>
-          <div className="flex items-center justify-center gap-4">
-            <Button size="lg" className="gap-2">
-              <CheckCircle className="h-5 w-5" />
-              Solicitar Orçamento
+          <Link href="/trabalhe-conosco">
+            <Button className="h-14 px-10 tracking-[0.3em] bg-[#D4AF37] text-[#001F3F] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all">
+              Candidatar-se Agora <ArrowRight className="w-4 h-4 ml-2 inline-block" />
             </Button>
-            <Button size="lg" variant="outline" onClick={() => (window.location.href = "/trabalhe-conosco")}>
-              Junte-se à Equipe
-            </Button>
-          </div>
+          </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-12 px-4 bg-background">
-        <div className="container max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <footer className="bg-[#000814] text-gray-400 py-12 border-t border-[#D4AF37]/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="h-8 w-8 rounded-lg bg-accent flex items-center justify-center">
-                  <Crown className="h-5 w-5 text-accent-foreground" />
-                </div>
-                <span className="font-bold">Royal Crew</span>
+                <Crown className="w-6 h-6 text-[#D4AF37]" />
+                <span className="text-white font-bold tracking-wider">ROYAL CREW</span>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Excelência em gestão de eventos desde 2020
-              </p>
+              <p className="text-sm">A plataforma premium de gestão de eventos do Reino Unido.</p>
             </div>
+            
             <div>
-              <h3 className="font-semibold mb-4">Services</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Weddings</li>
-                <li>Corporate Events</li>
-                <li>Private Parties</li>
-                <li>Galas & Awards</li>
+              <h3 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Serviços</h3>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/servicos" className="hover:text-[#D4AF37] transition-colors">Nossos Serviços</Link></li>
+                <li><Link href="/cliente" className="hover:text-[#D4AF37] transition-colors">Portal do Cliente</Link></li>
+                <li><Link href="/trabalhe-conosco" className="hover:text-[#D4AF37] transition-colors">Trabalhe Conosco</Link></li>
               </ul>
             </div>
+            
             <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="/trabalhe-conosco">Work With Us</Link></li>
-                <li>About Us</li>
-                <li>Contact</li>
-                <li>Blog</li>
-                <li><Link href="/admin" className="text-xs opacity-50 hover:opacity-100">Admin</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>London, United Kingdom</li>
-                <li>contact@royalcrew.uk</li>
-                <li>+44 20 1234 5678</li>
+              <h3 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">Empresa</h3>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Sobre Nós</a></li>
+                <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Contato</a></li>
+                <li><Link href="/admin" className="hover:text-[#D4AF37] transition-colors">Admin</Link></li>
               </ul>
             </div>
           </div>
-          <div className="border-t pt-8 text-center text-sm text-muted-foreground">
+          
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-sm">
             <p>&copy; 2024 Royal Crew Agency. All rights reserved.</p>
           </div>
         </div>

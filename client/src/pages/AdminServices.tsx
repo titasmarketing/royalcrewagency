@@ -252,14 +252,14 @@ export default function AdminServices() {
         ) : services && services.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
-              <Card key={service.id} className="border-2 hover:border-accent/50 transition-all">
+              <Card key={service.id} className="border-2 border-border hover:border-[#D4AF37] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="flex items-center gap-2">
                         {service.name}
                         {service.isFeatured && (
-                          <Star className="h-4 w-4 text-accent fill-accent" />
+                          <Star className="h-4 w-4 text-[#D4AF37] fill-[#D4AF37]" />
                         )}
                       </CardTitle>
                       <CardDescription className="mt-2">

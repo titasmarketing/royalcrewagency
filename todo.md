@@ -179,3 +179,17 @@
 - [x] Configurar menu lateral com todas as opções
 - [x] Remover página AdminDashboard com cards
 - [x] Redirecionar /admin para /admin/calendario
+
+### 🎨 MELHORIAS VISUAIS
+- [x] Adicionar cor dourada (#D4AF37) nos cards (bordas, ícones, hover)
+- [ ] Limpar serviços fake do banco de dados
+
+### 🔀 MESCLAGEM COM PROJETO EVENTMASTER
+- [x] Analisar layout e componentes do EventMaster Pro
+- [x] Extrair melhores práticas de UI/UX
+- [x] Integrar home page premium com navbar elegante e hero section
+- [ ] Melhorar Portal do Cliente com dashboard visual
+- [ ] Criar Portal do Staff (agenda, eventos, carteira)
+- [ ] Sistema de Booking Expresso na home
+- [x] Adaptar cores para Royal Crew (azul marinho + dourado)
+- [x] Manter funcionalidades GOD MODE existentes
