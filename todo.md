@@ -316,3 +316,15 @@
 - [x] Traduzir locale de "pt-br" → "en-gb"
 - [x] Traduzir buttonText: "Hoje" → "Today"
 - [x] Agora mostra "December 2025" ao invés de "dezembro de 2025"
+
+### 🔧 CORRIGIR BOTÕES DE NAVEGAÇÃO DO CALENDÁRIO
+- [ ] Botões prev/next não estão aparecendo visualmente
+- [ ] Verificar CSS do FullCalendar
+- [ ] Adicionar estilos customizados se necessário
+
+### 🎨 MELHORAR VISIBILIDADE DOS BOTÕES DO CALENDÁRIO
+- [x] Botões prev/next/today estavam muito claros (apagados)
+- [x] Adicionado CSS customizado no index.css
+- [x] Botões agora usam navy blue com texto gold
+- [x] Hover effect com sombra e transform
+- [x] Botão ativo fica gold com texto navy
