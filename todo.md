@@ -265,4 +265,10 @@
 
 ### 🧹 LIMPAR DADOS FAKE/MOCK
 - [x] Remover todos os "Test Service" da página AdminServices (DELETE FROM services)
-- [x] Deixar página zerada com apenas botão "+ Novo Serviço"
+- [x] Deixar página zerada com apenas botão "+ Novo Servi### 🌐 TRADUZIR URLs PARA INGLÊS
+- [x] Traduzir página RecruitmentPortal (Trabalhe Conosco)
+- [x] Mudar URL /trabalhe-conosco → /work-with-us
+- [x] Atualizar rotas no App.tsx (todas as 16 rotas traduzidas)
+- [x] Atualizar todos os links no site (Home, Footer, DashboardLayout)
+- [x] URLs traduzidas: /client, /services, /work-with-us, /admin/calendar, /admin/services, /admin/clients, /admin/inventory, /admin/documents, /admin/applicationsDashboardLayout, etc.)
+- [x] URLs traduzidas: /client, /services, /admin/calendar, /admin/services, /admin/clients, /admin/inventory, /admin/documents, /admin/applications

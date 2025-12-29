@@ -99,7 +99,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-4">
-              <Link href="/cliente">
+              <Link href="/client">
                 <Button className="flex items-center gap-2 text-[10px] h-11 bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 tracking-[0.3em]">
                   <LayoutDashboard className="w-4 h-4" /> CLIENT PORTAL
                 </Button>
@@ -330,7 +330,7 @@ export default function Home() {
             <p className="text-gray-500 mb-10 text-lg leading-relaxed max-w-2xl mx-auto italic">
               "We recruit only the best. If you have a passion for hospitality and excellence, this is your place."
             </p>
-            <Link href="/trabalhe-conosco">
+            <Link href="/work-with-us">
               <Button className="h-16 px-12 tracking-[0.4em] bg-[#0c1b33] text-white hover:bg-[#1a2e4d] shadow-2xl">
                 Apply Now
               </Button>
@@ -441,7 +441,7 @@ export default function Home() {
                  <ul className="space-y-4 text-[10px] uppercase tracking-widest">
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(servicesRef)}>Services</li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/trabalhe-conosco">Recruitment</Link></li>
+                    <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/work-with-us">Recruitment</Link></li>
                  </ul>
               </div>
               <div>

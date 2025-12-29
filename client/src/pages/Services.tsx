@@ -27,7 +27,7 @@ export default function Services() {
               <Link href="/">
                 <Button variant="ghost">Home</Button>
               </Link>
-              <Link href="/servicos">
+              <Link href="/services">
                 <Button variant="default">Services</Button>
               </Link>
             </nav>
@@ -86,7 +86,7 @@ export default function Services() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Link href={`/servicos/${service.slug}`}>
+                    <Link href={`/services/${service.slug}`}>
                       <Button className="w-full gap-2 group-hover:gap-3 transition-all">
                         View Details
                         <ArrowRight className="h-4 w-4" />
@@ -136,7 +136,7 @@ export default function Services() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Link href={`/servicos/${service.slug}`}>
+                    <Link href={`/services/${service.slug}`}>
                       <Button variant="outline" className="w-full gap-2 group-hover:gap-3 transition-all">
                         View Details
                         <ArrowRight className="h-4 w-4" />

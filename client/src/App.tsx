@@ -31,27 +31,27 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/admin"}>
         {() => {
-          window.location.href = "/admin/calendario";
+          window.location.href = "/admin/calendar";
           return null;
         }}
       </Route>
-      <Route path={"/admin/calendario"} component={AdminCalendar} />
-      <Route path={"/admin/servicos"} component={AdminServices} />
+      <Route path={"/admin/calendar"} component={AdminCalendar} />
+      <Route path={"/admin/services"} component={AdminServices} />
       <Route path={"/admin/staff"} component={AdminStaff} />
-      <Route path={"/admin/clientes"} component={AdminClients} />
-      <Route path={"/admin/estoque"} component={AdminInventory} />
-      <Route path={"/admin/documentos"} component={AdminDocuments} />
+      <Route path={"/admin/clients"} component={AdminClients} />
+      <Route path={"/admin/inventory"} component={AdminInventory} />
+      <Route path={"/admin/documents"} component={AdminDocuments} />
       <Route path={"/admin/matchmaking"} component={AdminMatchmaking} />
-      <Route path={"/servicos"} component={Services} />
-      <Route path={"/servicos/:slug"} component={ServiceDetail} />
-      <Route path={"/cliente"} component={ClientPortal} />
+      <Route path={"/services"} component={Services} />
+      <Route path={"/services/:slug"} component={ServiceDetail} />
+      <Route path={"/client"} component={ClientPortal} />
       <Route path={"/staff"} component={StaffPortal} />
-      <Route path={"/staff/disponibilidade"} component={StaffAvailability} />
-      <Route path={"/staff/carteira"} component={StaffWallet} />
-      <Route path={"/cliente/tracking"} component={ClientTracking} />
-      <Route path={"/cliente/financeiro"} component={ClientFinancial} />
-      <Route path={"/trabalhe-conosco"} component={RecruitmentPortal} />
-      <Route path={"/admin/candidaturas"} component={AdminRecruitment} />
+      <Route path={"/staff/availability"} component={StaffAvailability} />
+      <Route path={"/staff/wallet"} component={StaffWallet} />
+      <Route path={"/client/tracking"} component={ClientTracking} />
+      <Route path={"/client/financial"} component={ClientFinancial} />
+      <Route path={"/work-with-us"} component={RecruitmentPortal} />
+      <Route path={"/admin/applications"} component={AdminRecruitment} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

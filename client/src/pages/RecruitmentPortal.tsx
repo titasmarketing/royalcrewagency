@@ -30,10 +30,10 @@ export default function RecruitmentPortal() {
   const createApplicationMutation = trpc.recruitment.createApplication.useMutation({
     onSuccess: () => {
       setSubmitted(true);
-      toast.success("Cadastro enviado com sucesso!");
+      toast.success("Application submitted successfully!");
     },
     onError: (error: any) => {
-      toast.error("Erro ao enviar cadastro: " + error.message);
+      toast.error("Error submitting application: " + error.message);
     },
   });
 
@@ -41,7 +41,7 @@ export default function RecruitmentPortal() {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.phone) {
-      toast.error("Preencha todos os campos obrigatórios");
+      toast.error("Please fill in all required fields");
       return;
     }
 
@@ -58,16 +58,16 @@ export default function RecruitmentPortal() {
   };
 
   const availableSpecialties = [
-    "Garçom",
+    "Waiter",
     "Bartender",
     "Chef",
-    "Auxiliar de Cozinha",
-    "Coordenador",
-    "Recepcionista",
-    "Segurança",
+    "Kitchen Assistant",
+    "Coordinator",
+    "Receptionist",
+    "Security",
     "Valet",
-    "Limpeza",
-    "Montagem/Desmontagem",
+    "Cleaning",
+    "Setup/Breakdown",
   ];
 
   if (submitted) {
@@ -79,22 +79,22 @@ export default function RecruitmentPortal() {
               <CheckCircle className="h-10 w-10 text-green-600" />
             </div>
             <h1 className="text-3xl font-bold text-foreground mb-4">
-              Cadastro Enviado com Sucesso!
+              Application Submitted Successfully!
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
               Obrigado por se candidatar à Royal Crew Agency. Nossa equipe irá analisar seu perfil e
               entraremos em contato em breve.
             </p>
             <div className="bg-accent/10 rounded-lg p-6 mb-6">
-              <h3 className="font-semibold text-foreground mb-2">Próximos Passos:</h3>
+              <h3 className="font-semibold text-foreground mb-2">Next Steps:</h3>
               <ul className="text-sm text-muted-foreground space-y-2 text-left max-w-md mx-auto">
                 <li className="flex items-start gap-2">
                   <span className="text-accent">1.</span>
-                  <span>Análise do seu perfil pela nossa equipe (1-2 dias úteis)</span>
+                  <span>Profile review by our team (1-2 business days)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">2.</span>
-                  <span>Entrevista online ou presencial (se aprovado)</span>
+                  <span>Online or in-person interview (if approved)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">3.</span>
@@ -210,7 +210,7 @@ export default function RecruitmentPortal() {
                   <h3 className="font-semibold text-lg">Informações Pessoais</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Nome Completo *</Label>
+                      <Label htmlFor="name">Full Name *</Label>
                       <Input
                         id="name"
                         placeholder="João Silva"
@@ -233,7 +233,7 @@ export default function RecruitmentPortal() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Telefone *</Label>
+                      <Label htmlFor="phone">Phone *</Label>
                       <Input
                         id="phone"
                         placeholder="+44 20 1234 5678"
@@ -249,10 +249,10 @@ export default function RecruitmentPortal() {
 
                 {/* Address */}
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-lg">Endereço</h3>
+                  <h3 className="font-semibold text-lg">Address</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2 md:col-span-2">
-                      <Label htmlFor="address">Endereço</Label>
+                      <Label htmlFor="address">Address</Label>
                       <Input
                         id="address"
                         placeholder="123 High Street, Flat 4"
@@ -262,7 +262,7 @@ export default function RecruitmentPortal() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="city">Cidade</Label>
+                      <Label htmlFor="city">City</Label>
                       <Input
                         id="city"
                         placeholder="London"
@@ -272,7 +272,7 @@ export default function RecruitmentPortal() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="county">Condado</Label>
+                      <Label htmlFor="county">County</Label>
                       <Input
                         id="county"
                         placeholder="Greater London"
@@ -281,7 +281,7 @@ export default function RecruitmentPortal() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="postcode">Código Postal</Label>
+                      <Label htmlFor="postcode">Postcode</Label>
                       <Input
                         id="postcode"
                         placeholder="SW1A 1AA"
@@ -329,7 +329,7 @@ export default function RecruitmentPortal() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="bio">Sobre Você</Label>
+                    <Label htmlFor="bio">About You</Label>
                     <Textarea
                       id="bio"
                       placeholder="Conte um pouco sobre você, seus pontos fortes, disponibilidade, etc."

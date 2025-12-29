@@ -109,7 +109,7 @@ export default function AdminServices() {
               <DialogHeader>
                 <DialogTitle>Criar Novo Serviço</DialogTitle>
                 <DialogDescription>
-                  O serviço será automaticamente publicado no site com URL /servicos/{formData.slug || "slug-do-servico"}
+                  O serviço será automaticamente publicado no site com URL /services/{formData.slug || "slug-do-servico"}
                 </DialogDescription>
               </DialogHeader>
               
@@ -133,7 +133,7 @@ export default function AdminServices() {
                     placeholder="bar-de-gin-premium"
                   />
                   <p className="text-xs text-muted-foreground">
-                    URL: /servicos/{formData.slug || "slug-do-servico"}
+                    URL: /services/{formData.slug || "slug-do-servico"}
                   </p>
                 </div>
 
@@ -270,7 +270,7 @@ export default function AdminServices() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="text-sm text-muted-foreground">
-                    <p><strong>URL:</strong> /servicos/{service.slug}</p>
+                    <p><strong>URL:</strong> /services/{service.slug}</p>
                     {service.basePrice && (
                       <p><strong>Preço base:</strong> £ {parseFloat(service.basePrice).toFixed(2)}</p>
                     )}

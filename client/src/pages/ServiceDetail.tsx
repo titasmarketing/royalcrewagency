@@ -27,7 +27,7 @@ export default function ServiceDetail() {
         <Package className="h-16 w-16 text-muted-foreground mb-4" />
         <h1 className="text-2xl font-bold text-foreground mb-2">Serviço não encontrado</h1>
         <p className="text-muted-foreground mb-8">O serviço que você procura não existe ou foi removido.</p>
-        <Link href="/servicos">
+        <Link href="/services">
           <Button className="gap-2">
             <ArrowLeft className="h-4 w-4" />
             Voltar para Services
@@ -56,7 +56,7 @@ export default function ServiceDetail() {
               <Link href="/">
                 <Button variant="ghost">Home</Button>
               </Link>
-              <Link href="/servicos">
+              <Link href="/services">
                 <Button variant="ghost">Services</Button>
               </Link>
             </nav>
@@ -69,7 +69,7 @@ export default function ServiceDetail() {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/">Home</Link>
           <span>/</span>
-          <Link href="/servicos">Services</Link>
+          <Link href="/services">Services</Link>
           <span>/</span>
           <span className="text-foreground">{service.name}</span>
         </div>

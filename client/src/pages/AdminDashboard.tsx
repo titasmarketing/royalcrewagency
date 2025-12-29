@@ -119,7 +119,7 @@ export default function AdminDashboard() {
             </Card>
           </Link>
 
-          <Link href="/admin/candidaturas">
+          <Link href="/admin/applications">
             <Card className="border-2 hover:border-accent/50 transition-all cursor-pointer">
               <CardHeader>
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
