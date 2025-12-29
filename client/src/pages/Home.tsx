@@ -113,13 +113,13 @@ export default function Home() {
       <section 
         className="relative min-h-screen flex items-center justify-center overflow-hidden py-20"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1519167758481-83f29da8c6b9?auto=format&fit=crop&q=80&w=2000)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=2000&q=80)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundColor: '#0c1b33'
         }}
       >
-        <div className="absolute inset-0 bg-[#0c1b33]/60" />
+        <div className="absolute inset-0 bg-[#0c1b33]/75" />
         
         <div className="relative z-10 px-6 max-w-5xl mx-auto w-full flex flex-col items-center justify-center text-center space-y-8">
           {/* Hero Text */}

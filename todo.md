@@ -250,3 +250,6 @@
 ### 🚨 URGENTE - IMAGEM DE FUNDO
 - [x] Colocar imagem de fundo VISÍVEL no hero (opacity-30, sem gradiente)
 - [x] Remover overlay escuro que estava escondendo a imagem
+
+### 🎨 AJUSTAR OPACIDADE DA IMAGEM
+- [x] Aumentar overlay de 60% para 75% (mais escuro conforme solicitado)
