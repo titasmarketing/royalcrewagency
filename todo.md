@@ -262,3 +262,7 @@
 - [x] Traduzir todas as páginas Admin (9 páginas)
 - [x] Traduzir página de recrutamento
 - [x] Traduzir todas as interfaces e mensagens
+
+### 🧹 LIMPAR DADOS FAKE/MOCK
+- [x] Remover todos os "Test Service" da página AdminServices (DELETE FROM services)
+- [x] Deixar página zerada com apenas botão "+ Novo Serviço"
