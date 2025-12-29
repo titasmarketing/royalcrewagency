@@ -61,7 +61,7 @@ export default function AdminRecruitment() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Candidaturas</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Applications</h1>
           <p className="text-muted-foreground">
             Analise e aprove novos profissionais para a equipe Royal Crew
           </p>
@@ -116,7 +116,7 @@ export default function AdminRecruitment() {
         {/* Applications List */}
         <Card>
           <CardHeader>
-            <CardTitle>Candidaturas</CardTitle>
+            <CardTitle>Applications</CardTitle>
             <CardDescription>Lista de todos os candidatos que se inscreveram</CardDescription>
           </CardHeader>
           <CardContent>
@@ -195,7 +195,7 @@ export default function AdminRecruitment() {
 
                           {app.experience && (
                             <div className="mb-4 p-3 bg-accent/5 rounded-lg">
-                              <h4 className="text-sm font-semibold mb-1">Experiência:</h4>
+                              <h4 className="text-sm font-semibold mb-1">Experience:</h4>
                               <p className="text-sm text-muted-foreground">{app.experience}</p>
                             </div>
                           )}

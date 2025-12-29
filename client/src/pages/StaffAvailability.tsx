@@ -21,7 +21,7 @@ export default function StaffAvailability() {
       // Remover da lista de bloqueados se existir
       setBlockedDates((prev) => prev.filter((d) => d.getTime() !== date.getTime()));
       
-      // Adicionar ou remover de disponíveis
+      // Add ou remover de disponíveis
       setSelectedDates((prev) => {
         const exists = prev.some((d) => d.getTime() === date.getTime());
         if (exists) {
@@ -33,7 +33,7 @@ export default function StaffAvailability() {
       // Remover da lista de disponíveis se existir
       setSelectedDates((prev) => prev.filter((d) => d.getTime() !== date.getTime()));
       
-      // Adicionar ou remover de bloqueados
+      // Add ou remover de bloqueados
       setBlockedDates((prev) => {
         const exists = prev.some((d) => d.getTime() === date.getTime());
         if (exists) {
@@ -45,8 +45,8 @@ export default function StaffAvailability() {
   };
 
   const handleSave = () => {
-    // TODO: Salvar no banco de dados via tRPC
-    toast.success("Disponibilidade atualizada com sucesso!");
+    // TODO: Save no banco de dados via tRPC
+    toast.success("Availability atualizada com sucesso!");
   };
 
   const modifiers = {
@@ -73,7 +73,7 @@ export default function StaffAvailability() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Minha Disponibilidade</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Minha Availability</h1>
           <p className="text-muted-foreground">
             Gerencie suas datas disponíveis e bloqueadas para eventos
           </p>
@@ -151,7 +151,7 @@ export default function StaffAvailability() {
         {/* Calendar */}
         <Card>
           <CardHeader>
-            <CardTitle>Calendário de Disponibilidade</CardTitle>
+            <CardTitle>Calendar de Availability</CardTitle>
             <CardDescription>
               Clique nas datas para marcá-las como {mode === "available" ? "disponíveis" : "bloqueadas"}
             </CardDescription>
@@ -261,7 +261,7 @@ export default function StaffAvailability() {
         <div className="flex justify-end">
           <Button onClick={handleSave} size="lg" className="gap-2">
             <CalendarCheck className="h-4 w-4" />
-            Salvar Disponibilidade
+            Save Availability
           </Button>
         </div>
       </div>

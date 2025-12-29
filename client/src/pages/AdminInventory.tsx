@@ -38,7 +38,7 @@ export default function AdminInventory() {
 
   const updateStock = trpc.inventory.updateStock.useMutation({
     onSuccess: () => {
-      toast.success("Estoque atualizado!");
+      toast.success("Inventory atualizado!");
       refetch();
     },
     onError: (error) => {
@@ -80,7 +80,7 @@ export default function AdminInventory() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Estoque</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Inventory</h1>
             <p className="text-muted-foreground">Controle de insumos e materiais para eventos</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -92,7 +92,7 @@ export default function AdminInventory() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Adicionar Item ao Estoque</DialogTitle>
+                <DialogTitle>Add Item ao Inventory</DialogTitle>
                 <DialogDescription>
                   Cadastre um novo item de estoque para controle de insumos
                 </DialogDescription>
@@ -139,7 +139,7 @@ export default function AdminInventory() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="currentStock">Estoque Atual</Label>
+                    <Label htmlFor="currentStock">Inventory Atual</Label>
                     <Input
                       id="currentStock"
                       type="number"
@@ -150,7 +150,7 @@ export default function AdminInventory() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="minStock">Estoque Mínimo</Label>
+                    <Label htmlFor="minStock">Inventory Mínimo</Label>
                     <Input
                       id="minStock"
                       type="number"
@@ -176,10 +176,10 @@ export default function AdminInventory() {
 
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Cancelar
+                  Cancel
                 </Button>
                 <Button onClick={handleCreateItem} disabled={!formData.name}>
-                  Adicionar Item
+                  Add Item
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -201,7 +201,7 @@ export default function AdminInventory() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Estoque Baixo</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Inventory Baixo</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">
@@ -241,7 +241,7 @@ export default function AdminInventory() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-red-600" />
-                <CardTitle className="text-red-900">Alerta de Estoque Baixo</CardTitle>
+                <CardTitle className="text-red-900">Alerta de Inventory Baixo</CardTitle>
               </div>
               <CardDescription className="text-red-700">
                 {lowStockItems.length} {lowStockItems.length === 1 ? 'item está' : 'itens estão'} com estoque crítico ou abaixo do mínimo
@@ -294,7 +294,7 @@ export default function AdminInventory() {
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Estoque Atual:</span>
+                        <span className="text-muted-foreground">Inventory Atual:</span>
                         <span className="font-bold text-foreground">
                           {item.currentStock} {item.unit}
                         </span>
@@ -321,10 +321,10 @@ export default function AdminInventory() {
 
                     <div className="flex items-center gap-2">
                       <Button size="sm" variant="outline" className="flex-1">
-                        Ajustar Estoque
+                        Ajustar Inventory
                       </Button>
                       <Button size="sm" variant="outline" className="flex-1">
-                        Editar
+                        Edit
                       </Button>
                     </div>
                   </CardContent>
@@ -339,7 +339,7 @@ export default function AdminInventory() {
               <p className="text-muted-foreground mb-4">Nenhum item no estoque ainda</p>
               <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Adicionar Primeiro Item
+                Add Primeiro Item
               </Button>
             </CardContent>
           </Card>

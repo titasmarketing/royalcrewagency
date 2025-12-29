@@ -95,8 +95,8 @@ export default function AdminServices() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Serviços</h1>
-            <p className="text-muted-foreground">CMS dinâmico - Serviços aparecem automaticamente no site</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Services</h1>
+            <p className="text-muted-foreground">CMS dinâmico - Services aparecem automaticamente no site</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
@@ -234,7 +234,7 @@ export default function AdminServices() {
 
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Cancelar
+                  Cancel
                 </Button>
                 <Button onClick={handleCreateService} disabled={!formData.name || !formData.slug}>
                   Criar Serviço

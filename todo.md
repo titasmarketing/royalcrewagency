@@ -253,3 +253,12 @@
 
 ### 🎨 AJUSTAR OPACIDADE DA IMAGEM
 - [x] Aumentar overlay de 60% para 75% (mais escuro conforme solicitado)
+
+### 🇬🇧 TRADUÇÃO COMPLETA PARA INGLÊS (UK)
+- [x] Traduzir home page (hero, navbar, footer)
+- [x] Traduzir formulário de reserva
+- [x] Traduzir Portal do Cliente
+- [x] Traduzir Portal do Staff
+- [x] Traduzir todas as páginas Admin (9 páginas)
+- [x] Traduzir página de recrutamento
+- [x] Traduzir todas as interfaces e mensagens

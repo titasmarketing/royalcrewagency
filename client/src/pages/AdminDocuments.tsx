@@ -59,7 +59,7 @@ export default function AdminDocuments() {
       clientDocument: "000.000.000-00",
       location: event.location || "Local não especificado",
       totalPrice: event.totalPrice || "0.00",
-      services: ["Organização de evento", "Equipe completa", "Materiais e insumos"],
+      services: ["Organização de evento", "Team completa", "Materiais e insumos"],
     });
   };
 
@@ -119,7 +119,7 @@ export default function AdminDocuments() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Documentos</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Documents</h1>
           <p className="text-muted-foreground">
             Gere contratos, ordens de serviço e notas fiscais automaticamente
           </p>
@@ -130,7 +130,7 @@ export default function AdminDocuments() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Eventos Ativos
+                Active Events
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -169,7 +169,7 @@ export default function AdminDocuments() {
 
         {/* Events List */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-foreground">Eventos e Documentos</h2>
+          <h2 className="text-xl font-bold text-foreground">Eventos e Documents</h2>
 
           {events && events.length > 0 ? (
             <div className="grid grid-cols-1 gap-4">

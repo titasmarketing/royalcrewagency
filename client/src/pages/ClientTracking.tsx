@@ -46,7 +46,7 @@ export default function ClientTracking() {
   const handleMapReady = (mapInstance: google.maps.Map) => {
     setMap(mapInstance);
     
-    // Adicionar marcadores para cada membro do staff
+    // Add marcadores para cada membro do staff
     const newMarkers = staffLocations.map((staff) => {
       const marker = new google.maps.Marker({
         position: { lat: staff.lat, lng: staff.lng },
@@ -95,7 +95,7 @@ export default function ClientTracking() {
         icon: Clock,
       },
       traveling: {
-        label: "Equipe em Deslocamento",
+        label: "Team em Deslocamento",
         color: "bg-yellow-100 text-yellow-700 border-yellow-300",
         icon: Navigation,
       },
@@ -159,7 +159,7 @@ export default function ClientTracking() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-accent" />
-              Localização da Equipe
+              Localização da Team
             </CardTitle>
             <CardDescription>
               Visualize em tempo real onde cada membro da equipe está
@@ -175,7 +175,7 @@ export default function ClientTracking() {
         {/* Staff List */}
         <Card>
           <CardHeader>
-            <CardTitle>Equipe Escalada ({staffLocations.length} profissionais)</CardTitle>
+            <CardTitle>Team Escalada ({staffLocations.length} profissionais)</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -224,7 +224,7 @@ export default function ClientTracking() {
                   <CheckCircle className="h-5 w-5 text-green-600" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold">Equipe Confirmada</h4>
+                  <h4 className="font-semibold">Team Confirmada</h4>
                   <p className="text-sm text-muted-foreground">
                     Todos os profissionais confirmaram presença
                   </p>
@@ -237,7 +237,7 @@ export default function ClientTracking() {
                   <Navigation className="h-5 w-5 text-yellow-600" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold">Equipe em Deslocamento</h4>
+                  <h4 className="font-semibold">Team em Deslocamento</h4>
                   <p className="text-sm text-muted-foreground">
                     2 de 2 profissionais a caminho do local
                   </p>

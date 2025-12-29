@@ -108,7 +108,7 @@ export default function ClientPortal() {
             onClick={() => setShowNewOrder(!showNewOrder)}
             className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider"
           >
-            {showNewOrder ? "Cancelar Solicitação" : "Solicitar Novo Staff"}
+            {showNewOrder ? "Cancel Solicitação" : "Solicitar Novo Staff"}
           </Button>
         </header>
 
@@ -129,7 +129,7 @@ export default function ClientPortal() {
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Tipo de Evento</Label>
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Event Type</Label>
                 <Select
                   value={newOrderForm.eventType}
                   onValueChange={(value) =>
@@ -199,7 +199,7 @@ export default function ClientPortal() {
 
               <div className="col-span-1 md:col-span-2">
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">
-                  Serviços Necessários
+                  Services Necessários
                 </label>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {staffTypes.map((type) => (
@@ -240,12 +240,12 @@ export default function ClientPortal() {
 
         <div className="space-y-8">
           <h2 className="text-lg font-bold text-[#0c1b33] uppercase tracking-[0.2em] border-l-4 border-[#D4AF37] pl-4">
-            Meus Eventos
+            My Events
           </h2>
 
           {isLoading ? (
             <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
-              Carregando...
+              Loading...
             </div>
           ) : !myEvents || myEvents.length === 0 ? (
             <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
@@ -287,7 +287,7 @@ export default function ClientPortal() {
                         Ver Fatura
                       </Button>
                       <Button variant="secondary" className="text-[10px] uppercase font-bold tracking-wider">
-                        Suporte
+                        Support
                       </Button>
                     </div>
                   </div>

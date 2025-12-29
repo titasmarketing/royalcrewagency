@@ -25,7 +25,7 @@ export default function AdminClients() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Clientes</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Clients</h1>
             <p className="text-muted-foreground">Visualize e gerencie todos os clientes</p>
           </div>
         </div>
@@ -34,7 +34,7 @@ export default function AdminClients() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total de Clientes</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Total de Clients</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">
@@ -136,7 +136,7 @@ export default function AdminClients() {
                       Ver Eventos
                     </Button>
                     <Button size="sm" variant="outline" className="flex-1">
-                      Editar
+                      Edit
                     </Button>
                   </div>
                 </CardContent>

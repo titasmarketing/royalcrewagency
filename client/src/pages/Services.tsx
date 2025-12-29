@@ -28,7 +28,7 @@ export default function Services() {
                 <Button variant="ghost">Home</Button>
               </Link>
               <Link href="/servicos">
-                <Button variant="default">Serviços</Button>
+                <Button variant="default">Services</Button>
               </Link>
             </nav>
           </div>
@@ -42,10 +42,10 @@ export default function Services() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
               <Crown className="h-4 w-4 text-accent" />
-              <span className="text-sm font-medium text-accent-foreground">Serviços Premium</span>
+              <span className="text-sm font-medium text-accent-foreground">Services Premium</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Nossos Serviços
+              Nossos Services
             </h1>
             <p className="text-lg text-muted-foreground">
               Soluções completas para tornar seu evento inesquecível
@@ -60,7 +60,7 @@ export default function Services() {
           <div className="container mx-auto px-6">
             <div className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                Serviços em Destaque
+                Services em Destaque
               </h2>
               <p className="text-muted-foreground">Nossos serviços mais procurados</p>
             </div>
@@ -88,7 +88,7 @@ export default function Services() {
                   <CardContent>
                     <Link href={`/servicos/${service.slug}`}>
                       <Button className="w-full gap-2 group-hover:gap-3 transition-all">
-                        Ver Detalhes
+                        View Details
                         <ArrowRight className="h-4 w-4" />
                       </Button>
                     </Link>
@@ -105,7 +105,7 @@ export default function Services() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Todos os Serviços
+              Todos os Services
             </h2>
             <p className="text-muted-foreground">Explore nosso catálogo completo</p>
           </div>
@@ -138,7 +138,7 @@ export default function Services() {
                   <CardContent>
                     <Link href={`/servicos/${service.slug}`}>
                       <Button variant="outline" className="w-full gap-2 group-hover:gap-3 transition-all">
-                        Ver Detalhes
+                        View Details
                         <ArrowRight className="h-4 w-4" />
                       </Button>
                     </Link>

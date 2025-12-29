@@ -82,7 +82,7 @@ export default function StaffWallet() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Minha Carteira</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Minha Wallet</h1>
           <p className="text-muted-foreground">
             Acompanhe seus ganhos, pagamentos e histórico financeiro
           </p>
@@ -147,8 +147,8 @@ export default function StaffWallet() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Extrato Financeiro</CardTitle>
-                <CardDescription>Histórico completo de pagamentos e eventos</CardDescription>
+                <CardTitle>Extrato Financial</CardTitle>
+                <CardDescription>History completo de pagamentos e eventos</CardDescription>
               </div>
               <Button variant="outline" className="gap-2">
                 <Download className="h-4 w-4" />

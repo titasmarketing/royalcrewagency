@@ -140,7 +140,7 @@ export default function ClientFinancial() {
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle>Faturas e Notas Fiscais</CardTitle>
-                <CardDescription>Histórico completo de pagamentos e documentos</CardDescription>
+                <CardDescription>History completo de pagamentos e documentos</CardDescription>
               </div>
               <Button variant="outline" className="gap-2">
                 <Download className="h-4 w-4" />

@@ -58,7 +58,7 @@ export default function AdminCalendar() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Calendário Mestre</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Calendar Mestre</h1>
             <p className="text-muted-foreground">Visualização e gestão de todos os eventos</p>
           </div>
           <Button className="gap-2">

@@ -112,7 +112,7 @@ export default function AdminMatchmaking() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="eventDate">Data do Evento *</Label>
+                <Label htmlFor="eventDate">Event Date *</Label>
                 <Input
                   id="eventDate"
                   type="date"
@@ -163,7 +163,7 @@ export default function AdminMatchmaking() {
             <div className="mt-6">
               <Button onClick={handleSearch} disabled={searching} className="w-full md:w-auto gap-2">
                 <Search className="h-4 w-4" />
-                {searching ? "Buscando..." : "Buscar Profissionais"}
+                {searching ? "Buscando..." : "Search Profissionais"}
               </Button>
             </div>
           </CardContent>

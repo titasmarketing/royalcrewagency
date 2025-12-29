@@ -102,7 +102,7 @@ export default function RecruitmentPortal() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">4.</span>
-                  <span>Início das oportunidades de trabalho!</span>
+                  <span>Home das oportunidades de trabalho!</span>
                 </li>
               </ul>
             </div>
@@ -141,10 +141,10 @@ export default function RecruitmentPortal() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-accent/10 px-4 py-2 rounded-full mb-6">
               <Crown className="h-4 w-4 text-accent" />
-              <span className="text-sm font-medium text-accent">Trabalhe Conosco</span>
+              <span className="text-sm font-medium text-accent">Work With Us</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Faça Parte da Equipe <span className="text-accent">Premium</span>
+              Faça Parte da Team <span className="text-accent">Premium</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Junte-se aos melhores profissionais de eventos do mercado. Trabalhe em eventos exclusivos,
@@ -189,7 +189,7 @@ export default function RecruitmentPortal() {
                 <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <Users className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="font-semibold mb-1">Equipe Top</h3>
+                <h3 className="font-semibold mb-1">Team Top</h3>
                 <p className="text-sm text-muted-foreground">Trabalhe com os melhores</p>
               </CardContent>
             </Card>
@@ -297,7 +297,7 @@ export default function RecruitmentPortal() {
                   <h3 className="font-semibold text-lg">Informações Profissionais</h3>
 
                   <div className="space-y-2">
-                    <Label>Especialidades / Funções *</Label>
+                    <Label>Specialties / Funções *</Label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {availableSpecialties.map((specialty) => (
                         <div key={specialty} className="flex items-center space-x-2">
@@ -318,7 +318,7 @@ export default function RecruitmentPortal() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="experience">Experiência Profissional</Label>
+                    <Label htmlFor="experience">Experience Profissional</Label>
                     <Textarea
                       id="experience"
                       placeholder="Descreva sua experiência em eventos, funções anteriores, tempo de atuação, etc."

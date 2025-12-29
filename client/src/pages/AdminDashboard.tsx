@@ -26,17 +26,17 @@ export default function AdminDashboard() {
       color: "text-accent",
     },
     {
-      title: "Clientes",
+      title: "Clients",
       value: clients?.length || 0,
       icon: TrendingUp,
-      description: "Clientes cadastrados",
+      description: "Clients cadastrados",
       color: "text-accent",
     },
     {
-      title: "Serviços",
+      title: "Services",
       value: services?.filter(s => s.isActive).length || 0,
       icon: Package,
-      description: "Serviços disponíveis",
+      description: "Services disponíveis",
       color: "text-accent",
     },
   ];
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
       <div className="space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Painel Administrativo</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
           <p className="text-muted-foreground">Visão geral da plataforma GOD MODE</p>
         </div>
 
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <Calendar className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Calendário Mestre</CardTitle>
+                <CardTitle>Calendar Mestre</CardTitle>
                 <CardDescription>
                   Visualize e gerencie todos os eventos em uma interface de calendário
                 </CardDescription>
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <Package className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Gestão de Serviços</CardTitle>
+                <CardTitle>Gestão de Services</CardTitle>
                 <CardDescription>
                   Crie e edite serviços que aparecem automaticamente no site
                 </CardDescription>
@@ -125,7 +125,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <UserPlus className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Candidaturas</CardTitle>
+                <CardTitle>Applications</CardTitle>
                 <CardDescription>
                   Aprove novos profissionais para a equipe
                 </CardDescription>
@@ -139,7 +139,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <User className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Gestão de Clientes</CardTitle>
+                <CardTitle>Gestão de Clients</CardTitle>
                 <CardDescription>
                   Visualize e gerencie clientes e seus eventos
                 </CardDescription>
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <FileText className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Documentos</CardTitle>
+                <CardTitle>Documents</CardTitle>
                 <CardDescription>
                   Gere contratos, ordens de serviço e notas fiscais
                 </CardDescription>
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
               <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                 <DollarSign className="h-6 w-6 text-accent" />
               </div>
-              <CardTitle>Financeiro</CardTitle>
+              <CardTitle>Financial</CardTitle>
               <CardDescription>
                 Controle pagamentos de clientes e staff
               </CardDescription>
@@ -179,7 +179,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <Warehouse className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Gestão de Estoque</CardTitle>
+                <CardTitle>Gestão de Inventory</CardTitle>
                 <CardDescription>
                   Controle de insumos e materiais para eventos
                 </CardDescription>
@@ -196,7 +196,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             {loading ? (
-              <p className="text-muted-foreground">Carregando...</p>
+              <p className="text-muted-foreground">Loading...</p>
             ) : events && events.length > 0 ? (
               <div className="space-y-4">
                 {events.slice(0, 5).map((event) => (

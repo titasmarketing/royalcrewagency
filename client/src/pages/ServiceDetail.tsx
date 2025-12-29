@@ -30,7 +30,7 @@ export default function ServiceDetail() {
         <Link href="/servicos">
           <Button className="gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Voltar para Serviços
+            Voltar para Services
           </Button>
         </Link>
       </div>
@@ -57,7 +57,7 @@ export default function ServiceDetail() {
                 <Button variant="ghost">Home</Button>
               </Link>
               <Link href="/servicos">
-                <Button variant="ghost">Serviços</Button>
+                <Button variant="ghost">Services</Button>
               </Link>
             </nav>
           </div>
@@ -69,7 +69,7 @@ export default function ServiceDetail() {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/">Home</Link>
           <span>/</span>
-          <Link href="/servicos">Serviços</Link>
+          <Link href="/servicos">Services</Link>
           <span>/</span>
           <span className="text-foreground">{service.name}</span>
         </div>
@@ -124,7 +124,7 @@ export default function ServiceDetail() {
                         <Check className="h-4 w-4 text-accent" />
                       </div>
                       <div>
-                        <p className="font-medium text-foreground">Equipe profissional especializada</p>
+                        <p className="font-medium text-foreground">Team profissional especializada</p>
                         <p className="text-sm text-muted-foreground">Staff treinado e experiente</p>
                       </div>
                     </div>
@@ -151,7 +151,7 @@ export default function ServiceDetail() {
                         <Check className="h-4 w-4 text-accent" />
                       </div>
                       <div>
-                        <p className="font-medium text-foreground">Suporte em tempo real</p>
+                        <p className="font-medium text-foreground">Support em tempo real</p>
                         <p className="text-sm text-muted-foreground">Acompanhamento e tracking do evento</p>
                       </div>
                     </div>
@@ -193,7 +193,7 @@ export default function ServiceDetail() {
                       </li>
                       <li className="flex items-start gap-2">
                         <Check className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
-                        <span>Equipe altamente qualificada</span>
+                        <span>Team altamente qualificada</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <Check className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />

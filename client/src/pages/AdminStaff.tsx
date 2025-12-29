@@ -54,12 +54,12 @@ export default function AdminStaff() {
             <DialogTrigger asChild>
               <Button className="gap-2">
                 <Plus className="h-4 w-4" />
-                Adicionar Staff
+                Add Staff
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Adicionar Novo Membro</DialogTitle>
+                <DialogTitle>Add Novo Membro</DialogTitle>
                 <DialogDescription>
                   Adicione um novo membro à equipe da Royal Crew
                 </DialogDescription>
@@ -189,7 +189,7 @@ export default function AdminStaff() {
 
                   {member.specialties && member.specialties.length > 0 && (
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground mb-2">Especialidades:</p>
+                      <p className="text-xs font-medium text-muted-foreground mb-2">Specialties:</p>
                       <div className="flex flex-wrap gap-1">
                         {member.specialties.map((specialty, index) => (
                           <Badge key={index} variant="outline" className="text-xs">
@@ -210,7 +210,7 @@ export default function AdminStaff() {
                       {member.isActive ? "Desativar" : "Ativar"}
                     </Button>
                     <Button size="sm" variant="outline" className="flex-1">
-                      Editar
+                      Edit
                     </Button>
                   </div>
                 </CardContent>
@@ -224,7 +224,7 @@ export default function AdminStaff() {
               <p className="text-muted-foreground mb-4">Nenhum membro de staff cadastrado ainda</p>
               <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Adicionar Primeiro Membro
+                Add Primeiro Membro
               </Button>
             </CardContent>
           </Card>

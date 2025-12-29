@@ -111,7 +111,7 @@ export default function StaffPortal() {
                     <Calendar className="w-5 h-5 text-[#D4AF37]" />
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Especialidades
+                        Specialties
                       </p>
                       <p className="text-lg font-bold text-[#0c1b33]">
                         {myProfile.specialties || "Não informado"}
@@ -122,17 +122,17 @@ export default function StaffPortal() {
               </div>
               <div className="mt-6 md:mt-0">
                 <Button className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider">
-                  Editar Perfil
+                  Edit Perfil
                 </Button>
               </div>
             </div>
           </Card>
         )}
 
-        {/* Carteira do Staff */}
+        {/* Wallet do Staff */}
         <Card className="mb-12 border-[#D4AF37]/30 shadow-xl bg-white p-8">
           <h2 className="text-2xl font-bold text-[#0c1b33] mb-6 uppercase tracking-wider">
-            Minha Carteira
+            Minha Wallet
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
@@ -156,15 +156,15 @@ export default function StaffPortal() {
           </div>
         </Card>
 
-        {/* Meus Trabalhos */}
+        {/* Meus Jobs */}
         <div className="space-y-8">
           <h2 className="text-lg font-bold text-[#0c1b33] uppercase tracking-[0.2em] border-l-4 border-[#D4AF37] pl-4">
-            Meus Trabalhos
+            Meus Jobs
           </h2>
 
           {isLoading ? (
             <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
-              Carregando...
+              Loading...
             </div>
           ) : !myJobs || myJobs.length === 0 ? (
             <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
@@ -203,7 +203,7 @@ export default function StaffPortal() {
                     </div>
                     <div className="mt-6 md:mt-0 flex gap-3">
                       <Button variant="outline" className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37]">
-                        Ver Detalhes
+                        View Details
                       </Button>
                       <Button variant="secondary" className="text-[10px] uppercase font-bold tracking-wider">
                         Check-in
@@ -216,15 +216,15 @@ export default function StaffPortal() {
           )}
         </div>
 
-        {/* Calendário de Disponibilidade */}
+        {/* Calendar de Availability */}
         <Card className="mt-12 border-[#D4AF37]/30 shadow-xl bg-white p-8">
           <h2 className="text-2xl font-bold text-[#0c1b33] mb-6 uppercase tracking-wider">
-            Minha Disponibilidade
+            Minha Availability
           </h2>
           <div className="bg-gray-50 p-12 rounded-lg border-2 border-dashed border-gray-200 text-center text-gray-400">
             <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
             <p className="text-sm uppercase tracking-wider">
-              Calendário de disponibilidade em breve
+              Calendar de disponibilidade em breve
             </p>
           </div>
         </Card>
