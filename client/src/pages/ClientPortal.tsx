@@ -31,14 +31,14 @@ export default function ClientPortal() {
   if (!user) {
     return (
       <div className="min-h-screen bg-[#0c1b33] flex items-center justify-center text-[#D4AF37]">
-        Carregando Acesso Real...
+        Loading Royal Access...
       </div>
     );
   }
 
   const handleCreateOrder = () => {
     // TODO: Integrar com backend
-    toast.success("Solicitação enviada com sucesso!");
+    toast.success("Request submitted successfully!");
     setShowNewOrder(false);
   };
 
@@ -55,12 +55,12 @@ export default function ClientPortal() {
 
   const staffTypes = [
     "Bartender",
-    "Garçom",
+    "Waiter",
     "Chef",
-    "Recepcionista",
-    "Segurança",
-    "Limpeza",
-    "Coordenador",
+    "Receptionist",
+    "Security",
+    "Cleaning",
+    "Coordinator",
     "Valet",
   ];
 
@@ -98,7 +98,7 @@ export default function ClientPortal() {
         <header className="flex justify-between items-center mb-12">
           <div>
             <h1 className="text-3xl font-light text-[#0c1b33] tracking-wider">
-              Olá, {user.name?.split(" ")[0]}
+              Hello, {user.name?.split(" ")[0]}
             </h1>
             <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">
               Seja bem-vindo ao seu portal de elite
@@ -249,7 +249,7 @@ export default function ClientPortal() {
             </div>
           ) : !myEvents || myEvents.length === 0 ? (
             <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
-              Você ainda não possui solicitações ativas.
+              You don't have any active requests yet.
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6">

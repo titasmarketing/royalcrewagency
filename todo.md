@@ -328,3 +328,14 @@
 - [x] Botões agora usam navy blue com texto gold
 - [x] Hover effect com sombra e transform
 - [x] Botão ativo fica gold com texto navy
+
+### 🌐 TRADUZIR PORTAL DO CLIENTE COMPLETAMENTE
+- [x] Traduzir saudação "Olá, Marcel" → "Hello, Marcel"
+- [x] Traduzir "SEJA BEM-VINDO AO SEU PORTAL DE ELITE" → "WELCOME TO YOUR ELITE PORTAL"
+- [x] Traduzir "CANCEL SOLICITAÇÃO" → "CANCEL REQUEST"
+- [x] Traduzir "DETALHES DO EVENTO" → "EVENT DETAILS"
+- [x] Traduzir todos os labels dos campos (DATE, DURATION, LOCATION, POSTCODE)
+- [x] Traduzir nomes dos serviços (Garçom → Waiter, Recepcionista → Receptionist, Segurança → Security, Limpeza → Cleaning, Coordenador → Coordinator)
+- [x] Traduzir "ENVIAR SOLICITAÇÃO ROYAL" → "SUBMIT ROYAL REQUEST"
+- [x] Traduzir "Você ainda não possui solicitações ativas" → "You don't have any active requests yet"
+- [x] Traduzir status (Pendente → Pending, Confirmado → Confirmed, etc)
