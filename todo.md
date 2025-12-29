@@ -339,3 +339,8 @@
 - [x] Traduzir "ENVIAR SOLICITAÇÃO ROYAL" → "SUBMIT ROYAL REQUEST"
 - [x] Traduzir "Você ainda não possui solicitações ativas" → "You don't have any active requests yet"
 - [x] Traduzir status (Pendente → Pending, Confirmado → Confirmed, etc)
+
+### 🔧 TRADUÇÃO MANUAL DO CLIENTPORTAL (SCRIPT FALHOU)
+- [x] Script Python não funcionou - feito edições manuais com file edit
+- [x] Traduzir TODOS os textos em português restantes (12 traduções aplicadas)
+- [x] Verificado cada linha do arquivo

@@ -101,25 +101,25 @@ export default function ClientPortal() {
               Hello, {user.name?.split(" ")[0]}
             </h1>
             <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">
-              Seja bem-vindo ao seu portal de elite
+              Welcome to your elite portal
             </p>
           </div>
           <Button
             onClick={() => setShowNewOrder(!showNewOrder)}
             className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider"
           >
-            {showNewOrder ? "Cancel Solicitação" : "Solicitar Novo Staff"}
+            {showNewOrder ? "Cancel Request" : "Request New Staff"}
           </Button>
         </header>
 
         {showNewOrder && (
           <Card className="mb-12 border-[#D4AF37]/30 shadow-xl bg-white p-8">
             <h3 className="text-xl font-bold mb-6 text-[#0c1b33] uppercase tracking-widest">
-              Detalhes do Evento
+              Event Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Nome do Evento</Label>
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Event Name</Label>
                 <Input
                   value={newOrderForm.eventName}
                   onChange={(e) =>
@@ -148,7 +148,7 @@ export default function ClientPortal() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Data</Label>
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Date</Label>
                 <Input
                   type="date"
                   value={newOrderForm.date}
@@ -159,7 +159,7 @@ export default function ClientPortal() {
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Duração (Horas)</Label>
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Duration (Hours)</Label>
                 <Input
                   type="number"
                   value={newOrderForm.durationHours}
@@ -173,7 +173,7 @@ export default function ClientPortal() {
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Localização</Label>
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Location</Label>
                 <Input
                   value={newOrderForm.location}
                   onChange={(e) =>
@@ -183,7 +183,7 @@ export default function ClientPortal() {
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Código Postal (Postcode)</Label>
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Postcode</Label>
                 <Input
                   value={newOrderForm.postcode}
                   onChange={(e) =>
@@ -199,7 +199,7 @@ export default function ClientPortal() {
 
               <div className="col-span-1 md:col-span-2">
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">
-                  Services Necessários
+                  Required Services
                 </label>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {staffTypes.map((type) => (
@@ -232,7 +232,7 @@ export default function ClientPortal() {
                 onClick={handleCreateOrder}
                 className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider"
               >
-                Enviar Solicitação Royal
+                Submit Royal Request
               </Button>
             </div>
           </Card>
@@ -284,7 +284,7 @@ export default function ClientPortal() {
                     </div>
                     <div className="mt-6 md:mt-0 flex gap-3">
                       <Button variant="outline" className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37]">
-                        Ver Fatura
+                        View Invoice
                       </Button>
                       <Button variant="secondary" className="text-[10px] uppercase font-bold tracking-wider">
                         Support
