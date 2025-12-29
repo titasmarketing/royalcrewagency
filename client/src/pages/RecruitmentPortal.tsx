@@ -82,8 +82,8 @@ export default function RecruitmentPortal() {
               Application Submitted Successfully!
             </h1>
             <p className="text-lg text-muted-foreground mb-6">
-              Obrigado por se candidatar à Royal Crew Agency. Nossa equipe irá analisar seu perfil e
-              entraremos em contato em breve.
+              Thank you for applying to Royal Crew Agency. Our team will review your profile and
+              we will contact you soon.
             </p>
             <div className="bg-accent/10 rounded-lg p-6 mb-6">
               <h3 className="font-semibold text-foreground mb-2">Next Steps:</h3>
@@ -118,18 +118,19 @@ export default function RecruitmentPortal() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-accent/5 to-background">
       {/* Header */}
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <header className="border-b bg-[#0c1b33] backdrop-blur sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-accent flex items-center justify-center">
-              <Crown className="h-6 w-6 text-accent-foreground" />
-            </div>
-            <div>
-              <h1 className="font-bold text-lg">Royal Crew Agency</h1>
-              <p className="text-xs text-muted-foreground">GOD MODE Platform</p>
-            </div>
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => (window.location.href = "/")}>
+            <Crown className="text-[#D4AF37] w-6 h-6" />
+            <span className="text-white font-bold tracking-[0.2em] text-sm uppercase">
+              Royal Crew
+            </span>
           </div>
-          <Button variant="outline" onClick={() => (window.location.href = "/")}>
+          <Button 
+            variant="outline" 
+            onClick={() => (window.location.href = "/")}
+            className="border-[#D4AF37]/30 text-white hover:border-[#D4AF37] hover:text-[#D4AF37]"
+          >
             Back to Home
           </Button>
         </div>

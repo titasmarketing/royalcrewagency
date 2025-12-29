@@ -356,3 +356,10 @@
 - [x] Traduzir "MINHA AVAILABILITY" → "MY AVAILABILITY"
 - [x] Traduzir "CALENDAR DE DISPONIBILIDADE EM BREVE" → "AVAILABILITY CALENDAR COMING SOON"
 - [x] 18 traduções aplicadas com sucesso
+
+### 🎨 CORRIGIR LOGO DA PÁGINA DE RECRUTAMENTO
+- [x] Logo atual mostrava "Royal Crew Agency" com ícone genérico
+- [x] Agora usa padrão premium: Crown dourado + "ROYAL CREW" em tracking largo
+- [x] Consistência visual mantida com ClientPortal e StaffPortal
+- [x] Header com fundo navy blue (#0c1b33) e botão dourado
+- [x] Traduzido texto em português que sobrou na página de sucesso
