@@ -111,9 +111,8 @@ export default function Home() {
 
       {/* Hero Section with Quick Booking Form */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
-        <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1519167758481-83f29da8c6b9?auto=format&fit=crop&q=80&w=2000" alt="Luxury Event" className="w-full h-full object-cover opacity-70 scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0c1b33]/60 via-[#0c1b33]/40 to-[#0c1b33]/80" />
+        <div className="absolute inset-0 bg-[#0c1b33]">
+          <img src="https://images.unsplash.com/photo-1519167758481-83f29da8c6b9?auto=format&fit=crop&q=80&w=2000" alt="Luxury Event" className="w-full h-full object-cover opacity-30" />
         </div>
         
         <div className="relative z-10 px-6 max-w-5xl mx-auto w-full flex flex-col items-center justify-center text-center space-y-8">

@@ -246,3 +246,7 @@
 ### 🔧 AJUSTES FINAIS DO HERO
 - [x] Reduzir espaçamento entre título e formulário (de space-y-12 para space-y-8)
 - [x] Aumentar opacidade da imagem de fundo para 70% e reduzir gradiente escuro
+
+### 🚨 URGENTE - IMAGEM DE FUNDO
+- [x] Colocar imagem de fundo VISÍVEL no hero (opacity-30, sem gradiente)
+- [x] Remover overlay escuro que estava escondendo a imagem
