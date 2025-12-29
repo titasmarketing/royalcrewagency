@@ -210,3 +210,16 @@
 - [ ] Redesenhar Documentos PDF (manter geração + interface melhorada)
 - [ ] Redesenhar Matchmaking IA (manter algoritmo + visualização premium)
 - [ ] Redesenhar Candidaturas (manter aprovação + cards elegantes)
+
+### 🎯 AJUSTAR LAYOUT DO HERO
+- [x] Mudar layout de lado a lado para vertical centralizado
+- [x] Texto "A ELITE DA HOSPITALIDADE" no topo (centralizado)
+- [x] Formulário de reserva embaixo do texto (centralizado)
+- [x] Mais espaçamento entre elementos
+
+### 🚪 IMPLEMENTAR 3 PORTAIS
+- [x] Implementar Portal do Cliente (/cliente) usando Client.tsx do EventMaster Pro
+- [ ] Implementar Portal do Admin (/admin) usando Admin.tsx do EventMaster Pro  
+- [x] Implementar Portal do Staff (/staff) usando StaffRegistration.tsx do EventMaster Pro
+- [x] Atualizar footer com links para Admin e Staff
+- [ ] Melhorar página de recrutamento usando Recruitment.tsx

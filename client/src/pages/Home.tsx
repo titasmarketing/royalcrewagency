@@ -116,20 +116,21 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#0c1b33] via-transparent to-[#0c1b33]" />
         </div>
         
-        <div className="relative z-10 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
-          <div>
-            <div className="flex items-center gap-4 mb-8">
+        <div className="relative z-10 px-6 max-w-5xl mx-auto w-full flex flex-col items-center justify-center text-center space-y-12">
+          {/* Hero Text */}
+          <div className="space-y-8">
+            <div className="flex items-center gap-4 justify-center">
                <div className="h-px w-12 bg-[#D4AF37]"></div>
                <Crown className="w-8 h-8 text-[#D4AF37]" />
                <div className="h-px w-12 bg-[#D4AF37]"></div>
             </div>
-            <h1 className="text-5xl md:text-8xl font-light mb-8 tracking-[0.1em] text-white uppercase leading-tight">
+            <h1 className="text-5xl md:text-8xl font-light tracking-[0.1em] text-white uppercase leading-tight">
               A Elite da <br/><span className="text-[#D4AF37] font-bold">Hospitalidade</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-10 text-gray-300 font-light tracking-wide leading-relaxed italic max-w-lg">
+            <p className="text-xl md:text-2xl text-gray-300 font-light tracking-wide leading-relaxed italic max-w-2xl mx-auto">
               Oferecemos o staff mais qualificado do Reino Unido para casamentos e eventos corporativos de alto padrão.
             </p>
-            <div className="flex gap-6 items-center">
+            <div className="flex gap-6 items-center justify-center">
               <div className="flex -space-x-3">
                  {[1,2,3,4].map(i => <img key={i} src={`https://i.pravatar.cc/150?u=${i}`} className="w-10 h-10 rounded-full border-2 border-[#0c1b33]" alt="Staff" />)}
               </div>
@@ -138,8 +139,8 @@ export default function Home() {
           </div>
 
           {/* Quick Booking Card */}
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl">
-            <h3 className="text-white font-bold tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-2">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-3xl">
+            <h3 className="text-white font-bold tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-2 justify-center">
               <Zap className="w-4 h-4 text-[#D4AF37]" /> Reserva Imediata
             </h3>
             
@@ -453,6 +454,7 @@ export default function Home() {
                     <li className="hover:text-[#D4AF37] cursor-pointer">Terms of Service</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer">Privacy Policy</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/admin">Admin</Link></li>
+                    <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/staff">Staff Portal</Link></li>
                  </ul>
               </div>
            </div>

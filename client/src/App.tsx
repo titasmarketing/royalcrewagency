@@ -22,6 +22,7 @@ import ClientTracking from "./pages/ClientTracking";
 import ClientFinancial from "./pages/ClientFinancial";
 import RecruitmentPortal from "./pages/RecruitmentPortal";
 import AdminRecruitment from "./pages/AdminRecruitment";
+import StaffPortal from "./pages/StaffPortal";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -44,6 +45,7 @@ function Router() {
       <Route path={"/servicos"} component={Services} />
       <Route path={"/servicos/:slug"} component={ServiceDetail} />
       <Route path={"/cliente"} component={ClientPortal} />
+      <Route path={"/staff"} component={StaffPortal} />
       <Route path={"/staff/disponibilidade"} component={StaffAvailability} />
       <Route path={"/staff/carteira"} component={StaffWallet} />
       <Route path={"/cliente/tracking"} component={ClientTracking} />

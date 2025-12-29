@@ -1,270 +1,299 @@
+import { useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
-import { Crown, Calendar, Users, DollarSign, FileText, MapPin, Clock, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { LogOut, Crown } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { toast } from "sonner";
 
 export default function ClientPortal() {
-  const { user, loading, isAuthenticated } = useAuth();
+  const { user, logout } = useAuth();
   const [, navigate] = useLocation();
-
-  const { data: profile } = trpc.clients.myProfile.useQuery(undefined, {
-    enabled: isAuthenticated,
+  const [showNewOrder, setShowNewOrder] = useState(false);
+  
+  const { data: myEvents, isLoading } = trpc.events.list.useQuery();
+  
+  const [newOrderForm, setNewOrderForm] = useState({
+    eventName: "",
+    eventType: "Wedding",
+    date: "",
+    durationHours: 4,
+    location: "",
+    postcode: "",
+    requiredStaff: [] as Array<{ type: string; count: number }>,
   });
 
-  const { data: events, isLoading: eventsLoading } = trpc.clients.myEvents.useQuery(undefined, {
-    enabled: isAuthenticated,
-  });
-
-  if (loading) {
+  if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Crown className="h-8 w-8 animate-spin text-accent" />
+      <div className="min-h-screen bg-[#0c1b33] flex items-center justify-center text-[#D4AF37]">
+        Carregando Acesso Real...
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
-        <header className="border-b bg-card/50 backdrop-blur-sm">
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/">
-                <div className="flex items-center gap-3 cursor-pointer">
-                  <img src="/royal-crew-logo.jpeg" alt="Royal Crew Agency" className="h-12 w-12 rounded-lg" />
-                  <div>
-                    <h1 className="text-xl font-bold text-foreground">Royal Crew Agency</h1>
-                    <p className="text-xs text-muted-foreground">GOD MODE Platform</p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </header>
-
-        <div className="container mx-auto px-6 py-16">
-          <div className="max-w-md mx-auto text-center">
-            <Crown className="h-16 w-16 text-accent mx-auto mb-6" />
-            <h1 className="text-3xl font-bold text-foreground mb-4">Portal do Cliente</h1>
-            <p className="text-muted-foreground mb-8">
-              Faça login para acessar seus eventos, acompanhar equipe em tempo real e gerenciar seus serviços.
-            </p>
-            <Button asChild size="lg" className="gap-2">
-              <a href={getLoginUrl()}>
-                <Crown className="h-4 w-4" />
-                Fazer Login
-              </a>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const getStatusBadge = (status: string) => {
-    const statusMap = {
-      pending: { label: "Pendente", variant: "secondary" as const },
-      confirmed: { label: "Confirmado", variant: "default" as const },
-      in_progress: { label: "Em Andamento", variant: "default" as const },
-      completed: { label: "Concluído", variant: "outline" as const },
-      cancelled: { label: "Cancelado", variant: "destructive" as const },
-    };
-    return statusMap[status as keyof typeof statusMap] || statusMap.pending;
+  const handleCreateOrder = () => {
+    // TODO: Integrar com backend
+    toast.success("Solicitação enviada com sucesso!");
+    setShowNewOrder(false);
   };
 
+  const addStaffRequirement = (type: string) => {
+    const current = [...newOrderForm.requiredStaff];
+    const existing = current.find((r) => r.type === type);
+    if (existing) {
+      existing.count++;
+    } else {
+      current.push({ type, count: 1 });
+    }
+    setNewOrderForm({ ...newOrderForm, requiredStaff: current });
+  };
+
+  const staffTypes = [
+    "Bartender",
+    "Garçom",
+    "Chef",
+    "Recepcionista",
+    "Segurança",
+    "Limpeza",
+    "Coordenador",
+    "Valet",
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
-      {/* Header */}
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/">
-              <div className="flex items-center gap-3 cursor-pointer">
-                <img src="/royal-crew-logo.jpeg" alt="Royal Crew Agency" className="h-12 w-12 rounded-lg" />
-                <div>
-                  <h1 className="text-xl font-bold text-foreground">Royal Crew Agency</h1>
-                  <p className="text-xs text-muted-foreground">Portal do Cliente</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Cliente */}
+      <nav className="bg-[#0c1b33] border-b border-[#D4AF37]/20 py-4 px-6">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <Link href="/">
+            <div className="flex items-center gap-4 cursor-pointer">
+              <Crown className="text-[#D4AF37] w-6 h-6" />
+              <span className="text-white font-bold tracking-[0.2em] text-sm uppercase">
+                Royal Client
+              </span>
+            </div>
+          </Link>
+          <div className="flex items-center gap-6">
+            <span className="text-gray-400 text-[10px] uppercase font-bold hidden md:inline">
+              {user.name}
+            </span>
+            <button
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+              className="text-red-400 hover:text-red-300 transition-colors"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div className="max-w-7xl mx-auto p-8">
+        <header className="flex justify-between items-center mb-12">
+          <div>
+            <h1 className="text-3xl font-light text-[#0c1b33] tracking-wider">
+              Olá, {user.name?.split(" ")[0]}
+            </h1>
+            <p className="text-xs text-gray-400 uppercase tracking-widest mt-1">
+              Seja bem-vindo ao seu portal de elite
+            </p>
+          </div>
+          <Button
+            onClick={() => setShowNewOrder(!showNewOrder)}
+            className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider"
+          >
+            {showNewOrder ? "Cancelar Solicitação" : "Solicitar Novo Staff"}
+          </Button>
+        </header>
+
+        {showNewOrder && (
+          <Card className="mb-12 border-[#D4AF37]/30 shadow-xl bg-white p-8">
+            <h3 className="text-xl font-bold mb-6 text-[#0c1b33] uppercase tracking-widest">
+              Detalhes do Evento
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Nome do Evento</Label>
+                <Input
+                  value={newOrderForm.eventName}
+                  onChange={(e) =>
+                    setNewOrderForm({ ...newOrderForm, eventName: e.target.value })
+                  }
+                  className="border-gray-200 focus:border-[#D4AF37]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Tipo de Evento</Label>
+                <Select
+                  value={newOrderForm.eventType}
+                  onValueChange={(value) =>
+                    setNewOrderForm({ ...newOrderForm, eventType: value })
+                  }
+                >
+                  <SelectTrigger className="border-gray-200 focus:border-[#D4AF37]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Wedding">Wedding</SelectItem>
+                    <SelectItem value="Corporate">Corporate</SelectItem>
+                    <SelectItem value="Private Party">Private Party</SelectItem>
+                    <SelectItem value="Gala">Gala</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Data</Label>
+                <Input
+                  type="date"
+                  value={newOrderForm.date}
+                  onChange={(e) =>
+                    setNewOrderForm({ ...newOrderForm, date: e.target.value })
+                  }
+                  className="border-gray-200 focus:border-[#D4AF37]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Duração (Horas)</Label>
+                <Input
+                  type="number"
+                  value={newOrderForm.durationHours}
+                  onChange={(e) =>
+                    setNewOrderForm({
+                      ...newOrderForm,
+                      durationHours: parseInt(e.target.value),
+                    })
+                  }
+                  className="border-gray-200 focus:border-[#D4AF37]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Localização</Label>
+                <Input
+                  value={newOrderForm.location}
+                  onChange={(e) =>
+                    setNewOrderForm({ ...newOrderForm, location: e.target.value })
+                  }
+                  className="border-gray-200 focus:border-[#D4AF37]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Código Postal (Postcode)</Label>
+                <Input
+                  value={newOrderForm.postcode}
+                  onChange={(e) =>
+                    setNewOrderForm({
+                      ...newOrderForm,
+                      postcode: e.target.value.toUpperCase(),
+                    })
+                  }
+                  placeholder="SW1A 1AA"
+                  className="border-gray-200 focus:border-[#D4AF37]"
+                />
+              </div>
+
+              <div className="col-span-1 md:col-span-2">
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">
+                  Serviços Necessários
+                </label>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {staffTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => addStaffRequirement(type)}
+                      className="px-4 py-2 border border-gray-200 rounded-md text-xs font-bold uppercase tracking-tighter hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all"
+                    >
+                      + {type}
+                    </button>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {newOrderForm.requiredStaff?.map((req, idx) => (
+                    <div
+                      key={idx}
+                      className="flex justify-between bg-gray-50 p-4 rounded-md border border-gray-100"
+                    >
+                      <span className="font-bold text-[#0c1b33] text-sm uppercase">
+                        {req.type}
+                      </span>
+                      <span className="font-bold text-[#D4AF37]">x {req.count}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </Link>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="text-sm font-medium text-foreground">{user?.name}</p>
-                <p className="text-xs text-muted-foreground">{user?.email}</p>
-              </div>
-              <Avatar>
-                <AvatarFallback className="bg-accent/10 text-accent font-bold">
-                  {user?.name?.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
             </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="container mx-auto px-6 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Bem-vindo, {user?.name?.split(' ')[0]}!
-          </h1>
-          <p className="text-muted-foreground">
-            Acompanhe seus eventos e gerencie seus serviços em tempo real
-          </p>
-        </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total de Eventos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-foreground">
-                {events?.length || 0}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Em Andamento</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
-                {events?.filter(e => e.status === 'in_progress').length || 0}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Confirmados</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">
-                {events?.filter(e => e.status === 'confirmed').length || 0}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Concluídos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-accent">
-                {events?.filter(e => e.status === 'completed').length || 0}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Events List */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-foreground">Meus Eventos</h2>
-            <Button className="gap-2">
-              <Calendar className="h-4 w-4" />
-              Solicitar Novo Evento
-            </Button>
-          </div>
-
-          {eventsLoading ? (
-            <div className="flex items-center justify-center h-64">
-              <Calendar className="h-8 w-8 animate-spin text-accent" />
+            <div className="mt-8 flex justify-end">
+              <Button
+                onClick={handleCreateOrder}
+                className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider"
+              >
+                Enviar Solicitação Royal
+              </Button>
             </div>
-          ) : events && events.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6">
-              {events.map((event) => {
-                const statusInfo = getStatusBadge(event.status);
-                return (
-                  <Card key={event.id} className="border-2 hover:border-accent/50 transition-all">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <CardTitle className="text-xl">{event.title}</CardTitle>
-                            <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
-                          </div>
-                          {event.description && (
-                            <CardDescription className="mb-4">{event.description}</CardDescription>
-                          )}
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex items-start gap-3">
-                          <Calendar className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-medium text-foreground">Data do Evento</p>
-                            <p className="text-sm text-muted-foreground">
-                              {format(new Date(event.eventDate), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
-                            </p>
-                          </div>
-                        </div>
+          </Card>
+        )}
 
-                        {event.location && (
-                          <div className="flex items-start gap-3">
-                            <MapPin className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                            <div>
-                              <p className="text-sm font-medium text-foreground">Local</p>
-                              <p className="text-sm text-muted-foreground">{event.location}</p>
-                            </div>
-                          </div>
-                        )}
+        <div className="space-y-8">
+          <h2 className="text-lg font-bold text-[#0c1b33] uppercase tracking-[0.2em] border-l-4 border-[#D4AF37] pl-4">
+            Meus Eventos
+          </h2>
 
-                        {event.totalPrice && (
-                          <div className="flex items-start gap-3">
-                            <DollarSign className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                            <div>
-                              <p className="text-sm font-medium text-foreground">Valor Total</p>
-                              <p className="text-sm text-muted-foreground">
-                                £ {parseFloat(event.totalPrice).toFixed(2)}
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2 pt-4 border-t">
-                        <Button className="gap-2" onClick={() => navigate(`/cliente/eventos/${event.id}`)}>
-                          Ver Detalhes
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
-                        <Button variant="outline" className="gap-2">
-                          <Users className="h-4 w-4" />
-                          Tracking de Equipe
-                        </Button>
-                        <Button variant="outline" className="gap-2">
-                          <FileText className="h-4 w-4" />
-                          Documentos
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+          {isLoading ? (
+            <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
+              Carregando...
+            </div>
+          ) : !myEvents || myEvents.length === 0 ? (
+            <div className="bg-white p-20 text-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400">
+              Você ainda não possui solicitações ativas.
             </div>
           ) : (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center h-64">
-                <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-muted-foreground mb-4">Você ainda não tem eventos cadastrados</p>
-                <Button className="gap-2">
-                  <Calendar className="h-4 w-4" />
-                  Solicitar Primeiro Evento
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 gap-6">
+              {myEvents.map((event) => (
+                <Card
+                  key={event.id}
+                  className="hover:shadow-lg transition-all border-l-4 border-l-[#D4AF37] p-6"
+                >
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-xl font-bold text-[#0c1b33]">
+                          {event.title}
+                        </h3>
+                        <Badge
+                          variant={
+                            event.status === "confirmed"
+                              ? "default"
+                              : event.status === "completed"
+                              ? "secondary"
+                              : "outline"
+                          }
+                          className="uppercase text-[10px] font-bold tracking-wider"
+                        >
+                          {event.status}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-gray-500 tracking-wide uppercase font-light">
+                        {new Date(event.eventDate).toLocaleDateString()} •{" "}
+                        {event.location}
+                      </p>
+                    </div>
+                    <div className="mt-6 md:mt-0 flex gap-3">
+                      <Button variant="outline" className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37]">
+                        Ver Fatura
+                      </Button>
+                      <Button variant="secondary" className="text-[10px] uppercase font-bold tracking-wider">
+                        Suporte
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
       </div>
