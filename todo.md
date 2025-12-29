@@ -193,3 +193,20 @@
 - [ ] Sistema de Booking Expresso na home
 - [x] Adaptar cores para Royal Crew (azul marinho + dourado)
 - [x] Manter funcionalidades GOD MODE existentes
+
+### 📝 FORMULÁRIO DE RESERVA IMEDIATA
+- [ ] Adicionar formulário de reserva no hero (lado direito)
+- [ ] Campos: Data, Tipo de Evento, Horas, Email
+- [ ] Seleção de staff necessário (checkboxes)
+- [ ] Botão "Solicitar Cotação" dourado
+- [ ] Integrar com sistema de eventos/clientes
+
+### 🎨 REDESIGN PREMIUM DAS PÁGINAS ADMIN
+- [ ] Redesenhar Calendário Mestre (manter FullCalendar + design premium)
+- [ ] Redesenhar Gestão de Serviços (manter CRUD + cards elegantes)
+- [ ] Redesenhar Gestão de Staff (manter funcionalidades + visual premium)
+- [ ] Redesenhar Gestão de Clientes (manter PF/PJ + design sofisticado)
+- [ ] Redesenhar Gestão de Estoque (manter alertas + visual novo)
+- [ ] Redesenhar Documentos PDF (manter geração + interface melhorada)
+- [ ] Redesenhar Matchmaking IA (manter algoritmo + visualização premium)
+- [ ] Redesenhar Candidaturas (manter aprovação + cards elegantes)
