@@ -95,7 +95,7 @@ export default function AdminServices() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Services</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Services Management</h1>
             <p className="text-muted-foreground">Dynamic CMS - Services appear automatically on the website</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -225,7 +225,7 @@ export default function AdminServices() {
                         id="seoKeywords"
                         value={formDate.seoKeywords}
                         onChange={(e) => setFormDate({ ...formDate, seoKeywords: e.target.value })}
-                        placeholder="bar, gin, premium, eventos"
+                        placeholder="bar, gin, premium, Events"
                       />
                     </div>
                   </div>
@@ -316,10 +316,10 @@ export default function AdminServices() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Package className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">None serviço cadastrado ainda</p>
+              <p className="text-muted-foreground mb-4">No services registered yet</p>
               <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
                 <Plus className="h-4 w-4" />
-                Create First Serviço
+                Create First Service
               </Button>
             </CardContent>
           </Card>

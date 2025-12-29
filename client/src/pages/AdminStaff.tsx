@@ -171,7 +171,7 @@ export default function AdminStaff() {
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Calendar className="h-4 w-4" />
-                      <span>Eventos: {member.totalEvents}</span>
+                      <span>Events: {member.totalEvents}</span>
                     </div>
                     {member.hourlyRate && (
                       <div className="flex items-center gap-2 text-muted-foreground">

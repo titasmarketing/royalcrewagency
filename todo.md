@@ -300,3 +300,13 @@
 - [x] Traduzir botões de ação nos modais (Save, Cancel, Create, Update, Delete)
 - [x] Traduzir títulos e descrições dos dialogs
 - [x] 150+ traduções aplicadas em 9 páginas admin
+
+### 🌍 TRADUZIR TEXTOS RESTANTES EM PORTUGUÊS
+- [x] Traduzir títulos de páginas (Calendar Mestre → Master Calendar, Gestão de Services → Services Management)
+- [x] Traduzir descrições (Visualização e gestão... → View and manage...)
+- [x] Traduzir botões de visualização (Mês → Month, Semana → Week, Dia → Day)
+- [x] Traduzir dias da semana (dom/seg/ter/qua/qui/sex/sáb → Sun/Mon/Tue/Wed/Thu/Fri/Sat)
+- [x] Traduzir meses (dezembro → December, janeiro → January, etc)
+- [x] Traduzir status (Orçamento → Budget, Confirmado → Confirmed, Completeds → Completed, Cancelleds → Cancelled)
+- [x] Traduzir mensagens de estado vazio (None serviço cadastrado → No services registered, Create First Serviço → Create First Service)
+- [x] 100+ traduções aplicadas em 11 arquivos (9 Admin + ClientPortal + StaffPortal)

@@ -105,8 +105,8 @@ export default function AdminDocuments() {
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
-      quote: { label: "Orçamento", variant: "secondary" as const },
-      confirmed: { label: "Confirmado", variant: "default" as const },
+      quote: { label: "Budget", variant: "secondary" as const },
+      confirmed: { label: "Confirmed", variant: "default" as const },
       in_progress: { label: "Em Andamento", variant: "default" as const },
       completed: { label: "Concluído", variant: "outline" as const },
       cancelled: { label: "Cancelado", variant: "destructive" as const },
@@ -156,7 +156,7 @@ export default function AdminDocuments() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Confirmados
+                Confirmed
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -169,7 +169,7 @@ export default function AdminDocuments() {
 
         {/* Events List */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-foreground">Eventos e Documents</h2>
+          <h2 className="text-xl font-bold text-foreground">Events e Documents</h2>
 
           {events && events.length > 0 ? (
             <div className="grid grid-cols-1 gap-4">

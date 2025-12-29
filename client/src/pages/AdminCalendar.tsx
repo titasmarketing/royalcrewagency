@@ -58,8 +58,8 @@ export default function AdminCalendar() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Calendar Mestre</h1>
-            <p className="text-muted-foreground">Visualização e gestão de todos os eventos</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Master Calendar</h1>
+            <p className="text-muted-foreground">View and manage all events</p>
           </div>
           <Button className="gap-2">
             <Plus className="h-4 w-4" />
@@ -73,19 +73,19 @@ export default function AdminCalendar() {
             variant={currentView === 'month' ? 'default' : 'outline'}
             onClick={() => setCurrentView('month')}
           >
-            Mês
+            Month
           </Button>
           <Button 
             variant={currentView === 'week' ? 'default' : 'outline'}
             onClick={() => setCurrentView('week')}
           >
-            Semana
+            Week
           </Button>
           <Button 
             variant={currentView === 'day' ? 'default' : 'outline'}
             onClick={() => setCurrentView('day')}
           >
-            Dia
+            Day
           </Button>
         </div>
 
@@ -94,19 +94,19 @@ export default function AdminCalendar() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Eventos</CardTitle>
+                <CardTitle>Events</CardTitle>
                 <CardDescription>
-                  Clique em uma data para criar um evento ou em um evento para ver detalhes
+                  Click on a date to create an event or on an event to view details
                 </CardDescription>
               </div>
               <div className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                  <span>Orçamento</span>
+                  <span>Budget</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-green-500" />
-                  <span>Confirmado</span>
+                  <span>Confirmed</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-blue-500" />
@@ -150,9 +150,9 @@ export default function AdminCalendar() {
                   locale="pt-br"
                   buttonText={{
                     today: 'Hoje',
-                    month: 'Mês',
-                    week: 'Semana',
-                    day: 'Dia'
+                    month: 'Month',
+                    week: 'Week',
+                    day: 'Day'
                   }}
                 />
               </div>
@@ -164,7 +164,7 @@ export default function AdminCalendar() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Orçamentos</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Budgets</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">
@@ -175,7 +175,7 @@ export default function AdminCalendar() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Confirmados</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Confirmed</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
@@ -197,7 +197,7 @@ export default function AdminCalendar() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Completeds</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Completed</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-gray-600">
@@ -208,7 +208,7 @@ export default function AdminCalendar() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Cancelleds</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">Cancelled</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">

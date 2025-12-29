@@ -12,10 +12,10 @@ export default function AdminDashboard() {
 
   const stats = [
     {
-      title: "Total de Eventos",
+      title: "Total de Events",
       value: events?.length || 0,
       icon: Calendar,
-      description: "Eventos cadastrados",
+      description: "Events cadastrados",
       color: "text-accent",
     },
     {
@@ -83,9 +83,9 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <Calendar className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Calendar Mestre</CardTitle>
+                <CardTitle>Master Calendar</CardTitle>
                 <CardDescription>
-                  Visualize e gerencie todos os eventos em uma interface de calendário
+                  Visualize e gerencie todos os Events em uma interface de calendário
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
                 <div className="h-12 w-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
                   <Package className="h-6 w-6 text-accent" />
                 </div>
-                <CardTitle>Gestão de Services</CardTitle>
+                <CardTitle>Services Management</CardTitle>
                 <CardDescription>
                   Crie e edite serviços que aparecem automaticamente no site
                 </CardDescription>
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
                 </div>
                 <CardTitle>Gestão de Clients</CardTitle>
                 <CardDescription>
-                  Visualize e gerencie clientes e seus eventos
+                  Visualize e gerencie clientes e seus Events
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                 </div>
                 <CardTitle>Gestão de Inventory</CardTitle>
                 <CardDescription>
-                  Controle de insumos e materiais para eventos
+                  Controle de insumos e materiais para Events
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -191,8 +191,8 @@ export default function AdminDashboard() {
         {/* Recent Events */}
         <Card>
           <CardHeader>
-            <CardTitle>Eventos Recents</CardTitle>
-            <CardDescription>Lasts eventos cadastrados no sistema</CardDescription>
+            <CardTitle>Events Recents</CardTitle>
+            <CardDescription>Lasts Events cadastrados no sistema</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -215,8 +215,8 @@ export default function AdminDashboard() {
                         event.status === 'cancelled' ? 'bg-red-100 text-red-800' :
                         'bg-yellow-100 text-yellow-800'
                       }`}>
-                        {event.status === 'quote' ? 'Orçamento' :
-                         event.status === 'confirmed' ? 'Confirmado' :
+                        {event.status === 'quote' ? 'Budget' :
+                         event.status === 'confirmed' ? 'Confirmed' :
                          event.status === 'in_progress' ? 'In Progress' :
                          event.status === 'completed' ? 'Completed' :
                          'Cancelled'}

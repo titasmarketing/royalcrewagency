@@ -81,7 +81,7 @@ export default function AdminInventory() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Inventory</h1>
-            <p className="text-muted-foreground">Controle de insumos e materiais para eventos</p>
+            <p className="text-muted-foreground">Controle de insumos e materiais para Events</p>
           </div>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>

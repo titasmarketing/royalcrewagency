@@ -67,7 +67,7 @@ export default function AdminClients() {
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">News este mês</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">News este Month</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
@@ -133,7 +133,7 @@ export default function AdminClients() {
 
                   <div className="flex items-center gap-2 pt-3 border-t">
                     <Button size="sm" variant="outline" className="flex-1">
-                      Ver Eventos
+                      Ver Events
                     </Button>
                     <Button size="sm" variant="outline" className="flex-1">
                       Edit

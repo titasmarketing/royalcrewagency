@@ -149,7 +149,7 @@ export default function AdminMatchmaking() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="budget">Orçamento Maximum/Time</Label>
+                <Label htmlFor="budget">Budget Maximum/Time</Label>
                 <Input
                   id="budget"
                   type="number"
