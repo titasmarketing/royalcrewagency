@@ -272,3 +272,12 @@
 - [x] Atualizar todos os links no site (Home, Footer, DashboardLayout)
 - [x] URLs traduzidas: /client, /services, /work-with-us, /admin/calendar, /admin/services, /admin/clients, /admin/inventory, /admin/documents, /admin/applicationsDashboardLayout, etc.)
 - [x] URLs traduzidas: /client, /services, /admin/calendar, /admin/services, /admin/clients, /admin/inventory, /admin/documents, /admin/applications
+
+### 🚨 URGENTE - TRADUZIR TEXTOS RESTANTES
+- [x] Traduzir "Faça Parte da Team Premium" → "Join the Premium Team"
+- [x] Traduzir benefícios (Great Pay, Flexibility, Premium Events, Top Team)
+- [x] Traduzir "Formulário de Cadastro" → "Application Form"
+- [x] Traduzir "Informações Pessoais" → "Personal Information"
+- [x] Traduzir "Informações Profissionais" → "Professional Information"
+- [x] Traduzir "Specialties / Funções" → "Specialties / Roles"
+- [x] Traduzir todos os placeholders e botões

@@ -98,16 +98,16 @@ export default function RecruitmentPortal() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">3.</span>
-                  <span>Treinamento e integração à equipe</span>
+                  <span>Training and team integration</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-accent">4.</span>
-                  <span>Home das oportunidades de trabalho!</span>
+                  <span>Start receiving job opportunities!</span>
                 </li>
               </ul>
             </div>
             <Button onClick={() => (window.location.href = "/")} size="lg">
-              Voltar para Home
+              Back to Home
             </Button>
           </CardContent>
         </Card>
@@ -130,7 +130,7 @@ export default function RecruitmentPortal() {
             </div>
           </div>
           <Button variant="outline" onClick={() => (window.location.href = "/")}>
-            Voltar para Home
+            Back to Home
           </Button>
         </div>
       </header>
@@ -144,11 +144,11 @@ export default function RecruitmentPortal() {
               <span className="text-sm font-medium text-accent">Work With Us</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Faça Parte da Team <span className="text-accent">Premium</span>
+              Join the <span className="text-accent">Premium</span> Team
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Junte-se aos melhores profissionais de eventos do mercado. Trabalhe em eventos exclusivos,
-              ganhe bem e construa sua carreira com a Royal Crew Agency.
+              Join the best event professionals in the market. Work at exclusive events,
+              earn well and build your career with Royal Crew Agency.
             </p>
           </div>
 
@@ -159,8 +159,8 @@ export default function RecruitmentPortal() {
                 <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <DollarSign className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="font-semibold mb-1">Ótima Remuneração</h3>
-                <p className="text-sm text-muted-foreground">Valores acima da média do mercado</p>
+                <h3 className="font-semibold mb-1">Great Pay</h3>
+                <p className="text-sm text-muted-foreground">Above market average rates</p>
               </CardContent>
             </Card>
 
@@ -169,8 +169,8 @@ export default function RecruitmentPortal() {
                 <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <Calendar className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="font-semibold mb-1">Flexibilidade</h3>
-                <p className="text-sm text-muted-foreground">Você escolhe quando trabalhar</p>
+                <h3 className="font-semibold mb-1">Flexibility</h3>
+                <p className="text-sm text-muted-foreground">You choose when to work</p>
               </CardContent>
             </Card>
 
@@ -179,8 +179,8 @@ export default function RecruitmentPortal() {
                 <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <Star className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="font-semibold mb-1">Eventos Premium</h3>
-                <p className="text-sm text-muted-foreground">Trabalhe em eventos exclusivos</p>
+                <h3 className="font-semibold mb-1">Premium Events</h3>
+                <p className="text-sm text-muted-foreground">Work at exclusive events</p>
               </CardContent>
             </Card>
 
@@ -189,8 +189,8 @@ export default function RecruitmentPortal() {
                 <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <Users className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="font-semibold mb-1">Team Top</h3>
-                <p className="text-sm text-muted-foreground">Trabalhe com os melhores</p>
+                <h3 className="font-semibold mb-1">Top Team</h3>
+                <p className="text-sm text-muted-foreground">Work with the best</p>
               </CardContent>
             </Card>
           </div>
@@ -198,16 +198,16 @@ export default function RecruitmentPortal() {
           {/* Form */}
           <Card className="border-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Formulário de Cadastro</CardTitle>
+              <CardTitle className="text-2xl">Application Form</CardTitle>
               <CardDescription>
-                Preencha seus dados para se candidatar. Campos marcados com * são obrigatórios.
+                Fill in your details to apply. Fields marked with * are required.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Personal Info */}
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-lg">Informações Pessoais</h3>
+                  <h3 className="font-semibold text-lg">Personal Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Full Name *</Label>
@@ -294,10 +294,10 @@ export default function RecruitmentPortal() {
 
                 {/* Professional Info */}
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-lg">Informações Profissionais</h3>
+                  <h3 className="font-semibold text-lg">Professional Information</h3>
 
                   <div className="space-y-2">
-                    <Label>Specialties / Funções *</Label>
+                    <Label>Specialties / Roles *</Label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {availableSpecialties.map((specialty) => (
                         <div key={specialty} className="flex items-center space-x-2">
@@ -318,10 +318,10 @@ export default function RecruitmentPortal() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="experience">Experience Profissional</Label>
+                    <Label htmlFor="experience">Professional Experience</Label>
                     <Textarea
                       id="experience"
-                      placeholder="Descreva sua experiência em eventos, funções anteriores, tempo de atuação, etc."
+                      placeholder="Describe your experience in events, previous roles, years of experience, etc."
                       value={formData.experience}
                       onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                       rows={4}
@@ -332,7 +332,7 @@ export default function RecruitmentPortal() {
                     <Label htmlFor="bio">About You</Label>
                     <Textarea
                       id="bio"
-                      placeholder="Conte um pouco sobre você, seus pontos fortes, disponibilidade, etc."
+                      placeholder="Tell us about yourself, your strengths, availability, etc."
                       value={formData.bio}
                       onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                       rows={3}
@@ -340,7 +340,7 @@ export default function RecruitmentPortal() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="hourlyRate">Pretensão Salarial (£/hora)</Label>
+                    <Label htmlFor="hourlyRate">Expected Hourly Rate (£/hour)</Label>
                     <Input
                       id="hourlyRate"
                       type="number"
