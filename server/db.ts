@@ -332,8 +332,29 @@ export async function getEventById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
   
-  const result = await db.select().from(events).where(eq(events.id, id)).limit(1);
-  return result.length > 0 ? result[0] : undefined;
+  const result = await db
+    .select({
+      event: events,
+      client: clients,
+      user: users,
+    })
+    .from(events)
+    .leftJoin(clients, eq(events.clientId, clients.id))
+    .leftJoin(users, eq(clients.userId, users.id))
+    .where(eq(events.id, id))
+    .limit(1);
+  
+  if (result.length === 0) return undefined;
+  
+  return {
+    ...result[0].event,
+    client: result[0].client ? {
+      ...result[0].client,
+      name: result[0].user?.name,
+      email: result[0].user?.email,
+      phone: result[0].user?.phone,
+    } : null,
+  };
 }
 
 export async function getAllEvents() {

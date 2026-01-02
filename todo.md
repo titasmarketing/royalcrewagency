@@ -491,3 +491,6 @@
 - [ ] Calcular total menu cost (price per person × guest count)
 - [x] Criar página /menu separada com grid completo de todos os pratos
 - [x] Atualizar botão "View Full Menu" para navegar para /menu (link MENU no header fica com scroll)
+- [x] Corrigir EventDetails: mostrar nome do cliente ao invés de só "#1"
+- [x] Adicionar seção Menu na EventDetails com botão "+ Add Menu Item"
+- [x] Implementar dialog para adicionar itens do menu ao evento

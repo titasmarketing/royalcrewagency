@@ -105,7 +105,23 @@ export default function EventDetails() {
     },
   });
 
+  const addMenuItemMutation = trpc.menu.addToEvent.useMutation({
+    onSuccess: () => {
+      toast.success("Menu item added!");
+      refetch();
+    },
+  });
+
+  const removeMenuItemMutation = trpc.menu.removeFromEvent.useMutation({
+    onSuccess: () => {
+      toast.success("Menu item removed!");
+      refetch();
+    },
+  });
+
   const { data: totalPriceData } = trpc.events.calculateTotalPrice.useQuery({ eventId });
+  const { data: allMenuItems } = trpc.menu.list.useQuery();
+  const { data: eventMenuItems } = trpc.menu.getEventMenu.useQuery({ eventId });
 
   // Handlers
   const handleSaveNotes = () => {
@@ -207,11 +223,35 @@ export default function EventDetails() {
               <div className="flex items-start gap-3">
                 <User className="w-4 h-4 text-gray-500 mt-1" />
                 <div>
+                  <p className="text-sm text-gray-600">Client Name</p>
+                  <p className="font-semibold">{event.client?.name || 'N/A'}</p>
+                </div>
+              </div>
+              {event.client?.email && (
+                <div className="flex items-start gap-3">
+                  <Mail className="w-4 h-4 text-gray-500 mt-1" />
+                  <div>
+                    <p className="text-sm text-gray-600">Email</p>
+                    <p className="font-semibold">{event.client.email}</p>
+                  </div>
+                </div>
+              )}
+              {event.client?.phone && (
+                <div className="flex items-start gap-3">
+                  <Phone className="w-4 h-4 text-gray-500 mt-1" />
+                  <div>
+                    <p className="text-sm text-gray-600">Phone</p>
+                    <p className="font-semibold">{event.client.phone}</p>
+                  </div>
+                </div>
+              )}
+              <div className="flex items-start gap-3">
+                <FileText className="w-4 h-4 text-gray-500 mt-1" />
+                <div>
                   <p className="text-sm text-gray-600">Client ID</p>
                   <p className="font-semibold">#{event.clientId}</p>
                 </div>
               </div>
-              {/* TODO: Fetch client details and display name, email, phone, address */}
             </CardContent>
           </Card>
 
@@ -333,6 +373,128 @@ export default function EventDetails() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-gray-600">No services added yet.</p>
+          </CardContent>
+        </Card>
+
+        {/* Menu */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="w-5 h-5 text-[#D4AF37]" /> Menu
+                </CardTitle>
+                <CardDescription>Menu items selected for this event</CardDescription>
+              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm">
+                    <Plus className="w-4 h-4 mr-2" /> Add Menu Item
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add Menu Item</DialogTitle>
+                    <DialogDescription>
+                      Select menu items to add to this event
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    {allMenuItems && allMenuItems.length > 0 ? (
+                      allMenuItems.map((item) => {
+                        const isAdded = eventMenuItems?.some((e: any) => e.menuItemId === item.id);
+                        return (
+                          <div
+                            key={item.id}
+                            className="flex items-center gap-4 p-4 border rounded-lg hover:bg-gray-50"
+                          >
+                            {item.imageUrl ? (
+                              <img
+                                src={item.imageUrl}
+                                alt={item.name}
+                                className="w-20 h-20 object-cover rounded-lg"
+                              />
+                            ) : (
+                              <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center">
+                                <Package className="w-8 h-8 text-gray-400" />
+                              </div>
+                            )}
+                            <div className="flex-1">
+                              <h4 className="font-semibold">{item.name}</h4>
+                              <p className="text-sm text-gray-600">{item.description}</p>
+                              <span className="text-xs text-gray-500 mt-1 inline-block">
+                                {item.category}
+                              </span>
+                            </div>
+                            <Button
+                              size="sm"
+                              disabled={isAdded}
+                              onClick={() => {
+                                addMenuItemMutation.mutate({
+                                  eventId,
+                                  menuItemId: item.id,
+                                  quantity: 1,
+                                });
+                              }}
+                            >
+                              {isAdded ? "Added" : "Add"}
+                            </Button>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <p className="text-sm text-gray-600 text-center py-8">
+                        No menu items available. Add items in Admin → Menu first.
+                      </p>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {eventMenuItems && eventMenuItems.length > 0 ? (
+              <div className="space-y-3">
+                {eventMenuItems.map((item: any) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
+                    <div className="flex items-center gap-3">
+                      {item.imageUrl ? (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.name}
+                          className="w-12 h-12 object-cover rounded"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center">
+                          <Package className="w-6 h-6 text-gray-400" />
+                        </div>
+                      )}
+                      <div>
+                        <p className="font-semibold">{item.name}</p>
+                        <p className="text-sm text-gray-600">{item.category}</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        removeMenuItemMutation.mutate({
+                          eventId,
+                          menuItemId: item.menuItemId,
+                        });
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-600">No menu items added yet.</p>
+            )}
           </CardContent>
         </Card>
 
