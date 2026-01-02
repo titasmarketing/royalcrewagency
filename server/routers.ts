@@ -275,6 +275,58 @@ export const appRouter = router({
   }),
 
   // ============================================================================
+  // GALLERY PHOTOS
+  // ============================================================================
+  gallery: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllGalleryPhotos();
+    }),
+    
+    featured: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(4) }))
+      .query(async ({ input }) => {
+        return await db.getFeaturedGalleryPhotos(input.limit);
+      }),
+    
+    create: adminProcedure
+      .input(z.object({
+        title: z.string(),
+        description: z.string().optional(),
+        imageUrl: z.string(),
+        imageKey: z.string(),
+        category: z.enum(["weddings", "corporate_events", "private_parties", "conferences", "gala_dinners", "other"]).default("other"),
+        isFeatured: z.boolean().default(false),
+        displayOrder: z.number().default(0),
+      }))
+      .mutation(async ({ input }) => {
+        await db.createGalleryPhoto(input);
+        return { success: true };
+      }),
+    
+    update: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        category: z.enum(["weddings", "corporate_events", "private_parties", "conferences", "gala_dinners", "other"]).optional(),
+        isFeatured: z.boolean().optional(),
+        displayOrder: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateGalleryPhoto(id, data);
+        return { success: true };
+      }),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteGalleryPhoto(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // ============================================================================
   // PARTNER COMPANIES
   // ============================================================================
   partnerCompanies: router({

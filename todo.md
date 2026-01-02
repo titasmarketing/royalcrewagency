@@ -378,3 +378,21 @@
 - [x] Dialog de edição completo com todos os campos
 - [x] Telas de sucesso separadas para Individual e Company
 - [x] Design premium com cards dourados e badges coloridos
+
+### 📸 SISTEMA DE GALERIA DE FOTOS
+- [x] Criar tabela gallery_photos no banco de dados (10 colunas)
+- [x] Campos: title, description, imageUrl, imageKey, category, isFeatured, displayOrder, createdAt, updatedAt
+- [x] Criar APIs tRPC (upload, list, featured, update, delete)
+- [x] Criar página AdminGallery no admin com DashboardLayout
+- [x] Upload de fotos para S3 com preview (rota /api/upload)
+- [x] Gerenciar título, descrição, categoria (6 categorias)
+- [x] Marcar fotos como "Featured" (aparecer na home) com checkbox
+- [x] Sistema de ordenação (displayOrder) editável
+- [x] Adicionar "Gallery" no menu lateral do admin (entre Partner Companies e Inventory)
+- [x] Adicionar seção de fotos na Home (4 featured photos com hover effect)
+- [x] Botão "View Gallery" na home
+- [x] Criar página /gallery com grid responsivo de fotos
+- [x] Filtros por categoria (Weddings, Corporate Events, Private Parties, Conferences, Gala Dinners, Other)
+- [x] Modal lightbox para ver foto em tamanho grande com título e descrição
+- [x] Instalado multer para upload de arquivos
+- [x] Grid de fotos com hover zoom e overlay gradiente

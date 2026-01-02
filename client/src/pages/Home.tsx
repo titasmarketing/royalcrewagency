@@ -13,6 +13,54 @@ import { useState, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
+function GallerySection() {
+  const { data: photos } = trpc.gallery.featured.useQuery({ limit: 4 });
+  const [, navigate] = useLocation();
+
+  if (!photos || photos.length === 0) return null;
+
+  return (
+    <section className="py-32 bg-gradient-to-br from-gray-50 to-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-20">
+          <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Portfolio</span>
+          <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight uppercase">Our <span className="font-bold text-[#D4AF37]">Events</span></h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {photos.map((photo) => (
+            <div key={photo.id} className="group relative aspect-square overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+              <img
+                src={photo.imageUrl}
+                alt={photo.title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c1b33]/90 via-[#0c1b33]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-white font-bold text-lg mb-1">{photo.title}</h3>
+                  {photo.description && (
+                    <p className="text-gray-300 text-sm">{photo.description}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Button
+            onClick={() => navigate('/gallery')}
+            variant="outline"
+            className="h-14 px-12 tracking-[0.4em] border-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37] hover:text-white"
+          >
+            View Gallery
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const [, navigate] = useLocation();
   const servicesRef = useRef<HTMLDivElement | null>(null);
@@ -317,6 +365,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Gallery Section */}
+      <GallerySection />
 
       {/* Recruitment Section */}
       <section ref={workRef} className="py-32 bg-white text-center px-6">

@@ -329,6 +329,33 @@ export type Notification = typeof notifications.$inferSelect;
 export type InsertNotification = typeof notifications.$inferInsert;
 
 // ============================================================================
+// GALLERY PHOTOS
+// ============================================================================
+
+export const galleryPhotos = mysqlTable("gallery_photos", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  imageUrl: text("imageUrl").notNull(),
+  imageKey: varchar("imageKey", { length: 500 }).notNull(),
+  category: mysqlEnum("category", [
+    "weddings",
+    "corporate_events",
+    "private_parties",
+    "conferences",
+    "gala_dinners",
+    "other"
+  ]).default("other").notNull(),
+  isFeatured: boolean("isFeatured").default(false).notNull(),
+  displayOrder: int("displayOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GalleryPhoto = typeof galleryPhotos.$inferSelect;
+export type InsertGalleryPhoto = typeof galleryPhotos.$inferInsert;
+
+// ============================================================================
 // PARTNER COMPANIES
 // ============================================================================
 

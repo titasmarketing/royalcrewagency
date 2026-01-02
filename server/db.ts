@@ -16,7 +16,8 @@ import {
   eventInventoryRequests, InsertEventInventoryRequest,
   staffReviews, InsertStaffReview,
   notifications, InsertNotification,
-  partnerCompanies, InsertPartnerCompany
+  partnerCompanies, InsertPartnerCompany,
+  galleryPhotos, InsertGalleryPhoto
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -511,4 +512,55 @@ export async function deletePartnerCompany(id: number) {
   if (!db) throw new Error("Database not available");
   
   await db.delete(partnerCompanies).where(eq(partnerCompanies.id, id));
+}
+
+// ============================================================================
+// GALLERY PHOTOS OPERATIONS
+// ============================================================================
+
+export async function createGalleryPhoto(photo: InsertGalleryPhoto) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(galleryPhotos).values(photo);
+  return result;
+}
+
+export async function getAllGalleryPhotos() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(galleryPhotos).orderBy(asc(galleryPhotos.displayOrder), desc(galleryPhotos.createdAt));
+}
+
+export async function getFeaturedGalleryPhotos(limit: number = 4) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(galleryPhotos)
+    .where(eq(galleryPhotos.isFeatured, true))
+    .orderBy(asc(galleryPhotos.displayOrder))
+    .limit(limit);
+}
+
+export async function getGalleryPhotoById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(galleryPhotos).where(eq(galleryPhotos.id, id));
+  return result[0] || null;
+}
+
+export async function updateGalleryPhoto(id: number, data: Partial<InsertGalleryPhoto>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(galleryPhotos).set(data).where(eq(galleryPhotos.id, id));
+}
+
+export async function deleteGalleryPhoto(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(galleryPhotos).where(eq(galleryPhotos.id, id));
 }
