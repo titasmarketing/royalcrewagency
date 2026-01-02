@@ -363,3 +363,18 @@
 - [x] Consistência visual mantida com ClientPortal e StaffPortal
 - [x] Header com fundo navy blue (#0c1b33) e botão dourado
 - [x] Traduzido texto em português que sobrou na página de sucesso
+
+### 🏢 SISTEMA DE EMPRESAS PARCEIRAS (PARTNER COMPANIES)
+- [x] Criar tabela partner_companies no banco de dados (17 colunas)
+- [x] Campos: company_name, business_type, contact_person, email, phone, address, city, county, postcode, services_offered, description, website, status
+- [x] Criar APIs tRPC (create, list, update, delete)
+- [x] Adicionar abas na página /work-with-us (Individual Professional | Partner Company)
+- [x] Criar formulário de cadastro de empresas parceiras com validação
+- [x] Tipos de negócio: Catering, Photography/Video, Chef Services, Decoration, Sound/Lighting, Transportation, Security, Cleaning, Other (9 tipos)
+- [x] Criar página AdminPartnerCompanies no admin com CRUD completo
+- [x] Adicionar "Partner Companies" no menu lateral do admin (entre Clients e Inventory)
+- [x] Sistema de aprovação/rejeição de empresas (Approve/Reject buttons)
+- [x] Filtros por tipo de serviço e status (All/Pending/Approved/Rejected)
+- [x] Dialog de edição completo com todos os campos
+- [x] Telas de sucesso separadas para Individual e Company
+- [x] Design premium com cards dourados e badges coloridos

@@ -275,6 +275,66 @@ export const appRouter = router({
   }),
 
   // ============================================================================
+  // PARTNER COMPANIES
+  // ============================================================================
+  partnerCompanies: router({
+    list: adminProcedure.query(async () => {
+      return await db.getAllPartnerCompanies();
+    }),
+    
+    create: publicProcedure
+      .input(z.object({
+        companyName: z.string(),
+        businessType: z.enum(["catering", "photography_video", "chef_services", "decoration", "sound_lighting", "transportation", "security", "cleaning", "other"]),
+        contactPerson: z.string(),
+        email: z.string().email(),
+        phone: z.string(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        county: z.string().optional(),
+        postcode: z.string().optional(),
+        servicesOffered: z.string().optional(),
+        description: z.string().optional(),
+        website: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.createPartnerCompany(input);
+        return { success: true };
+      }),
+    
+    update: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        companyName: z.string().optional(),
+        businessType: z.enum(["catering", "photography_video", "chef_services", "decoration", "sound_lighting", "transportation", "security", "cleaning", "other"]).optional(),
+        contactPerson: z.string().optional(),
+        email: z.string().email().optional(),
+        phone: z.string().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        county: z.string().optional(),
+        postcode: z.string().optional(),
+        servicesOffered: z.string().optional(),
+        description: z.string().optional(),
+        website: z.string().optional(),
+        status: z.enum(["pending", "approved", "rejected"]).optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updatePartnerCompany(id, data);
+        return { success: true };
+      }),
+    
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deletePartnerCompany(input.id);
+        return { success: true };
+      }),
+  }),
+
+  // ============================================================================
   // NOTIFICATIONS
   // ============================================================================
   notifications: router({

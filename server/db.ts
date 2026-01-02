@@ -15,7 +15,8 @@ import {
   serviceInventoryKits, InsertServiceInventoryKit,
   eventInventoryRequests, InsertEventInventoryRequest,
   staffReviews, InsertStaffReview,
-  notifications, InsertNotification
+  notifications, InsertNotification,
+  partnerCompanies, InsertPartnerCompany
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -469,4 +470,45 @@ export async function getLowStockItems() {
   return await db.select().from(inventoryItems)
     .where(sql`${inventoryItems.currentStock} <= ${inventoryItems.minStock}`)
     .orderBy(asc(inventoryItems.currentStock));
+}
+
+// ============================================================================
+// PARTNER COMPANIES OPERATIONS
+// ============================================================================
+
+export async function createPartnerCompany(company: InsertPartnerCompany) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(partnerCompanies).values(company);
+  return result;
+}
+
+export async function getAllPartnerCompanies() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(partnerCompanies).orderBy(desc(partnerCompanies.createdAt));
+}
+
+export async function getPartnerCompanyById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(partnerCompanies).where(eq(partnerCompanies.id, id));
+  return result[0] || null;
+}
+
+export async function updatePartnerCompany(id: number, data: Partial<InsertPartnerCompany>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(partnerCompanies).set(data).where(eq(partnerCompanies.id, id));
+}
+
+export async function deletePartnerCompany(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(partnerCompanies).where(eq(partnerCompanies.id, id));
 }

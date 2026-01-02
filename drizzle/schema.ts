@@ -329,6 +329,43 @@ export type Notification = typeof notifications.$inferSelect;
 export type InsertNotification = typeof notifications.$inferInsert;
 
 // ============================================================================
+// PARTNER COMPANIES
+// ============================================================================
+
+export const partnerCompanies = mysqlTable("partner_companies", {
+  id: int("id").autoincrement().primaryKey(),
+  companyName: varchar("companyName", { length: 255 }).notNull(),
+  businessType: mysqlEnum("businessType", [
+    "catering",
+    "photography_video",
+    "chef_services",
+    "decoration",
+    "sound_lighting",
+    "transportation",
+    "security",
+    "cleaning",
+    "other"
+  ]).notNull(),
+  contactPerson: varchar("contactPerson", { length: 255 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 20 }).notNull(),
+  address: text("address"),
+  city: varchar("city", { length: 100 }),
+  county: varchar("county", { length: 100 }),
+  postcode: varchar("postcode", { length: 20 }),
+  servicesOffered: text("servicesOffered"),
+  description: text("description"),
+  website: varchar("website", { length: 500 }),
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PartnerCompany = typeof partnerCompanies.$inferSelect;
+export type InsertPartnerCompany = typeof partnerCompanies.$inferInsert;
+
+// ============================================================================
 // RELATIONS
 // ============================================================================
 
