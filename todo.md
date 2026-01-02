@@ -445,3 +445,19 @@
 - [x] Fluxo completo: Home → Booking → Calendar → EventDetails
 - [ ] TODO: Implementar dialogs de adição de staff/services/companies/inventory
 - [ ] TODO: Implementar geração de invoice PDF
+
+### 📅 BOTÃO NEW EVENT NO ADMIN CALENDAR
+- [ ] Criar PÁGINA COMPLETA de criação de eventos (/admin/events/new)
+- [ ] Formulário extenso: cliente, data, hora, localização, tipo, descrição, staff, serviços, inventário
+- [ ] Integrar com trpc.events.createBooking
+- [ ] Após criar, redirecionar para EventDetails do evento criado
+- [ ] Botão New Event deve navegar para /admin/events/new
+
+### 🎯 SERVIÇOS DINÂMICOS NO INSTANT BOOKING
+- [x] Buscar serviços de trpc.services.list ao invés de hardcoded
+- [x] Renderizar botões dinamicamente com nome do serviço
+- [x] Salvar interesse inicial do cliente (staffNeeds)
+- [x] Mensagem quando não há serviços cadastrados
+- [ ] Mostrar na EventDetails o que cliente pediu inicialmente (staffNeeds)
+- [ ] Admin pode adicionar/remover/ajustar serviços na página fodástica
+- [ ] Cliente é perdido e muda tudo = sistema preparado para flexibilidade total

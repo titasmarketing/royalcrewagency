@@ -94,11 +94,9 @@ export default function Home() {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const staffTypes = [
-    'BARTENDER', 'GARÇOM', 'LIMPEZA', 'SEGURANÇA', 
-    'RECEPCIONISTA', 'CHEF', 'AUXILIAR DE COZINHA', 
-    'COORDENADOR', 'MONTAGEM/DESMONTAGEM', 'VALET'
-  ];
+  // Fetch services dynamically from Admin → Services
+  const { data: services } = trpc.services.list.useQuery();
+  const staffTypes = services?.map(s => s.name.toUpperCase()) || [];
 
   const addStaff = (type: string) => {
     setBookingData(prev => {
@@ -279,21 +277,25 @@ export default function Home() {
               <div className="pt-4">
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Select Required Staff:</p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 max-h-[120px] overflow-y-auto pr-2 custom-scrollbar">
-                  {staffTypes.map(skill => (
-                    <button
-                      key={skill}
-                      type="button"
-                      onClick={() => addStaff(skill)}
-                      className={`text-[9px] font-bold uppercase p-3 border rounded-lg transition-all flex justify-between items-center ${bookingData.staffNeeds.find(s => s.type === skill) ? 'border-[#D4AF37] bg-[#D4AF37]/10 text-white shadow-[0_0_15px_rgba(212,175,55,0.2)]' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
-                    >
-                      {skill}
-                      {bookingData.staffNeeds.find(s => s.type === skill) && (
-                        <span className="bg-[#D4AF37] text-[#0c1b33] px-2 py-0.5 rounded-full text-[8px]">
-                          {bookingData.staffNeeds.find(s => s.type === skill)?.count}
-                        </span>
-                      )}
-                    </button>
-                  ))}
+                  {staffTypes.length === 0 ? (
+                    <p className="text-gray-500 text-xs col-span-full text-center py-4">No services available. Please add services in Admin → Services.</p>
+                  ) : (
+                    staffTypes.map(skill => (
+                      <button
+                        key={skill}
+                        type="button"
+                        onClick={() => addStaff(skill)}
+                        className={`text-[9px] font-bold uppercase p-3 border rounded-lg transition-all flex justify-between items-center ${bookingData.staffNeeds.find(s => s.type === skill) ? 'border-[#D4AF37] bg-[#D4AF37]/10 text-white shadow-[0_0_15px_rgba(212,175,55,0.2)]' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
+                      >
+                        {skill}
+                        {bookingData.staffNeeds.find(s => s.type === skill) && (
+                          <span className="bg-[#D4AF37] text-[#0c1b33] px-2 py-0.5 rounded-full text-[8px]">
+                            {bookingData.staffNeeds.find(s => s.type === skill)?.count}
+                          </span>
+                        )}
+                      </button>
+                    ))
+                  )}
                 </div>
               </div>
 

@@ -9,10 +9,66 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useState, useMemo } from 'react';
 import { Calendar, Plus } from "lucide-react";
 import { useLocation } from "wouter";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export default function AdminCalendar() {
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day'>('month');
-  const { data: events, isLoading } = trpc.events.list.useQuery();
+  const { data: events, isLoading, refetch } = trpc.events.list.useQuery();
+  const [showNewEventDialog, setShowNewEventDialog] = useState(false);
+  const [newEventData, setNewEventData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    eventDate: '',
+    eventType: 'Corporate Event',
+    serviceHours: 4,
+    location: '',
+  });
+
+  const createEventMutation = trpc.events.createBooking.useMutation({
+    onSuccess: (data) => {
+      toast.success("Event created successfully!");
+      setShowNewEventDialog(false);
+      refetch();
+      // Navigate to event details
+      if (data.eventId) {
+        navigate(`/admin/events/${data.eventId}`);
+      }
+    },
+    onError: (error) => {
+      toast.error(`Error: ${error.message}`);
+    },
+  });
+
+  const handleCreateEvent = () => {
+    if (!newEventData.name || !newEventData.email || !newEventData.eventDate) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
+    createEventMutation.mutate({
+      clientType: 'INDIVIDUAL',
+      name: newEventData.name,
+      email: newEventData.email,
+      phone: newEventData.phone,
+      address: newEventData.address,
+      city: newEventData.city,
+      postalCode: newEventData.postalCode,
+      eventDate: newEventData.eventDate,
+      eventType: newEventData.eventType,
+      serviceHours: newEventData.serviceHours,
+      location: newEventData.location || `${newEventData.address}, ${newEventData.city}`,
+      staffNeeds: [],
+    });
+  };
 
   // Transform events for FullCalendar
   const calendarEvents = useMemo(() => {
@@ -64,10 +120,88 @@ export default function AdminCalendar() {
             <h1 className="text-3xl font-bold text-foreground mb-2">Master Calendar</h1>
             <p className="text-muted-foreground">View and manage all events</p>
           </div>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            New Event
-          </Button>
+          <Dialog open={showNewEventDialog} onOpenChange={setShowNewEventDialog}>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                New Event
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Create New Event</DialogTitle>
+                <DialogDescription>Fill in the details to create a new event manually</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Client Name *</Label>
+                    <Input value={newEventData.name} onChange={e => setNewEventData({...newEventData, name: e.target.value})} placeholder="John Smith" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Email *</Label>
+                    <Input type="email" value={newEventData.email} onChange={e => setNewEventData({...newEventData, email: e.target.value})} placeholder="john@example.com" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Phone</Label>
+                    <Input value={newEventData.phone} onChange={e => setNewEventData({...newEventData, phone: e.target.value})} placeholder="+44 20 1234 5678" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Event Date *</Label>
+                    <Input type="date" value={newEventData.eventDate} onChange={e => setNewEventData({...newEventData, eventDate: e.target.value})} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Event Type</Label>
+                    <Select value={newEventData.eventType} onValueChange={v => setNewEventData({...newEventData, eventType: v})}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Wedding">Wedding</SelectItem>
+                        <SelectItem value="Corporate Event">Corporate Event</SelectItem>
+                        <SelectItem value="Private Party">Private Party</SelectItem>
+                        <SelectItem value="Conference">Conference</SelectItem>
+                        <SelectItem value="Gala Dinner">Gala Dinner</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Service Hours</Label>
+                    <Input type="number" value={newEventData.serviceHours} onChange={e => setNewEventData({...newEventData, serviceHours: parseInt(e.target.value)})} min="1" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Address</Label>
+                  <Input value={newEventData.address} onChange={e => setNewEventData({...newEventData, address: e.target.value})} placeholder="123 High Street" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>City</Label>
+                    <Input value={newEventData.city} onChange={e => setNewEventData({...newEventData, city: e.target.value})} placeholder="London" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Postcode</Label>
+                    <Input value={newEventData.postalCode} onChange={e => setNewEventData({...newEventData, postalCode: e.target.value})} placeholder="SW1A 1AA" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Location (Optional)</Label>
+                  <Input value={newEventData.location} onChange={e => setNewEventData({...newEventData, location: e.target.value})} placeholder="Full venue address" />
+                </div>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setShowNewEventDialog(false)}>Cancel</Button>
+                  <Button onClick={handleCreateEvent} disabled={createEventMutation.isPending}>
+                    {createEventMutation.isPending ? "Creating..." : "Create Event"}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* View Selector */}
