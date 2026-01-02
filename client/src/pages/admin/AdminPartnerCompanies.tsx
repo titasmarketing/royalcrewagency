@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
+import DashboardLayout from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -142,7 +143,8 @@ export default function AdminPartnerCompanies() {
   });
 
   return (
-    <div className="p-8">
+    <DashboardLayout>
+      <div className="p-8">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
@@ -497,6 +499,7 @@ export default function AdminPartnerCompanies() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }
