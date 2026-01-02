@@ -65,6 +65,7 @@ export default function Home() {
   const [, navigate] = useLocation();
   const servicesRef = useRef<HTMLDivElement | null>(null);
   const aboutRef = useRef<HTMLDivElement | null>(null);
+  const galleryRef = useRef<HTMLDivElement | null>(null);
   const workRef = useRef<HTMLDivElement | null>(null);
 
   // Booking Form State
@@ -143,6 +144,7 @@ export default function Home() {
               <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Home</button>
               <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">About</button>
               <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Services</button>
+              <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Gallery</button>
               <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Work With Us</button>
             </div>
 
@@ -367,7 +369,9 @@ export default function Home() {
       </section>
 
       {/* Gallery Section */}
-      <GallerySection />
+      <section ref={galleryRef}>
+        <GallerySection />
+      </section>
 
       {/* Recruitment Section */}
       <section ref={workRef} className="py-32 bg-white text-center px-6">
@@ -492,6 +496,7 @@ export default function Home() {
                  <ul className="space-y-4 text-[10px] uppercase tracking-widest">
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(servicesRef)}>Services</li>
+                    <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(galleryRef)}>Gallery</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/work-with-us">Recruitment</Link></li>
                  </ul>
               </div>
