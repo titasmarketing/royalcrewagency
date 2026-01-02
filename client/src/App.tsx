@@ -28,6 +28,7 @@ import AdminGallery from "./pages/admin/AdminGallery";
 import AdminMenu from "./pages/admin/AdminMenu";
 import EventDetails from "./pages/admin/EventDetails";
 import Gallery from "./pages/Gallery";
+import Menu from "./pages/Menu";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -52,6 +53,7 @@ function Router() {
         <Route path="/admin/menu" component={AdminMenu} />
         <Route path="/admin/events/:id" component={EventDetails} />
         <Route path="/gallery" component={Gallery} />
+        <Route path="/menu" component={Menu} />
       <Route path={"/services"} component={Services} />
       <Route path={"/services/:slug"} component={ServiceDetail} />
       <Route path={"/client"} component={ClientPortal} />

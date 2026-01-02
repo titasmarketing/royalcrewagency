@@ -489,3 +489,5 @@
 - [ ] Implementar seleção de menu no Client Portal
 - [ ] Integrar menu na EventDetails com preço por pessoa
 - [ ] Calcular total menu cost (price per person × guest count)
+- [x] Criar página /menu separada com grid completo de todos os pratos
+- [x] Atualizar botão "View Full Menu" para navegar para /menu (link MENU no header fica com scroll)

@@ -463,10 +463,10 @@ export default function Home() {
 
           <div className="text-center">
             <Button
-              onClick={() => scrollTo(aboutRef)}
+              onClick={() => navigate('/menu')}
               className="h-16 px-12 tracking-[0.4em] bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 shadow-2xl font-bold"
             >
-              Request Menu Quote
+              View Full Menu
             </Button>
           </div>
         </div>

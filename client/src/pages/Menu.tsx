@@ -2,6 +2,7 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Crown } from "lucide-react";
 import { useLocation } from "wouter";
+import { Button } from "@/components/ui/button";
 
 const categories = [
   { value: "all", label: "All Items" },
@@ -32,21 +33,27 @@ export default function Menu() {
             {/* Logo */}
             <button
               onClick={() => setLocation("/")}
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+              className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
             >
-              <Crown className="h-8 w-8 text-[#D4AF37]" />
-              <span className="text-2xl font-bold text-white tracking-[0.2em]">
-                ROYAL CREW
+              <div className="text-[#D4AF37] mb-1">
+                <Crown className="w-6 h-6" />
+              </div>
+              <span className="text-xl font-bold tracking-[0.2em] text-white uppercase">
+                Royal Crew
+              </span>
+              <span className="text-[10px] tracking-[0.4em] text-[#D4AF37] -mt-1">
+                EST. 2024
               </span>
             </button>
 
             {/* Back Button */}
-            <button
+            <Button
               onClick={() => setLocation("/")}
-              className="px-6 py-2.5 border-2 border-[#D4AF37] text-[#D4AF37] rounded-lg hover:bg-[#D4AF37] hover:text-[#0c1b33] transition-all font-semibold"
+              variant="outline"
+              className="h-11 px-6 tracking-[0.3em] border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0c1b33] transition-all font-semibold text-[10px]"
             >
               Back to Home
-            </button>
+            </Button>
           </div>
         </div>
       </header>
@@ -55,12 +62,15 @@ export default function Menu() {
       <section className="py-16 border-b border-[#D4AF37]/20">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Our Premium Menu
+            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">
+              Culinary Excellence
+            </span>
+            <h1 className="text-5xl md:text-6xl font-light text-white tracking-tight uppercase mb-6">
+              Our Premium <span className="font-bold text-[#D4AF37]">Menu</span>
             </h1>
-            <p className="text-xl text-gray-300">
+            <p className="text-xl text-gray-300 leading-relaxed">
               Exquisite dishes crafted by our partner chefs for your luxury events.
-              All items are priced per person and customizable to your needs.
+              All items are priced per person and fully customizable to your needs.
             </p>
           </div>
         </div>
@@ -74,7 +84,7 @@ export default function Menu() {
               <button
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
-                className={`px-6 py-2.5 rounded-lg font-semibold transition-all ${
+                className={`px-6 py-2.5 rounded-lg font-semibold transition-all text-[11px] uppercase tracking-[0.3em] ${
                   selectedCategory === cat.value
                     ? "bg-[#D4AF37] text-[#0c1b33]"
                     : "bg-white/5 text-gray-300 hover:bg-white/10 border border-[#D4AF37]/30"
@@ -85,7 +95,7 @@ export default function Menu() {
             ))}
           </div>
           <div className="text-center mt-4">
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm">
               {filteredItems?.length || 0} items available
             </p>
           </div>
@@ -127,7 +137,7 @@ export default function Menu() {
                   <div className="p-6">
                     {/* Category Badge */}
                     <div className="mb-3">
-                      <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30">
+                      <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 uppercase tracking-wider">
                         {item.category}
                       </span>
                     </div>
@@ -153,8 +163,6 @@ export default function Menu() {
                         <p className="text-sm text-gray-400">{item.ingredients}</p>
                       </div>
                     )}
-
-
 
                     {/* Note */}
                     <div className="mt-4 pt-4 border-t border-[#D4AF37]/20">
@@ -188,12 +196,12 @@ export default function Menu() {
               All menu items can be customized for your event. Contact us to discuss
               your requirements and get a personalized quote.
             </p>
-            <button
+            <Button
               onClick={() => setLocation("/")}
-              className="px-8 py-4 bg-[#D4AF37] text-[#0c1b33] rounded-lg hover:bg-[#D4AF37]/90 transition-all font-bold text-lg shadow-lg hover:shadow-xl"
+              className="h-16 px-12 tracking-[0.4em] bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 transition-all font-bold text-sm shadow-lg hover:shadow-xl"
             >
               Request a Quote
-            </button>
+            </Button>
           </div>
         </div>
       </section>
