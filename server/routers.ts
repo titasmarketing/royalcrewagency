@@ -10,6 +10,7 @@ import { inventoryRouter } from "./routers/inventory";
 import { recruitmentRouter } from "./routers/recruitment";
 import { documentsRouter } from "./routers/documents";
 import { eventsRouter } from "./routers/events";
+import { menuRouter } from "./routers/menu";
 
 export const appRouter = router({
   system: systemRouter,
@@ -17,7 +18,7 @@ export const appRouter = router({
   recruitment: recruitmentRouter,
   documents: documentsRouter,
   events: eventsRouter,
-  
+  menu: menuRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

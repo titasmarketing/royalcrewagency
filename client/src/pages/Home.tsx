@@ -66,6 +66,7 @@ export default function Home() {
   const servicesRef = useRef<HTMLDivElement | null>(null);
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const workRef = useRef<HTMLDivElement | null>(null);
 
   // Booking Form State
@@ -177,6 +178,7 @@ export default function Home() {
               <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">About</button>
               <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Services</button>
               <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Gallery</button>
+              <button onClick={() => scrollTo(menuRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Menu</button>
               <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Work With Us</button>
             </div>
 
@@ -407,6 +409,67 @@ export default function Home() {
       {/* Gallery Section */}
       <section ref={galleryRef}>
         <GallerySection />
+      </section>
+
+      {/* Menu Section */}
+      <section ref={menuRef} className="py-32 relative overflow-hidden" style={{
+        backgroundImage: 'url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-[#0c1b33]/90"></div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Culinary Excellence</span>
+            <h2 className="text-5xl font-light text-white tracking-tight uppercase mb-6">
+              Our Premium <span className="font-bold text-[#D4AF37]">Menu</span>
+            </h2>
+            <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
+              Exquisite dishes crafted by our partner chefs for your luxury events. All items are priced per person and fully customizable.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Feature 1 */}
+            <div className="bg-white/5 backdrop-blur-sm border border-[#D4AF37]/30 rounded-xl p-8 text-center hover:bg-white/10 transition-all">
+              <div className="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Coffee className="w-8 h-8 text-[#D4AF37]" />
+              </div>
+              <h3 className="text-white font-bold text-xl mb-3">Gourmet Selection</h3>
+              <p className="text-gray-400">Carefully curated dishes from award-winning chefs</p>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="bg-white/5 backdrop-blur-sm border border-[#D4AF37]/30 rounded-xl p-8 text-center hover:bg-white/10 transition-all">
+              <div className="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <ShieldCheck className="w-8 h-8 text-[#D4AF37]" />
+              </div>
+              <h3 className="text-white font-bold text-xl mb-3">Premium Ingredients</h3>
+              <p className="text-gray-400">Only the finest locally-sourced and imported ingredients</p>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="bg-white/5 backdrop-blur-sm border border-[#D4AF37]/30 rounded-xl p-8 text-center hover:bg-white/10 transition-all">
+              <div className="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Award className="w-8 h-8 text-[#D4AF37]" />
+              </div>
+              <h3 className="text-white font-bold text-xl mb-3">Fully Customizable</h3>
+              <p className="text-gray-400">Tailored menus to match your event theme and preferences</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Button
+              onClick={() => scrollTo(aboutRef)}
+              className="h-16 px-12 tracking-[0.4em] bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 shadow-2xl font-bold"
+            >
+              Request Menu Quote
+            </Button>
+          </div>
+        </div>
       </section>
 
       {/* Recruitment Section */}

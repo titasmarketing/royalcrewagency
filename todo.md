@@ -461,3 +461,31 @@
 - [ ] Mostrar na EventDetails o que cliente pediu inicialmente (staffNeeds)
 - [ ] Admin pode adicionar/remover/ajustar serviços na página fodástica
 - [ ] Cliente é perdido e muda tudo = sistema preparado para flexibilidade total
+
+### 🍽️ SISTEMA DE MENU/CARDÁPIO COMPLETO
+- [ ] Criar tabela menu_items (category, name, description, ingredients, imageUrl)
+- [ ] Categorias: Starters, Main Course, Desserts, Beverages, Other
+- [ ] Criar APIs tRPC (menu.list, menu.create, menu.update, menu.delete)
+- [ ] Criar página Admin → Menu com CRUD completo
+- [ ] Upload de fotos dos pratos para S3
+- [ ] Criar página pública /menu na home (cardápio bonito)
+- [ ] Adicionar link "MENU" no header da home
+- [ ] Client Portal: seleção de menu para o evento
+- [ ] Tabela event_menu_selections (eventId, menuItemId, quantity)
+- [ ] EventDetails: mostrar menu escolhido pelo cliente
+- [ ] EventDetails: admin define preço por pessoa
+- [ ] EventDetails: calcula total do menu (preço/pessoa × num convidados)
+- [ ] SEM PREÇOS nos pratos (preço é fechado por pessoa/evento)
+
+### 🍽️ SISTEMA DE MENU/CARDÁPIO
+- [x] Criar tabela menu_items no banco de dados
+- [x] Criar tabela event_menu_selections no banco de dados
+- [x] Criar APIs tRPC para menu (list, create, update, delete)
+- [x] Criar APIs tRPC para event menu (getEventMenuSelections, addMenuToEvent, removeMenuFromEvent)
+- [x] Criar página Admin → Menu com CRUD completo
+- [x] Adicionar link "Menu" no menu lateral do admin
+- [x] Adicionar seção de Menu na home com fundo bonito (entre galeria e recrutamento)
+- [x] Adicionar link MENU no header da home
+- [ ] Implementar seleção de menu no Client Portal
+- [ ] Integrar menu na EventDetails com preço por pessoa
+- [ ] Calcular total menu cost (price per person × guest count)

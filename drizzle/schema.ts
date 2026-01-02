@@ -425,6 +425,42 @@ export type PartnerCompany = typeof partnerCompanies.$inferSelect;
 export type InsertPartnerCompany = typeof partnerCompanies.$inferInsert;
 
 // ============================================================================
+// MENU ITEMS
+// ============================================================================
+
+export const menuItems = mysqlTable("menu_items", {
+  id: int("id").autoincrement().primaryKey(),
+  category: mysqlEnum("category", ["Starters", "Main Course", "Desserts", "Beverages", "Other"]).notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  ingredients: text("ingredients"),
+  imageUrl: varchar("imageUrl", { length: 500 }),
+  imageKey: varchar("imageKey", { length: 500 }),
+  displayOrder: int("displayOrder").default(0),
+  isActive: boolean("isActive").default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MenuItem = typeof menuItems.$inferSelect;
+export type InsertMenuItem = typeof menuItems.$inferInsert;
+
+// ============================================================================
+// EVENT MENU SELECTIONS
+// ============================================================================
+
+export const eventMenuSelections = mysqlTable("event_menu_selections", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull(),
+  menuItemId: int("menuItemId").notNull(),
+  quantity: int("quantity").default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type EventMenuSelection = typeof eventMenuSelections.$inferSelect;
+export type InsertEventMenuSelection = typeof eventMenuSelections.$inferInsert;
+
+// ============================================================================
 // RELATIONS
 // ============================================================================
 
