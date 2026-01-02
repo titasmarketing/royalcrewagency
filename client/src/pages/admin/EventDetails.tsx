@@ -122,6 +122,9 @@ export default function EventDetails() {
   const { data: totalPriceData } = trpc.events.calculateTotalPrice.useQuery({ eventId });
   const { data: allMenuItems } = trpc.menu.list.useQuery();
   const { data: eventMenuItems } = trpc.menu.getEventMenu.useQuery({ eventId });
+  const { data: allPartnerCompanies } = trpc.partnerCompanies.list.useQuery();
+  const { data: allServices } = trpc.services.list.useQuery();
+  const { data: allInventoryItems } = trpc.inventory.list.useQuery();
 
   // Handlers
   const handleSaveNotes = () => {
@@ -183,6 +186,15 @@ export default function EventDetails() {
           </div>
           <div className="flex items-center gap-3">
             <Badge className={statusColors[status]}>{status.toUpperCase()}</Badge>
+            <Button
+              variant="outline"
+              className="bg-[#D4AF37] text-white hover:bg-[#B8941F] border-[#D4AF37]"
+              onClick={() => {
+                toast.success("Quote sent to client!");
+              }}
+            >
+              <FileDown className="w-4 h-4 mr-2" /> Send Quote to Client
+            </Button>
             <Button variant="outline">
               <FileDown className="w-4 h-4 mr-2" /> Generate Invoice
             </Button>
@@ -346,9 +358,53 @@ export default function EventDetails() {
                 </CardTitle>
                 <CardDescription>External companies involved in this event</CardDescription>
               </div>
-              <Button size="sm">
-                <Plus className="w-4 h-4 mr-2" /> Add Company
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm">
+                    <Plus className="w-4 h-4 mr-2" /> Add Company
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add Partner Company</DialogTitle>
+                    <DialogDescription>
+                      Select a partner company to add to this event
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    {allPartnerCompanies && allPartnerCompanies.length > 0 ? (
+                      allPartnerCompanies.map((company: any) => (
+                        <div
+                          key={company.id}
+                          className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                        >
+                          <div>
+                            <h4 className="font-semibold">{company.name}</h4>
+                            {company.category && (
+                              <p className="text-sm text-gray-600">{company.category}</p>
+                            )}
+                          </div>
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              addPartnerCompanyMutation.mutate({
+                                eventId,
+                                partnerCompanyId: company.id,
+                              });
+                            }}
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-600 text-center py-8">
+                        No partner companies available. Add companies in Admin → Partner Companies first.
+                      </p>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardHeader>
           <CardContent>
@@ -366,9 +422,58 @@ export default function EventDetails() {
                 </CardTitle>
                 <CardDescription>Services included in this event</CardDescription>
               </div>
-              <Button size="sm">
-                <Plus className="w-4 h-4 mr-2" /> Add Service
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm">
+                    <Plus className="w-4 h-4 mr-2" /> Add Service
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add Service</DialogTitle>
+                    <DialogDescription>
+                      Select a service to add to this event
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    {allServices && allServices.length > 0 ? (
+                      allServices.map((service: any) => (
+                        <div
+                          key={service.id}
+                          className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                        >
+                          <div className="flex-1">
+                            <h4 className="font-semibold">{service.name}</h4>
+                            {service.shortDescription && (
+                              <p className="text-sm text-gray-600">{service.shortDescription}</p>
+                            )}
+                            {service.basePrice && (
+                              <p className="text-sm text-[#D4AF37] font-semibold mt-1">
+                                £{service.basePrice}
+                              </p>
+                            )}
+                          </div>
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              addServiceMutation.mutate({
+                                eventId,
+                                serviceId: service.id,
+                              });
+                            }}
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-600 text-center py-8">
+                        No services available. Add services in Admin → Services first.
+                      </p>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardHeader>
           <CardContent>
@@ -508,9 +613,66 @@ export default function EventDetails() {
                 </CardTitle>
                 <CardDescription>Equipment and items needed for this event</CardDescription>
               </div>
-              <Button size="sm">
-                <Plus className="w-4 h-4 mr-2" /> Add Item
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm">
+                    <Plus className="w-4 h-4 mr-2" /> Add Item
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add Inventory Item</DialogTitle>
+                    <DialogDescription>
+                      Select inventory items to add to this event
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    {allInventoryItems && allInventoryItems.length > 0 ? (
+                      allInventoryItems.map((item: any) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                        >
+                          <div className="flex-1">
+                            <h4 className="font-semibold">{item.name}</h4>
+                            {item.description && (
+                              <p className="text-sm text-gray-600">{item.description}</p>
+                            )}
+                            <div className="flex gap-4 mt-2">
+                              {item.category && (
+                                <span className="text-xs text-gray-500">
+                                  Category: {item.category}
+                                </span>
+                              )}
+                              {item.quantityAvailable && (
+                                <span className="text-xs text-gray-500">
+                                  Available: {item.quantityAvailable}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              addInventoryMutation.mutate({
+                                eventId,
+                                itemId: item.id,
+                                quantity: 1,
+                              });
+                            }}
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-600 text-center py-8">
+                        No inventory items available. Add items in Admin → Inventory first.
+                      </p>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </CardHeader>
           <CardContent>

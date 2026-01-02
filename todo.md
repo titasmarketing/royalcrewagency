@@ -494,3 +494,7 @@
 - [x] Corrigir EventDetails: mostrar nome do cliente ao invés de só "#1"
 - [x] Adicionar seção Menu na EventDetails com botão "+ Add Menu Item"
 - [x] Implementar dialog para adicionar itens do menu ao evento
+- [x] Implementar dialog Add Company na EventDetails
+- [x] Implementar dialog Add Service na EventDetails
+- [x] Implementar dialog Add Item (Inventory) na EventDetails
+- [x] Adicionar botão "Send Quote to Client" no header da EventDetails
