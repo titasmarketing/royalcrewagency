@@ -294,6 +294,38 @@ export type EventInventoryRequest = typeof eventInventoryRequests.$inferSelect;
 export type InsertEventInventoryRequest = typeof eventInventoryRequests.$inferInsert;
 
 // ============================================================================
+// EVENT SERVICES
+// ============================================================================
+
+export const eventServices = mysqlTable("event_services", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull(),
+  serviceId: int("serviceId").notNull(),
+  quantity: int("quantity").default(1).notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type EventService = typeof eventServices.$inferSelect;
+export type InsertEventService = typeof eventServices.$inferInsert;
+
+// ============================================================================
+// EVENT PARTNER COMPANIES
+// ============================================================================
+
+export const eventPartnerCompanies = mysqlTable("event_partner_companies", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull(),
+  partnerCompanyId: int("partnerCompanyId").notNull(),
+  role: varchar("role", { length: 100 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type EventPartnerCompany = typeof eventPartnerCompanies.$inferSelect;
+export type InsertEventPartnerCompany = typeof eventPartnerCompanies.$inferInsert;
+
+// ============================================================================
 // STAFF REVIEWS
 // ============================================================================
 

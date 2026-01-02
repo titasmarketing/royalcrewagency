@@ -17,7 +17,9 @@ import {
   staffReviews, InsertStaffReview,
   notifications, InsertNotification,
   partnerCompanies, InsertPartnerCompany,
-  galleryPhotos, InsertGalleryPhoto
+  galleryPhotos, InsertGalleryPhoto,
+  eventServices, InsertEventService,
+  eventPartnerCompanies, InsertEventPartnerCompany
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -473,10 +475,17 @@ export async function getLowStockItems() {
     .orderBy(asc(inventoryItems.currentStock));
 }
 
-// ============================================================================
-// PARTNER COMPANIES OPERATIONS
-// ============================================================================
+export async function createUser(user: InsertUser) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(users).values(user);
+  return result;
+}
 
+// ============================================================================
+// SITE CONTENT (CMS) OPERATIONS
+// ============================================================================
 export async function createPartnerCompany(company: InsertPartnerCompany) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -563,4 +572,169 @@ export async function deleteGalleryPhoto(id: number) {
   if (!db) throw new Error("Database not available");
   
   await db.delete(galleryPhotos).where(eq(galleryPhotos.id, id));
+}
+
+// ============================================================================
+// EVENT EXTENDED OPERATIONS
+// ============================================================================
+
+export async function updateEventStatus(id: number, status: "quote" | "confirmed" | "in_progress" | "completed" | "cancelled") {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(events).set({ status }).where(eq(events.id, id));
+}
+
+export async function updateEventNotes(id: number, notes: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(events).set({ notes }).where(eq(events.id, id));
+}
+
+// ============================================================================
+// EVENT STAFF ASSIGNMENTS (Extended)
+// ============================================================================
+
+export async function assignStaffToEvent(eventId: number, staffId: number, role?: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(eventStaffAssignments).values({
+    eventId,
+    staffId,
+    role,
+    status: "invited",
+  });
+  return result[0].insertId;
+}
+
+export async function removeStaffFromEvent(assignmentId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(eventStaffAssignments).where(eq(eventStaffAssignments.id, assignmentId));
+}
+
+export async function getEventStaff(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(eventStaffAssignments).where(eq(eventStaffAssignments.eventId, eventId));
+}
+
+// ============================================================================
+// EVENT SERVICES
+// ============================================================================
+
+export async function addServiceToEvent(eventId: number, serviceId: number, quantity: number = 1, price?: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(eventServices).values({
+    eventId,
+    serviceId,
+    quantity,
+    price: price?.toString(),
+  });
+  return result.insertId;
+}
+
+export async function removeServiceFromEvent(eventServiceId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(eventServices).where(eq(eventServices.id, eventServiceId));
+}
+
+export async function getEventServices(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(eventServices).where(eq(eventServices.eventId, eventId));
+}
+
+// ============================================================================
+// EVENT PARTNER COMPANIES
+// ============================================================================
+
+export async function addPartnerCompanyToEvent(eventId: number, partnerCompanyId: number, role?: string, notes?: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(eventPartnerCompanies).values({
+    eventId,
+    partnerCompanyId,
+    role,
+    notes,
+  });
+  return result.insertId;
+}
+
+export async function removePartnerCompanyFromEvent(eventPartnerCompanyId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(eventPartnerCompanies).where(eq(eventPartnerCompanies.id, eventPartnerCompanyId));
+}
+
+export async function getEventPartnerCompanies(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(eventPartnerCompanies).where(eq(eventPartnerCompanies.eventId, eventId));
+}
+
+// ============================================================================
+// EVENT INVENTORY
+// ============================================================================
+
+export async function addInventoryToEvent(eventId: number, itemId: number, quantity: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(eventInventoryRequests).values({
+    eventId,
+    itemId,
+    quantityRequested: quantity,
+    status: "pending",
+  });
+  return result.insertId;
+}
+
+export async function removeInventoryFromEvent(inventoryRequestId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(eventInventoryRequests).where(eq(eventInventoryRequests.id, inventoryRequestId));
+}
+
+export async function getEventInventory(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(eventInventoryRequests).where(eq(eventInventoryRequests.eventId, eventId));
+}
+
+// ============================================================================
+// EVENT CALCULATIONS
+// ============================================================================
+
+export async function calculateEventTotalPrice(eventId: number): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  
+  // Get all services for this event
+  const eventServicesList = await db.select().from(eventServices).where(eq(eventServices.eventId, eventId));
+  
+  let total = 0;
+  for (const es of eventServicesList) {
+    const price = es.price ? parseFloat(es.price) : 0;
+    total += price * es.quantity;
+  }
+  
+  // Update event total price
+  await db.update(events).set({ totalPrice: total.toString() }).where(eq(events.id, eventId));
+  
+  return total;
 }

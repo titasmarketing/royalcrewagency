@@ -9,12 +9,14 @@ import { adminProcedure } from "./_core/adminProcedure";
 import { inventoryRouter } from "./routers/inventory";
 import { recruitmentRouter } from "./routers/recruitment";
 import { documentsRouter } from "./routers/documents";
+import { eventsRouter } from "./routers/events";
 
 export const appRouter = router({
   system: systemRouter,
   inventory: inventoryRouter,
   recruitment: recruitmentRouter,
   documents: documentsRouter,
+  events: eventsRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -90,87 +92,6 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
         await db.updateService(id, data);
-        return { success: true };
-      }),
-  }),
-
-  // ============================================================================
-  // EVENTS
-  // ============================================================================
-  events: router({
-    list: adminProcedure.query(async () => {
-      return await db.getAllEvents();
-    }),
-    
-    getById: protectedProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input, ctx }) => {
-        const event = await db.getEventById(input.id);
-        if (!event) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Event not found' });
-        }
-        
-        // Check permissions
-        if (ctx.user.role === 'client') {
-          const client = await db.getClientByUserId(ctx.user.id);
-          if (!client || event.clientId !== client.id) {
-            throw new TRPCError({ code: 'FORBIDDEN', message: 'Access denied' });
-          }
-        }
-        
-        return event;
-      }),
-    
-    getByDateRange: adminProcedure
-      .input(z.object({
-        startDate: z.date(),
-        endDate: z.date(),
-      }))
-      .query(async ({ input }) => {
-        return await db.getEventsByDateRange(input.startDate, input.endDate);
-      }),
-    
-    create: adminProcedure
-      .input(z.object({
-        clientId: z.number(),
-        serviceId: z.number().optional(),
-        title: z.string(),
-        description: z.string().optional(),
-        status: z.enum(["quote", "confirmed", "in_progress", "completed", "cancelled"]).default("quote"),
-        eventDate: z.date(),
-        startTime: z.string().optional(),
-        endTime: z.string().optional(),
-        location: z.string().optional(),
-        latitude: z.string().optional(),
-        longitude: z.string().optional(),
-        totalPrice: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        await db.createEvent(input);
-        return { success: true };
-      }),
-    
-    update: adminProcedure
-      .input(z.object({
-        id: z.number(),
-        clientId: z.number().optional(),
-        serviceId: z.number().optional(),
-        title: z.string().optional(),
-        description: z.string().optional(),
-        status: z.enum(["quote", "confirmed", "in_progress", "completed", "cancelled"]).optional(),
-        eventDate: z.date().optional(),
-        startTime: z.string().optional(),
-        endTime: z.string().optional(),
-        location: z.string().optional(),
-        latitude: z.string().optional(),
-        longitude: z.string().optional(),
-        totalPrice: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        await db.updateEvent(id, data);
         return { success: true };
       }),
   }),

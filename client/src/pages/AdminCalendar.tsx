@@ -8,6 +8,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useState, useMemo } from 'react';
 import { Calendar, Plus } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function AdminCalendar() {
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day'>('month');
@@ -42,9 +43,11 @@ export default function AdminCalendar() {
     }));
   }, [events]);
 
+  const [, navigate] = useLocation();
+
   const handleEventClick = (info: any) => {
-    console.log('Event clicked:', info.event);
-    // TODO: Open event details modal
+    const eventId = info.event.id;
+    navigate(`/admin/events/${eventId}`);
   };
 
   const handleDateClick = (info: any) => {

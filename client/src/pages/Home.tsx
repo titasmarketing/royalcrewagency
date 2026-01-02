@@ -120,11 +120,45 @@ export default function Home() {
     setShowCompleteModal(true);
   };
 
+  const createBookingMutation = trpc.events.createBooking.useMutation({
+    onSuccess: () => {
+      toast.success("Booking received! We'll contact you shortly.");
+      setShowCompleteModal(false);
+      // Reset forms
+      setBookingData({ date: '', type: 'Wedding', hours: 4, email: '', staffNeeds: [] });
+      setClientData({ clientType: 'INDIVIDUAL', name: '', companyName: '', phone: '', address: '', city: '', postalCode: '', vatNumber: '' });
+    },
+    onError: (error) => {
+      toast.error(`Error: ${error.message}`);
+    },
+  });
+
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Reserva recebida! Entraremos em contato em breve.");
-    setShowCompleteModal(false);
-    // TODO: Integrar com backend para criar evento e cliente
+    
+    // Validation
+    if (!clientData.name || !clientData.phone || !clientData.address || !clientData.city || !clientData.postalCode) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
+    // Call backend
+    createBookingMutation.mutate({
+      clientType: clientData.clientType,
+      name: clientData.name,
+      email: bookingData.email,
+      phone: clientData.phone,
+      companyName: clientData.companyName || undefined,
+      address: clientData.address,
+      city: clientData.city,
+      postalCode: clientData.postalCode,
+      vatNumber: clientData.vatNumber || undefined,
+      eventDate: bookingData.date,
+      eventType: bookingData.type,
+      serviceHours: bookingData.hours,
+      location: `${clientData.address}, ${clientData.city}, ${clientData.postalCode}`,
+      staffNeeds: bookingData.staffNeeds,
+    });
   };
 
   return (

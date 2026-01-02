@@ -396,3 +396,52 @@
 - [x] Modal lightbox para ver foto em tamanho grande com título e descrição
 - [x] Instalado multer para upload de arquivos
 - [x] Grid de fotos com hover zoom e overlay gradiente
+
+### 📅 INSTANT BOOKING + EVENTDETAILS COMPLETA (❤️ CORAÇÃO DO SISTEMA)
+
+**BACKEND APIs:**
+- [x] API: criar cliente (createClient) - createUser + createClient
+- [x] API: criar evento (createEvent) - events.createBooking
+- [x] API: buscar evento completo (getEventById) com client, staff, services, companies
+- [x] API: atribuir staff ao evento (assignStaff)
+- [x] API: remover staff do evento (removeStaff)
+- [x] API: adicionar serviço ao evento (addService)
+- [x] API: remover serviço do evento (removeService)
+- [x] API: adicionar empresa parceira ao evento (addPartnerCompany)
+- [x] API: remover empresa parceira do evento (removePartnerCompany)
+- [x] API: adicionar item de estoque (addInventoryItem)
+- [x] API: remover item de estoque (removeInventoryItem)
+- [x] API: atualizar status do evento (updateEventStatus)
+- [x] API: atualizar notas do evento (updateEventNotes)
+- [x] API: calcular preço total do evento (calculateTotalPrice)
+- [ ] API: gerar invoice PDF (generateInvoice) - TODOlcular preço total do evento (calculateTotalPrice)
+- [ ] API: gerar invoice PDF (generateInvoice)
+
+**INSTANT BOOKING (Home):**
+- [x] Conectar formulário ao backend (trpc.events.createBooking.useMutation)
+- [x] Validação UK (postcode, phone, email, address)
+- [x] Criar cliente + evento ao submeter
+- [x] Toast de sucesso em inglês
+- [x] Reset dos formulários após sucesso
+
+**EVENTDETAILS PAGE (/admin/events/:id):**
+- [x] Seção: Informações do Cliente (client ID - TODO: fetch full client details)
+- [x] Seção: Detalhes do Evento (título, data, hora, localização, descrição)
+- [x] Seção: Status Editável (Quote, Confirmed, In Progress, Completed, Cancelled)
+- [x] Seção: Staff Management (estrutura criada - TODO: implementar dialogs)
+- [x] Seção: Partner Companies (estrutura criada - TODO: implementar dialogs)
+- [x] Seção: Services (estrutura criada - TODO: implementar dialogs)
+- [x] Seção: Inventory Management (estrutura criada - TODO: implementar dialogs)
+- [x] Seção: Total Price (calculado automaticamente com trpc.events.calculateTotalPrice)
+- [x] Seção: Notas Internas (textarea editável + botão Save)
+- [x] Botão: Generate Invoice (placeholder - TODO: implementar PDF)
+- [x] Botão: Back to Calendar
+- [x] Design premium com cards dourados e badges coloridos por status
+- [x] Loading state e error handling
+
+**INTEGRAÇÃO:**
+- [x] Conectar Admin Calendar: click no evento → navega para /admin/events/:id
+- [x] Rota /admin/events/:id criada no App.tsx
+- [x] Fluxo completo: Home → Booking → Calendar → EventDetails
+- [ ] TODO: Implementar dialogs de adição de staff/services/companies/inventory
+- [ ] TODO: Implementar geração de invoice PDF
