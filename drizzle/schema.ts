@@ -443,6 +443,7 @@ export const menuItems = mysqlTable("menu_items", {
   ingredients: text("ingredients"),
   imageUrl: varchar("imageUrl", { length: 500 }),
   imageKey: varchar("imageKey", { length: 500 }),
+  price: decimal("price", { precision: 10, scale: 2 }),
   displayOrder: int("displayOrder").default(0),
   isActive: boolean("isActive").default(true),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -579,3 +580,19 @@ export const inventoryItemsRelations = relations(inventoryItems, ({ many }) => (
   serviceKits: many(serviceInventoryKits),
   eventRequests: many(eventInventoryRequests),
 }));
+
+
+// ============================================================================
+// EVENT MENU ITEMS - Relação entre eventos e itens de menu
+// ============================================================================
+
+export const eventMenuItems = mysqlTable("event_menu_items", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull(),
+  menuItemId: int("menuItemId").notNull(),
+  quantity: int("quantity").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type InsertEventMenuItem = typeof eventMenuItems.$inferInsert;
+export type SelectEventMenuItem = typeof eventMenuItems.$inferSelect;

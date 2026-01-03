@@ -21,7 +21,9 @@ import {
   eventServices, InsertEventService,
   eventPartnerCompanies, InsertEventPartnerCompany,
   staffMessages, InsertStaffMessage,
-  staffPhotos, InsertStaffPhoto
+  staffPhotos, InsertStaffPhoto,
+  menuItems,
+  eventMenuItems
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -696,7 +698,18 @@ export async function getEventServices(eventId: number) {
   const db = await getDb();
   if (!db) return [];
   
-  return await db.select().from(eventServices).where(eq(eventServices.eventId, eventId));
+  return await db
+    .select({
+      id: eventServices.id,
+      eventId: eventServices.eventId,
+      serviceId: eventServices.serviceId,
+      serviceName: services.name,
+      servicePrice: services.basePrice,
+      serviceDescription: services.description,
+    })
+    .from(eventServices)
+    .leftJoin(services, eq(eventServices.serviceId, services.id))
+    .where(eq(eventServices.eventId, eventId));
 }
 
 // ============================================================================
@@ -983,4 +996,109 @@ export async function getStaffAssignmentById(assignmentId: number) {
     .limit(1);
   
   return result[0] || null;
+}
+
+// ============================================================================
+// EVENT MENU ITEMS OPERATIONS
+// ============================================================================
+
+export async function addEventMenuItem(eventId: number, menuItemId: number, quantity: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Verificar se já existe
+  const existing = await db
+    .select()
+    .from(eventMenuItems)
+    .where(and(
+      eq(eventMenuItems.eventId, eventId),
+      eq(eventMenuItems.menuItemId, menuItemId)
+    ))
+    .limit(1);
+  
+  if (existing[0]) {
+    // Atualizar quantidade
+    await db
+      .update(eventMenuItems)
+      .set({ quantity: existing[0].quantity + quantity })
+      .where(eq(eventMenuItems.id, existing[0].id));
+  } else {
+    // Inserir novo
+    await db.insert(eventMenuItems).values({
+      eventId,
+      menuItemId,
+      quantity,
+    });
+  }
+}
+
+export async function removeEventMenuItem(eventId: number, menuItemId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .delete(eventMenuItems)
+    .where(and(
+      eq(eventMenuItems.eventId, eventId),
+      eq(eventMenuItems.menuItemId, menuItemId)
+    ));
+}
+
+export async function getEventMenuItems(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select({
+      id: eventMenuItems.id,
+      eventId: eventMenuItems.eventId,
+      menuItemId: eventMenuItems.menuItemId,
+      quantity: eventMenuItems.quantity,
+      menuItemName: menuItems.name,
+      menuItemPrice: menuItems.price,
+      menuItemDescription: menuItems.description,
+    })
+    .from(eventMenuItems)
+    .leftJoin(menuItems, eq(eventMenuItems.menuItemId, menuItems.id))
+    .where(eq(eventMenuItems.eventId, eventId));
+}
+
+// ============================================================================
+// EVENT SERVICES OPERATIONS
+// ============================================================================
+
+export async function addEventService(eventId: number, serviceId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Verificar se já existe
+  const existing = await db
+    .select()
+    .from(eventServices)
+    .where(and(
+      eq(eventServices.eventId, eventId),
+      eq(eventServices.serviceId, serviceId)
+    ))
+    .limit(1);
+  
+  if (existing[0]) {
+    return; // Já existe, não adicionar duplicado
+  }
+  
+  await db.insert(eventServices).values({
+    eventId,
+    serviceId,
+  });
+}
+
+export async function removeEventService(eventId: number, serviceId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .delete(eventServices)
+    .where(and(
+      eq(eventServices.eventId, eventId),
+      eq(eventServices.serviceId, serviceId)
+    ));
 }

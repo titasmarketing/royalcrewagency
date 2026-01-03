@@ -283,11 +283,18 @@ export default function ClientPortal() {
                       </p>
                     </div>
                     <div className="mt-6 md:mt-0 flex gap-3">
-                      <Button variant="outline" className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37]">
-                        View Invoice
+                      <Button 
+                        onClick={() => navigate(`/client/events/${event.id}`)}
+                        className="text-[10px] uppercase font-bold tracking-wider bg-[#D4AF37] hover:bg-[#B8941F] text-[#0c1b33]"
+                      >
+                        View Details
                       </Button>
-                      <Button variant="secondary" className="text-[10px] uppercase font-bold tracking-wider">
-                        Support
+                      <Button 
+                        variant="outline" 
+                        onClick={() => navigate(`/client/tracking/${event.id}`)}
+                        className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                      >
+                        Track Event
                       </Button>
                     </div>
                   </div>

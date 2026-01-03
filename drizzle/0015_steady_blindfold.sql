@@ -1,0 +1,1 @@
+ALTER TABLE `menu_items` ADD `price` decimal(10,2);

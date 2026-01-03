@@ -21,6 +21,7 @@ import StaffAvailability from "./pages/StaffAvailability";
 import StaffWallet from "./pages/StaffWallet";
 import ClientTracking from "./pages/ClientTracking";
 import ClientFinancial from "./pages/ClientFinancial";
+import ClientEventDetails from "./pages/ClientEventDetails";
 import RecruitmentPortal from "./pages/RecruitmentPortal";
 import AdminRecruitment from "./pages/AdminRecruitment";
 import StaffPortal from "./pages/StaffPortal";
@@ -64,8 +65,9 @@ function Router() {
       <Route path={"/staff"} component={StaffPortal} />
       <Route path={"/staff/availability"} component={StaffAvailability} />
       <Route path={"/staff/wallet"} component={StaffWallet} />
-      <Route path={"/client/tracking"} component={ClientTracking} />
-      <Route path={"/client/financial"} component={ClientFinancial} />
+      <Route path={"/client/events/:id"} component={ClientEventDetails} />
+      <Route path={"/client/tracking/:id"} component={ClientTracking} />
+      <Route path={"/client/financial/:id"} component={ClientFinancial} />
       <Route path={"/work-with-us"} component={RecruitmentPortal} />
       <Route path={"/admin/applications"} component={AdminRecruitment} />
       <Route path={"/404"} component={NotFound} />

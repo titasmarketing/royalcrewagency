@@ -566,3 +566,15 @@
 - [x] Adicionar validação de proximidade GPS no check-in
 - [x] Configurar raio máximo permitido (ex: 500m do local do evento)
 - [x] Mostrar erro amigável se staff estiver muito longe
+
+## Client Portal - Event Management
+
+- [x] Criar página /client/events/:id para detalhes do evento
+- [x] Mostrar informações do evento (data, local, status, preço)
+- [x] Sistema para cliente adicionar itens de menu ao evento
+- [x] Sistema para cliente adicionar serviços ao evento
+- [x] Conectar botão "View Details" do ClientPortal
+- [x] Conectar botão "Add Services" do ClientPortal
+- [x] Conectar botão "Add Menu Items" do ClientPortal
+- [x] Mostrar resumo de serviços e menu selecionados
+- [x] Calcular e mostrar preço total atualizado

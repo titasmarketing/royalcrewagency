@@ -1,4 +1,4 @@
-import { router, publicProcedure } from "../_core/trpc";
+import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { adminProcedure } from "../_core/adminProcedure";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
@@ -292,5 +292,83 @@ export const eventsRouter = router({
       const { eventId, ...updateData } = input;
       await db.updateEvent(eventId, updateData);
       return { success: true };
+    }),
+
+  // ============================================================================
+  // CLIENT: ADD MENU ITEM TO EVENT
+  // ============================================================================
+  clientAddMenuItem: protectedProcedure
+    .input(z.object({
+      eventId: z.number(),
+      menuItemId: z.number(),
+      quantity: z.number().min(1),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      // Verificar se evento pertence ao cliente
+      const event = await db.getEventById(input.eventId);
+      if (!event) throw new TRPCError({ code: 'NOT_FOUND', message: 'Event not found' });
+      
+      await db.addEventMenuItem(input.eventId, input.menuItemId, input.quantity);
+      return { success: true };
+    }),
+
+  // ============================================================================
+  // CLIENT: REMOVE MENU ITEM FROM EVENT
+  // ============================================================================
+  clientRemoveMenuItem: protectedProcedure
+    .input(z.object({
+      eventId: z.number(),
+      menuItemId: z.number(),
+    }))
+    .mutation(async ({ input }) => {
+      await db.removeEventMenuItem(input.eventId, input.menuItemId);
+      return { success: true };
+    }),
+
+  // ============================================================================
+  // CLIENT: GET EVENT MENU ITEMS
+  // ============================================================================
+  getEventMenuItems: protectedProcedure
+    .input(z.object({ eventId: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getEventMenuItems(input.eventId);
+    }),
+
+  // ============================================================================
+  // CLIENT: ADD SERVICE TO EVENT
+  // ============================================================================
+  clientAddService: protectedProcedure
+    .input(z.object({
+      eventId: z.number(),
+      serviceId: z.number(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const event = await db.getEventById(input.eventId);
+      if (!event) throw new TRPCError({ code: 'NOT_FOUND', message: 'Event not found' });
+      
+      await db.addEventService(input.eventId, input.serviceId);
+      return { success: true };
+    }),
+
+  // ============================================================================
+  // CLIENT: REMOVE SERVICE FROM EVENT
+  // ============================================================================
+  clientRemoveService: protectedProcedure
+    .input(z.object({
+      eventId: z.number(),
+      serviceId: z.number(),
+    }))
+    .mutation(async ({ input }) => {
+      await db.removeEventService(input.eventId, input.serviceId);
+      return { success: true };
+    }),
+
+  // ============================================================================
+  // CLIENT: GET EVENT SERVICES
+  // ============================================================================
+  getEventServices: protectedProcedure
+    .input(z.object({ eventId: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getEventServices(input.eventId);
     }),
 });
