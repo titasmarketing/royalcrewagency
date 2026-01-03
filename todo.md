@@ -547,3 +547,13 @@
 - [ ] Criar seção Messages no EventDetails para admin responder staff
 - [ ] Adicionar alerta visual quando staff decline job (admin precisa substituir)
 - [ ] Criar dashboard metric: "Pending Confirmations" count
+
+## Staff Portal - Event Photos System
+
+- [x] Adicionar campo eventId na tabela staff_photos (migration)
+- [x] Atualizar API uploadPhoto para aceitar eventId obrigatório
+- [x] Atualizar API getPhotos para filtrar por eventId
+- [x] Ajustar frontend: mostrar upload de fotos apenas quando checked-in
+- [x] Ajustar frontend: upload de fotos vinculado ao evento atual
+- [x] Adicionar seção "Event Photos" na EventDetails (admin)
+- [x] Mostrar galeria de fotos do evento na EventDetails

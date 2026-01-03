@@ -492,8 +492,10 @@ export type InsertStaffMessage = typeof staffMessages.$inferInsert;
 export const staffPhotos = mysqlTable("staff_photos", {
   id: int("id").autoincrement().primaryKey(),
   staffId: int("staffId").notNull(),
+  eventId: int("eventId"), // Fotos vinculadas a eventos específicos
   photoUrl: text("photoUrl").notNull(),
   photoKey: text("photoKey").notNull(), // S3 key para deletar
+  caption: text("caption"), // Descrição da foto
   isPrimary: boolean("isPrimary").default(false).notNull(), // Avatar principal
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });

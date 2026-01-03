@@ -11,9 +11,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Label } from "@/components/ui/label";
 import { 
   ArrowLeft, User, Mail, Phone, MapPin, Calendar, Clock, FileText, 
-  Users, Building2, Package, DollarSign, FileDown, Save, Trash2, Plus
+  Users, Building2, Package, DollarSign, FileDown, Save, Trash2, Plus, Camera
 } from "lucide-react";
 import { toast } from "sonner";
+import EventPhotosGallery from "@/components/EventPhotosGallery";
 
 export default function EventDetails() {
   const params = useParams<{ id: string }>();
@@ -881,6 +882,19 @@ export default function EventDetails() {
             )}
           </CardContent>
         </Card>
+        </Card>
+
+        {/* Event Photos */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Camera className="w-5 h-5 text-[#D4AF37]" /> Event Photos
+            </CardTitle>
+            <CardDescription>Photos uploaded by staff during the event</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <EventPhotosGallery eventId={eventId} />
+          </CardContent>
         </Card>
 
         {/* Internal Notes */}

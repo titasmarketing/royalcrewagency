@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   LogOut, Crown, Calendar, MapPin, Clock, CheckCircle, XCircle,
   User, MessageSquare, Home, Camera, Upload, Navigation, Trash2, Send
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
-// Upload handled via tRPC API
 
 type Tab = "jobs" | "profile" | "messages";
 
@@ -23,9 +23,14 @@ export default function StaffPortal() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
   const [messageText, setMessageText] = useState("");
+  const [photoCaption, setPhotoCaption] = useState("");
+  const [uploadingForEventId, setUploadingForEventId] = useState<number | null>(null);
   
   const { data: myJobs, isLoading, refetch } = trpc.staff.myJobs.useQuery();
-  const { data: myPhotos, refetch: refetchPhotos } = trpc.staff.getPhotos.useQuery();
+  const { data: myPhotos, refetch: refetchPhotos } = trpc.staff.getPhotos.useQuery(
+    { eventId: selectedEventId || undefined },
+    { enabled: !!selectedEventId }
+  );
   const { data: messages, refetch: refetchMessages } = trpc.staff.getMessages.useQuery(
     { eventId: selectedEventId! },
     { enabled: !!selectedEventId }
@@ -39,7 +44,7 @@ export default function StaffPortal() {
   const deletePhotoMutation = trpc.staff.deletePhoto.useMutation();
   const sendMessageMutation = trpc.staff.sendMessage.useMutation();
 
-  const handleUploadPhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadPhoto = async (event: React.ChangeEvent<HTMLInputElement>, eventId: number) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -52,8 +57,15 @@ export default function StaffPortal() {
       const reader = new FileReader();
       reader.onloadend = async () => {
         const base64 = reader.result as string;
-        await uploadPhotoMutation.mutateAsync({ photoData: base64, fileName: file.name });
+        await uploadPhotoMutation.mutateAsync({ 
+          eventId,
+          photoData: base64, 
+          fileName: file.name,
+          caption: photoCaption || undefined,
+        });
         toast.success("Photo uploaded! 📸");
+        setPhotoCaption("");
+        setUploadingForEventId(null);
         refetchPhotos();
       };
       reader.readAsDataURL(file);
@@ -306,6 +318,65 @@ export default function StaffPortal() {
                           <CheckCircle className="w-4 h-4" />
                           <span>Checked in at {new Date(assignment.checkInTime).toLocaleTimeString()}</span>
                         </div>
+                        
+                        {/* Upload Photos Section - Only when checked in */}
+                        <div className="bg-gray-50 p-3 rounded space-y-2">
+                          <div className="flex items-center gap-2 text-sm font-medium text-[#0c1b33]">
+                            <Camera className="w-4 h-4 text-[#D4AF37]" />
+                            <span>Event Photos</span>
+                          </div>
+                          
+                          {uploadingForEventId === assignment.event?.id ? (
+                            <div className="space-y-2">
+                              <Input
+                                type="text"
+                                placeholder="Photo caption (optional)"
+                                value={photoCaption}
+                                onChange={(e) => setPhotoCaption(e.target.value)}
+                                className="text-sm"
+                              />
+                              <div className="flex gap-2">
+                                <input
+                                  ref={fileInputRef}
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleUploadPhoto(e, assignment.event!.id)}
+                                  className="hidden"
+                                />
+                                <Button
+                                  onClick={() => fileInputRef.current?.click()}
+                                  size="sm"
+                                  className="flex-1 bg-[#D4AF37] hover:bg-[#B8941F] text-[#0c1b33]"
+                                >
+                                  <Upload className="w-3 h-3 mr-1" />
+                                  Choose Photo
+                                </Button>
+                                <Button
+                                  onClick={() => {
+                                    setUploadingForEventId(null);
+                                    setPhotoCaption("");
+                                  }}
+                                  size="sm"
+                                  variant="outline"
+                                  className="flex-1"
+                                >
+                                  Cancel
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <Button
+                              onClick={() => setUploadingForEventId(assignment.event?.id || null)}
+                              size="sm"
+                              variant="outline"
+                              className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
+                            >
+                              <Camera className="w-3 h-3 mr-1" />
+                              Add Photo
+                            </Button>
+                          )}
+                        </div>
+                        
                         <Button
                           onClick={() => handleCheckOut(assignment.id)}
                           className="w-full bg-orange-600 hover:bg-orange-700 text-white"
@@ -344,58 +415,16 @@ export default function StaffPortal() {
             </h2>
             <Card className="p-6 text-center">
               <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
-                {myPhotos && myPhotos.length > 0 ? (
-                  <img src={myPhotos[0].photoUrl} alt="Avatar" className="w-full h-full object-cover" />
-                ) : (
-                  <User className="w-12 h-12 text-gray-400" />
-                )}
+                <User className="w-12 h-12 text-gray-400" />
               </div>
-              <h3 className="font-bold text-lg text-[#0c1b33] mb-1">{user.name}</h3>
-              <p className="text-sm text-gray-500 mb-4">{user.email}</p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleUploadPhoto}
-              />
-              <Button
-                variant="outline"
-                className="w-full"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploadPhotoMutation.isPending}
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                {uploadPhotoMutation.isPending ? "Uploading..." : "Add Photo to Gallery"}
-              </Button>
+              <h3 className="font-bold text-lg text-[#0c1b33]">{user.name || "Staff Member"}</h3>
+              <p className="text-sm text-gray-500">{user.email}</p>
             </Card>
-            <Card className="p-6">
-              <h3 className="font-bold text-[#0c1b33] mb-3">Photo Gallery ({myPhotos?.length || 0})</h3>
-              <div className="grid grid-cols-3 gap-2">
-                {myPhotos && myPhotos.length > 0 ? (
-                  myPhotos.map((photo) => (
-                    <div key={photo.id} className="aspect-square relative group">
-                      <img
-                        src={photo.photoUrl}
-                        alt="Gallery"
-                        className="w-full h-full object-cover rounded border-2 border-gray-200"
-                      />
-                      <button
-                        onClick={() => handleDeletePhoto(photo.id)}
-                        className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                        disabled={deletePhotoMutation.isPending}
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <div className="col-span-3 p-8 text-center text-gray-400 border-2 border-dashed rounded">
-                    <Camera className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                    <p className="text-sm">No photos yet. Upload your first photo!</p>
-                  </div>
-                )}
-              </div>
+            
+            <Card className="p-4">
+              <p className="text-sm text-gray-500 text-center">
+                Event photos are uploaded during check-in. Select an event from the Jobs tab to view and manage photos.
+              </p>
             </Card>
           </div>
         )}
@@ -404,114 +433,122 @@ export default function StaffPortal() {
         {activeTab === "messages" && (
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-[#0c1b33] uppercase tracking-wider">
-              Messages with Admin
+              Messages
             </h2>
-            
+
             {/* Event Selector */}
             <Card className="p-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Event to Message About
-              </label>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">Select Event</label>
               <select
                 value={selectedEventId || ""}
-                onChange={(e) => setSelectedEventId(e.target.value ? Number(e.target.value) : null)}
+                onChange={(e) => setSelectedEventId(Number(e.target.value) || null)}
                 className="w-full p-2 border rounded"
               >
-                <option value="">General Message</option>
-                {myJobs?.map((job) => (
-                  <option key={job.id} value={job.event.id}>
-                    {job.event.title} - {new Date(job.event.eventDate).toLocaleDateString()}
+                <option value="">Choose an event...</option>
+                {myJobs?.map((assignment) => (
+                  <option key={assignment.id} value={assignment.event?.id}>
+                    {assignment.event?.title || "Event"} - {assignment.event?.eventDate ? new Date(assignment.event.eventDate).toLocaleDateString() : "TBD"}
                   </option>
                 ))}
               </select>
             </Card>
 
-            {/* Messages Thread */}
-            <Card className="p-4 max-h-96 overflow-y-auto">
-              {messages && messages.length > 0 ? (
-                <div className="space-y-3">
-                  {messages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className={`p-3 rounded-lg ${
-                        msg.senderId === user.id
-                          ? "bg-blue-100 ml-8"
-                          : "bg-gray-100 mr-8"
-                      }`}
-                    >
-                      <p className="text-sm font-medium text-gray-700 mb-1">
-                        {msg.senderId === user.id ? "You" : "Admin"}
-                      </p>
-                      <p className="text-sm text-gray-600">{msg.message}</p>
-                      <p className="text-xs text-gray-400 mt-1">
-                        {new Date(msg.createdAt).toLocaleString()}
-                      </p>
+            {/* Messages */}
+            {selectedEventId ? (
+              <>
+                <Card className="p-4 max-h-96 overflow-y-auto">
+                  {!messages || messages.length === 0 ? (
+                    <p className="text-center text-gray-400 text-sm py-8">No messages yet</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {messages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`p-3 rounded ${
+                            msg.senderRole === "staff"
+                              ? "bg-[#D4AF37]/10 ml-8"
+                              : "bg-gray-100 mr-8"
+                          }`}
+                        >
+                          <p className="text-sm text-gray-800">{msg.message}</p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {new Date(msg.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-gray-400">
-                  <MessageSquare className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                  <p className="text-sm">No messages yet. Start a conversation!</p>
-                </div>
-              )}
-            </Card>
+                  )}
+                </Card>
 
-            {/* Send Message */}
-            <Card className="p-4">
-              <div className="flex gap-2">
-                <Input
-                  value={messageText}
-                  onChange={(e) => setMessageText(e.target.value)}
-                  placeholder="Type your message..."
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  className="flex-1"
-                />
-                <Button
-                  onClick={handleSendMessage}
-                  disabled={!messageText.trim() || sendMessageMutation.isPending}
-                  className="bg-[#D4AF37] hover:bg-[#B8941F] text-[#0c1b33]"
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
-              </div>
-            </Card>
+                {/* Send Message */}
+                <Card className="p-4">
+                  <div className="flex gap-2">
+                    <Textarea
+                      value={messageText}
+                      onChange={(e) => setMessageText(e.target.value)}
+                      placeholder="Type your message..."
+                      className="flex-1 min-h-[80px]"
+                    />
+                    <Button
+                      onClick={handleSendMessage}
+                      disabled={!messageText.trim() || sendMessageMutation.isPending}
+                      className="bg-[#D4AF37] hover:bg-[#B8941F] text-[#0c1b33]"
+                    >
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </Card>
+              </>
+            ) : (
+              <Card className="p-12 text-center border-2 border-dashed">
+                <MessageSquare className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p className="text-gray-400 text-sm">Select an event to view messages</p>
+              </Card>
+            )}
           </div>
         )}
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
-        <div className="flex justify-around items-center h-16 max-w-2xl mx-auto">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50">
+        <div className="flex justify-around items-center max-w-2xl mx-auto">
           <button
             onClick={() => setActiveTab("jobs")}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-              activeTab === "jobs" ? "text-[#D4AF37]" : "text-gray-400"
+            className={`flex flex-col items-center gap-1 py-2 px-4 rounded transition-colors ${
+              activeTab === "jobs"
+                ? "text-[#D4AF37] bg-[#D4AF37]/10"
+                : "text-gray-500 hover:text-[#D4AF37]"
             }`}
           >
-            <Home className="w-5 h-5 mb-1" />
-            <span className="text-[10px] uppercase font-bold">Jobs</span>
+            <Home className="w-5 h-5" />
+            <span className="text-[10px] font-medium uppercase">Jobs</span>
           </button>
+
           <button
             onClick={() => setActiveTab("profile")}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-              activeTab === "profile" ? "text-[#D4AF37]" : "text-gray-400"
+            className={`flex flex-col items-center gap-1 py-2 px-4 rounded transition-colors ${
+              activeTab === "profile"
+                ? "text-[#D4AF37] bg-[#D4AF37]/10"
+                : "text-gray-500 hover:text-[#D4AF37]"
             }`}
           >
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-[10px] uppercase font-bold">Profile</span>
+            <User className="w-5 h-5" />
+            <span className="text-[10px] font-medium uppercase">Profile</span>
           </button>
+
           <button
             onClick={() => setActiveTab("messages")}
-            className={`flex flex-col items-center justify-center flex-1 h-full transition-colors ${
-              activeTab === "messages" ? "text-[#D4AF37]" : "text-gray-400"
+            className={`flex flex-col items-center gap-1 py-2 px-4 rounded transition-colors ${
+              activeTab === "messages"
+                ? "text-[#D4AF37] bg-[#D4AF37]/10"
+                : "text-gray-500 hover:text-[#D4AF37]"
             }`}
           >
-            <MessageSquare className="w-5 h-5 mb-1" />
-            <span className="text-[10px] uppercase font-bold">Messages</span>
+            <MessageSquare className="w-5 h-5" />
+            <span className="text-[10px] font-medium uppercase">Messages</span>
           </button>
         </div>
-      </div>
+      </nav>
     </div>
   );
 }

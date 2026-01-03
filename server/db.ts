@@ -890,7 +890,7 @@ export async function getStaffMessages(staffId: number, eventId?: number) {
     .orderBy(staffMessages.createdAt);
 }
 
-export async function createStaffPhoto(photo: { staffId: number; photoUrl: string; photoKey: string; isPrimary: boolean }) {
+export async function createStaffPhoto(photo: { staffId: number; eventId?: number; photoUrl: string; photoKey: string; caption?: string; isPrimary: boolean }) {
   const db = await getDb();
   if (!db) return;
   
@@ -905,14 +905,20 @@ export async function createStaffPhoto(photo: { staffId: number; photoUrl: strin
   await db.insert(staffPhotos).values(photo);
 }
 
-export async function getStaffPhotos(staffId: number) {
+export async function getStaffPhotos(staffId: number, eventId?: number) {
   const db = await getDb();
   if (!db) return [];
+  
+  // Construir condições de filtro
+  const conditions = [eq(staffPhotos.staffId, staffId)];
+  if (eventId) {
+    conditions.push(eq(staffPhotos.eventId, eventId));
+  }
   
   return await db
     .select()
     .from(staffPhotos)
-    .where(eq(staffPhotos.staffId, staffId))
+    .where(and(...conditions))
     .orderBy(desc(staffPhotos.isPrimary), desc(staffPhotos.createdAt));
 }
 
@@ -921,4 +927,25 @@ export async function deleteStaffPhoto(photoId: number) {
   if (!db) return;
   
   await db.delete(staffPhotos).where(eq(staffPhotos.id, photoId));
+}
+
+export async function getEventPhotos(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select({
+      id: staffPhotos.id,
+      photoUrl: staffPhotos.photoUrl,
+      photoKey: staffPhotos.photoKey,
+      caption: staffPhotos.caption,
+      createdAt: staffPhotos.createdAt,
+      staffId: staffPhotos.staffId,
+      staffName: users.name,
+    })
+    .from(staffPhotos)
+    .leftJoin(staffMembers, eq(staffPhotos.staffId, staffMembers.id))
+    .leftJoin(users, eq(staffMembers.userId, users.id))
+    .where(eq(staffPhotos.eventId, eventId))
+    .orderBy(desc(staffPhotos.createdAt));
 }

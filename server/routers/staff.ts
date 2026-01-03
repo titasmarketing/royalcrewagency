@@ -1,4 +1,5 @@
 import { router, protectedProcedure } from "../_core/trpc";
+import { adminProcedure } from "../_core/adminProcedure";
 import { z } from "zod";
 import * as db from "../db";
 import { TRPCError } from "@trpc/server";
@@ -137,8 +138,10 @@ export const staffRouter = router({
   // ============================================================================
   uploadPhoto: protectedProcedure
     .input(z.object({
+      eventId: z.number(), // Evento ao qual a foto pertence
       photoData: z.string(), // base64
       fileName: z.string(),
+      caption: z.string().optional(), // Descrição da foto
       isPrimary: z.boolean().default(false),
     }))
     .mutation(async ({ input, ctx }) => {
@@ -161,26 +164,32 @@ export const staffRouter = router({
       
       await db.createStaffPhoto({
         staffId: staff.id,
+        eventId: input.eventId,
         photoUrl: url,
         photoKey: fileKey,
+        caption: input.caption,
         isPrimary: input.isPrimary,
       });
       return { success: true, message: 'Photo uploaded!', url };
     }),
 
   // ============================================================================
-  // GET PHOTOS - Busca fotos do staff
+  // GET PHOTOS - Busca fotos do staff (filtradas por evento)
   // ============================================================================
-  getPhotos: protectedProcedure.query(async ({ ctx }) => {
-    if (ctx.user.role !== 'staff') {
-      throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
-    }
-    const staff = await db.getStaffByUserId(ctx.user.id);
-    if (!staff) {
-      throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
-    }
-    return await db.getStaffPhotos(staff.id);
-  }),
+  getPhotos: protectedProcedure
+    .input(z.object({
+      eventId: z.number().optional(), // Filtrar por evento específico
+    }).optional())
+    .query(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      const staff = await db.getStaffByUserId(ctx.user.id);
+      if (!staff) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
+      }
+      return await db.getStaffPhotos(staff.id, input?.eventId);
+    }),
 
   // ============================================================================
   // DELETE PHOTO - Remove foto
@@ -195,5 +204,17 @@ export const staffRouter = router({
       }
       await db.deleteStaffPhoto(input.photoId);
       return { success: true, message: 'Photo deleted!' };
+    }),
+
+  // ============================================================================
+  // GET EVENT PHOTOS - Admin busca fotos de um evento (todas as fotos de todos os staff)
+  // ============================================================================
+  getEventPhotos: adminProcedure
+    .input(z.object({
+      eventId: z.number(),
+    }))
+    .query(async ({ input }) => {
+      const dbModule = await import('../db');
+      return await dbModule.getEventPhotos(input.eventId);
     }),
 });
