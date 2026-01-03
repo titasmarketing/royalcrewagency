@@ -510,3 +510,5 @@
 - [x] Atualizar rodapé do site com link da agencyl1.com
 - [x] Criar API updatePaymentInfo para salvar paymentMethod, paymentLink, bankAccountDetails
 - [x] Integrar campos Payment na EventDetails com API para salvar automaticamente
+- [x] Implementar botão "Ver Events" no card de cliente (Admin → Clients)
+- [x] Implementar botão "Edit" no card de cliente (Admin → Clients)

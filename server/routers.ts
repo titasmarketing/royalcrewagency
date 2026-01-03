@@ -163,6 +163,12 @@ export const appRouter = router({
       return await db.getAllClients();
     }),
     
+    getById: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getClientById(input.id);
+      }),
+    
     myProfile: protectedProcedure.query(async ({ ctx }) => {
       if (ctx.user.role !== 'client') {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Client access required' });

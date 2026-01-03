@@ -271,6 +271,14 @@ export const eventsRouter = router({
       };
     }),
   // ============================================================================
+  // LIST EVENTS BY CLIENT
+  // ============================================================================
+  listByClient: adminProcedure
+    .input(z.object({ clientId: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getEventsByClientId(input.clientId);
+    }),
+  // ============================================================================
   // UPDATE PAYMENT INFO
   // ============================================================================
   updatePaymentInfo: adminProcedure

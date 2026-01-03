@@ -4,10 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
-import { Users, Mail, Phone, Building, Calendar, DollarSign } from "lucide-react";
+import { Users, Mail, Phone, Building, Calendar, DollarSign, Eye, Pencil } from "lucide-react";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useLocation } from "wouter";
 
 export default function AdminClients() {
   const { data: clients, isLoading } = trpc.clients.list.useQuery();
+  const [, setLocation] = useLocation();
+  const [editingClient, setEditingClient] = useState<number | null>(null);
 
   const getInitials = (name: string | null) => {
     if (!name) return "??";
@@ -132,10 +137,22 @@ export default function AdminClients() {
                   )}
 
                   <div className="flex items-center gap-2 pt-3 border-t">
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setLocation(`/admin/clients/${client.id}/events`)}
+                    >
+                      <Eye className="w-4 h-4 mr-1" />
                       Ver Events
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setEditingClient(client.id)}
+                    >
+                      <Pencil className="w-4 h-4 mr-1" />
                       Edit
                     </Button>
                   </div>
@@ -152,6 +169,18 @@ export default function AdminClients() {
           </Card>
         )}
       </div>
+      
+      {/* Edit Client Dialog */}
+      <Dialog open={editingClient !== null} onOpenChange={() => setEditingClient(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Client</DialogTitle>
+          </DialogHeader>
+          <div className="text-center py-8 text-muted-foreground">
+            Client editing form coming soon...
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }

@@ -187,6 +187,14 @@ export async function getClientByUserId(userId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getClientById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(clients).where(eq(clients.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
 export async function getAllClients() {
   const db = await getDb();
   if (!db) return [];

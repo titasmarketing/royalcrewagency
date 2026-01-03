@@ -10,6 +10,7 @@ import AdminCalendar from "./pages/AdminCalendar";
 import AdminServices from "./pages/AdminServices";
 import AdminStaff from "./pages/AdminStaff";
 import AdminClients from "./pages/AdminClients";
+import ClientEvents from "./pages/admin/ClientEvents";
 import AdminInventory from "./pages/AdminInventory";
 import AdminDocuments from "./pages/AdminDocuments";
 import AdminMatchmaking from "./pages/AdminMatchmaking";
@@ -45,6 +46,7 @@ function Router() {
       <Route path={"/admin/services"} component={AdminServices} />
       <Route path={"/admin/staff"} component={AdminStaff} />
       <Route path={"/admin/clients"} component={AdminClients} />
+      <Route path={"/admin/clients/:id/events"} component={ClientEvents} />
       <Route path={"/admin/inventory"} component={AdminInventory} />
       <Route path={"/admin/documents"} component={AdminDocuments} />
       <Route path={"/admin/matchmaking"} component={AdminMatchmaking} />
