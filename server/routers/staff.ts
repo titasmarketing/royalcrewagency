@@ -4,6 +4,19 @@ import { z } from "zod";
 import * as db from "../db";
 import { TRPCError } from "@trpc/server";
 
+// Haversine formula para calcular distância entre duas coordenadas GPS
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Raio da Terra em km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distância em km
+}
+
 export const staffRouter = router({
   // ============================================================================
   // MY JOBS - Lista apenas eventos onde staff foi assigned
@@ -65,6 +78,36 @@ export const staffRouter = router({
       if (ctx.user.role !== 'staff') {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
       }
+      
+      // Buscar localização do evento
+      const assignment = await db.getStaffAssignmentById(input.assignmentId);
+      if (!assignment) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Assignment not found' });
+      }
+      
+      const event = await db.getEventById(assignment.eventId);
+      if (!event) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Event not found' });
+      }
+      
+      // Validar proximidade GPS (500m de raio)
+      if (event.latitude && event.longitude) {
+        const distance = calculateDistance(
+          input.location.lat,
+          input.location.lng,
+          Number(event.latitude),
+          Number(event.longitude)
+        );
+        
+        const MAX_DISTANCE_KM = 0.5; // 500 metros
+        if (distance > MAX_DISTANCE_KM) {
+          throw new TRPCError({ 
+            code: 'BAD_REQUEST', 
+            message: `You must be within 500m of the event location to check in. You are ${(distance * 1000).toFixed(0)}m away.` 
+          });
+        }
+      }
+      
       await db.staffCheckIn(input.assignmentId, input.location);
       return { success: true, message: 'Checked in successfully!' };
     }),
@@ -216,5 +259,17 @@ export const staffRouter = router({
     .query(async ({ input }) => {
       const dbModule = await import('../db');
       return await dbModule.getEventPhotos(input.eventId);
+    }),
+
+  // ============================================================================
+  // GET EVENT MESSAGES - Admin busca mensagens de um evento (com nome do staff)
+  // ============================================================================
+  getEventMessages: adminProcedure
+    .input(z.object({
+      eventId: z.number(),
+    }))
+    .query(async ({ input }) => {
+      const dbModule = await import('../db');
+      return await dbModule.getEventMessages(input.eventId);
     }),
 });

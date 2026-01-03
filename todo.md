@@ -557,3 +557,12 @@
 - [x] Ajustar frontend: upload de fotos vinculado ao evento atual
 - [x] Adicionar seção "Event Photos" na EventDetails (admin)
 - [x] Mostrar galeria de fotos do evento na EventDetails
+
+## Admin Messages & GPS Proximity
+
+- [x] Criar página /admin/messages para admin ver e responder mensagens
+- [x] API para admin responder mensagens de staff
+- [x] Interface de chat com lista de conversas por evento
+- [x] Adicionar validação de proximidade GPS no check-in
+- [x] Configurar raio máximo permitido (ex: 500m do local do evento)
+- [x] Mostrar erro amigável se staff estiver muito longe

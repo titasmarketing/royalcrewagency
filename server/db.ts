@@ -949,3 +949,38 @@ export async function getEventPhotos(eventId: number) {
     .where(eq(staffPhotos.eventId, eventId))
     .orderBy(desc(staffPhotos.createdAt));
 }
+
+export async function getEventMessages(eventId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select({
+      id: staffMessages.id,
+      staffId: staffMessages.staffId,
+      eventId: staffMessages.eventId,
+      senderId: staffMessages.senderId,
+      senderRole: staffMessages.senderRole,
+      message: staffMessages.message,
+      createdAt: staffMessages.createdAt,
+      staffName: users.name,
+    })
+    .from(staffMessages)
+    .leftJoin(staffMembers, eq(staffMessages.staffId, staffMembers.id))
+    .leftJoin(users, eq(staffMembers.userId, users.id))
+    .where(eq(staffMessages.eventId, eventId))
+    .orderBy(staffMessages.createdAt);
+}
+
+export async function getStaffAssignmentById(assignmentId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(eventStaffAssignments)
+    .where(eq(eventStaffAssignments.id, assignmentId))
+    .limit(1);
+  
+  return result[0] || null;
+}
