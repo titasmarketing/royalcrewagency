@@ -272,4 +272,15 @@ export const staffRouter = router({
       const dbModule = await import('../db');
       return await dbModule.getEventMessages(input.eventId);
     }),
+
+  // ============================================================================
+  // GET STAFF ASSIGNMENTS - Admin busca assignments de um evento com GPS
+  // ============================================================================
+  getStaffAssignments: adminProcedure
+    .input(z.object({ eventId: z.number() }))
+    .query(async ({ input }) => {
+      const dbModule = await import('../db');
+      return await dbModule.getEventStaffAssignments(input.eventId);
+    }),
 });
+

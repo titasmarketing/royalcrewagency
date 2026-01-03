@@ -208,9 +208,15 @@ export default function EventDetails() {
             <Badge className={statusColors[status]}>{status.toUpperCase()}</Badge>
             <Button
               variant="outline"
+              onClick={() => navigate(`/admin/events/${event.id}/tracking`)}
+            >
+              <MapPin className="w-4 h-4 mr-2" /> View Live Tracking
+            </Button>
+            <Button
+              variant="outline"
               className="bg-[#D4AF37] text-white hover:bg-[#B8941F] border-[#D4AF37]"
               onClick={() => {
-                sendQuoteMutation.mutate({ eventId });
+                sendQuoteMutation.mutate({ eventId: event.id });
               }}
               disabled={sendQuoteMutation.isPending}
             >

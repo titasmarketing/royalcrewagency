@@ -586,3 +586,11 @@
 - [x] Remover rota /client/tracking/:id do App.tsx
 - [x] Criar versão simplificada para cliente (status do evento, sem GPS)
 - [x] Atualizar botão "Track Event" no ClientPortal
+
+## Admin Live Tracking Improvements
+
+- [x] Conectar AdminEventTracking com API real de staff assignments
+- [x] Mostrar localização GPS real dos staff que fizeram check-in
+- [x] Implementar polling automático a cada 30 segundos
+- [x] Adicionar botão "View Live Tracking" na EventDetails do admin
+- [x] Mostrar status real (traveling/arrived/working) baseado em check-in/out

@@ -1,61 +1,91 @@
-import DashboardLayout from "@/components/DashboardLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useParams, useLocation } from "wouter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { MapView } from "@/components/Map";
 import { useState, useEffect } from "react";
-import { MapPin, Navigation, CheckCircle, Clock, Users } from "lucide-react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { MapPin, ArrowLeft, RefreshCw } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 interface StaffLocation {
   id: number;
   name: string;
   role: string;
-  status: "traveling" | "arrived" | "working";
-  lat: number;
-  lng: number;
-  lastUpdate: Date;
+  status: "checked_in" | "checked_out" | "pending";
+  lat: number | null;
+  lng: number | null;
+  checkInTime: Date | null;
+  checkOutTime: Date | null;
 }
 
 export default function AdminEventTracking() {
-  const [eventStatus, setEventStatus] = useState<"scheduled" | "traveling" | "in_progress" | "completed">("traveling");
-  const [staffLocations, setStaffLocations] = useState<StaffLocation[]>([
-    {
-      id: 1,
-      name: "João Silva",
-      role: "Garçom",
-      status: "traveling",
-      lat: -23.550520,
-      lng: -46.633308,
-      lastUpdate: new Date(),
-    },
-    {
-      id: 2,
-      name: "Maria Santos",
-      role: "Bartender",
-      status: "arrived",
-      lat: -23.551520,
-      lng: -46.634308,
-      lastUpdate: new Date(),
-    },
-  ]);
+  const params = useParams<{ id: string }>();
+  const [, navigate] = useLocation();
+  const eventId = parseInt(params.id || "0");
+
+  const { data: event } = trpc.events.getById.useQuery({ id: eventId });
+  const { data: assignments, refetch } = trpc.staff.getStaffAssignments.useQuery({ eventId });
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
+  const [autoRefresh, setAutoRefresh] = useState(true);
+
+  // Polling automático a cada 30 segundos
+  useEffect(() => {
+    if (!autoRefresh) return;
+
+    const interval = setInterval(() => {
+      refetch();
+    }, 30000); // 30 segundos
+
+    return () => clearInterval(interval);
+  }, [autoRefresh, refetch]);
+
+  // Converter assignments para StaffLocation
+  const staffLocations: StaffLocation[] = assignments?.map((a: any) => ({
+    id: a.id,
+    name: a.staffName || "Unknown",
+    role: a.role || "Staff",
+    status: a.checkOutTime ? "checked_out" : a.checkInTime ? "checked_in" : "pending",
+    lat: a.checkInLat,
+    lng: a.checkInLng,
+    checkInTime: a.checkInTime,
+    checkOutTime: a.checkOutTime,
+  })) || [];
+
+  // Filtrar apenas staff com localização
+  const staffWithLocation = staffLocations.filter(s => s.lat && s.lng);
 
   const handleMapReady = (mapInstance: google.maps.Map) => {
     setMap(mapInstance);
-    
-    // Add marcadores para cada membro do staff
-    const newMarkers = staffLocations.map((staff) => {
+    updateMarkers(mapInstance, staffWithLocation);
+  };
+
+  // Atualizar marcadores quando dados mudarem
+  useEffect(() => {
+    if (map) {
+      updateMarkers(map, staffWithLocation);
+    }
+  }, [assignments, map]);
+
+  const updateMarkers = (mapInstance: google.maps.Map, locations: StaffLocation[]) => {
+    // Limpar marcadores antigos
+    markers.forEach(marker => marker.setMap(null));
+
+    // Criar novos marcadores
+    const newMarkers = locations.map((staff) => {
+      if (!staff.lat || !staff.lng) return null;
+
       const marker = new google.maps.Marker({
         position: { lat: staff.lat, lng: staff.lng },
         map: mapInstance,
         title: staff.name,
         icon: {
-          url: staff.status === "arrived" 
+          url: staff.status === "checked_in"
             ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-            : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            : staff.status === "checked_out"
+            ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            : "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
         },
       });
 
@@ -65,8 +95,11 @@ export default function AdminEventTracking() {
             <h3 style="margin: 0 0 4px 0; font-weight: bold;">${staff.name}</h3>
             <p style="margin: 0; color: #666;">${staff.role}</p>
             <p style="margin: 4px 0 0 0; font-size: 12px;">
-              Status: ${staff.status === "traveling" ? "Em deslocamento" : "No local"}
+              Status: ${staff.status === "checked_in" ? "Checked In" : staff.status === "checked_out" ? "Checked Out" : "Pending"}
             </p>
+            ${staff.checkInTime ? `<p style="margin: 2px 0 0 0; font-size: 11px; color: #999;">
+              Check-in: ${new Date(staff.checkInTime).toLocaleTimeString()}
+            </p>` : ""}
           </div>
         `,
       });
@@ -76,189 +109,168 @@ export default function AdminEventTracking() {
       });
 
       return marker;
-    });
+    }).filter(Boolean) as google.maps.Marker[];
 
     setMarkers(newMarkers);
 
     // Centralizar mapa na primeira localização
-    if (staffLocations.length > 0) {
-      mapInstance.setCenter({ lat: staffLocations[0].lat, lng: staffLocations[0].lng });
+    if (locations.length > 0 && locations[0].lat && locations[0].lng) {
+      mapInstance.setCenter({ lat: locations[0].lat, lng: locations[0].lng });
       mapInstance.setZoom(14);
     }
   };
 
-  const getStatusInfo = (status: typeof eventStatus) => {
-    const statusMap = {
-      scheduled: {
-        label: "Agendado",
-        color: "bg-blue-100 text-blue-700 border-blue-300",
-        icon: Clock,
-      },
-      traveling: {
-        label: "Team em Deslocamento",
-        color: "bg-yellow-100 text-yellow-700 border-yellow-300",
-        icon: Navigation,
-      },
-      in_progress: {
-        label: "Serviço em Andamento",
-        color: "bg-green-100 text-green-700 border-green-300",
-        icon: Users,
-      },
-      completed: {
-        label: "Concluído",
-        color: "bg-gray-100 text-gray-700 border-gray-300",
-        icon: CheckCircle,
-      },
-    };
-    return statusMap[status];
-  };
-
-  const getStaffStatusBadge = (status: StaffLocation["status"]) => {
-    const statusMap = {
-      traveling: { label: "Em deslocamento", variant: "secondary" as const },
-      arrived: { label: "No local", variant: "default" as const },
-      working: { label: "Trabalhando", variant: "outline" as const },
-    };
-    return statusMap[status];
-  };
-
-  const statusInfo = getStatusInfo(eventStatus);
-  const StatusIcon = statusInfo.icon;
+  const checkedInCount = staffLocations.filter(s => s.status === "checked_in").length;
+  const checkedOutCount = staffLocations.filter(s => s.status === "checked_out").length;
+  const pendingCount = staffLocations.filter(s => s.status === "pending").length;
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
-        {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Tracking em Tempo Real</h1>
-          <p className="text-muted-foreground">
-            Acompanhe a localização e status da equipe durante o evento
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                onClick={() => navigate(`/admin/events/${eventId}`)}
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Event
+              </Button>
+              <div>
+                <h1 className="text-2xl font-bold">Live Tracking</h1>
+                <p className="text-sm text-gray-500">{event?.title}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => refetch()}
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Refresh
+              </Button>
+              <Button
+                variant={autoRefresh ? "default" : "outline"}
+                size="sm"
+                onClick={() => setAutoRefresh(!autoRefresh)}
+              >
+                Auto-refresh: {autoRefresh ? "ON" : "OFF"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Stats Cards */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-500">Checked In</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold text-green-600">{checkedInCount}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-500">Checked Out</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold text-blue-600">{checkedOutCount}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-500">Pending</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold text-yellow-600">{pendingCount}</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-500">Total Staff</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold">{staffLocations.length}</p>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Event Status */}
-        <Card className="border-2">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-xl">Casamento - Maria & João</CardTitle>
-                <CardDescription className="mt-1">
-                  {format(new Date(), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })} • 19:00
-                </CardDescription>
-              </div>
-              <Badge className={`${statusInfo.color} px-4 py-2 text-sm font-medium border`}>
-                <StatusIcon className="h-4 w-4 mr-2" />
-                {statusInfo.label}
-              </Badge>
-            </div>
-          </CardHeader>
-        </Card>
-
         {/* Map */}
-        <Card>
+        <Card className="mt-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-accent" />
-              Localização da Team
+              <MapPin className="w-5 h-5" />
+              Staff Locations
             </CardTitle>
-            <CardDescription>
-              Visualize em tempo real onde cada membro da equipe está
-            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[500px] rounded-lg overflow-hidden border-2">
-              <MapView onMapReady={handleMapReady} />
-            </div>
+            {staffWithLocation.length > 0 ? (
+              <div className="h-[500px] rounded-lg overflow-hidden">
+                <MapView onMapReady={handleMapReady} />
+              </div>
+            ) : (
+              <div className="h-[500px] flex items-center justify-center bg-gray-100 rounded-lg">
+                <p className="text-gray-500">No staff locations available yet</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         {/* Staff List */}
-        <Card>
+        <Card className="mt-6">
           <CardHeader>
-            <CardTitle>Team Escalada ({staffLocations.length} profissionais)</CardTitle>
+            <CardTitle>Team Members</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {staffLocations.map((staff) => {
-                const statusBadge = getStaffStatusBadge(staff.status);
-                return (
-                  <div
-                    key={staff.id}
-                    className="flex items-center justify-between p-4 rounded-lg border-2 hover:border-accent/50 transition-all"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
-                        <Users className="h-6 w-6 text-accent" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground">{staff.name}</h3>
-                        <p className="text-sm text-muted-foreground">{staff.role}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <Badge variant={statusBadge.variant}>{statusBadge.label}</Badge>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Atualizado {format(staff.lastUpdate, "HH:mm")}
-                        </p>
-                      </div>
-                      <MapPin className="h-5 w-5 text-muted-foreground" />
-                    </div>
+              {staffLocations.map((staff) => (
+                <div
+                  key={staff.id}
+                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                >
+                  <div>
+                    <p className="font-medium">{staff.name}</p>
+                    <p className="text-sm text-gray-500">{staff.role}</p>
+                    {staff.checkInTime && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Check-in: {new Date(staff.checkInTime).toLocaleTimeString()}
+                      </p>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Timeline */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Timeline do Evento</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-start gap-4">
-                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
+                  <div className="flex items-center gap-3">
+                    {staff.lat && staff.lng && (
+                      <Badge variant="outline" className="text-xs">
+                        <MapPin className="w-3 h-3 mr-1" />
+                        GPS
+                      </Badge>
+                    )}
+                    <Badge
+                      className={
+                        staff.status === "checked_in"
+                          ? "bg-green-100 text-green-700"
+                          : staff.status === "checked_out"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }
+                    >
+                      {staff.status === "checked_in" ? "Checked In" : staff.status === "checked_out" ? "Checked Out" : "Pending"}
+                    </Badge>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold">Team Confirmada</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Todos os profissionais confirmaram presença
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">Hoje às 14:30</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
-                  <Navigation className="h-5 w-5 text-yellow-600" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold">Team em Deslocamento</h4>
-                  <p className="text-sm text-muted-foreground">
-                    2 de 2 profissionais a caminho do local
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">Hoje às 17:45</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 opacity-50">
-                <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold">Serviço Iniciado</h4>
-                  <p className="text-sm text-muted-foreground">Aguardando início</p>
-                  <p className="text-xs text-muted-foreground mt-1">Previsto para 19:00</p>
-                </div>
-              </div>
+              ))}
             </div>
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
+    </div>
   );
 }
