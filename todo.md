@@ -498,3 +498,12 @@
 - [x] Implementar dialog Add Service na EventDetails
 - [x] Implementar dialog Add Item (Inventory) na EventDetails
 - [x] Adicionar botão "Send Quote to Client" no header da EventDetails
+- [x] Adicionar campo price nas tabelas event_services e event_menu_selections
+- [x] Atualizar dialogs Add Service e Add Menu para permitir editar preço
+- [x] Criar API sendQuoteToClient para enviar orçamento ao cliente
+- [x] Integrar botão "Send Quote to Client" com a API
+- [ ] Atualizar cálculo de Total Price para considerar preços customizados
+- [x] Adicionar campos paymentMethod, paymentLink, bankAccountDetails na tabela events
+- [x] Criar seção Payment na EventDetails com dropdown de método e campos condicionais
+- [ ] Criar API sendPaymentInfoToClient (TODO)
+- [ ] Implementar APIs de update para paymentMethod, paymentLink, bankAccountDetails

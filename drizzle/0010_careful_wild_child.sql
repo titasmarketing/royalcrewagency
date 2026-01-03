@@ -1,0 +1,1 @@
+ALTER TABLE `event_menu_selections` ADD `price` decimal(10,2);

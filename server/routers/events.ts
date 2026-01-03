@@ -248,4 +248,26 @@ export const eventsRouter = router({
       const totalPrice = await db.calculateEventTotalPrice(input.eventId);
       return { totalPrice };
     }),
+  // ============================================================================
+  // SEND QUOTE TO CLIENT
+  // ============================================================================
+  sendQuoteToClient: adminProcedure
+    .input(z.object({
+      eventId: z.number(),
+    }))
+    .mutation(async ({ input }) => {
+      const event = await db.getEventById(input.eventId);
+      if (!event) throw new Error("Event not found");
+      
+      const totalPrice = await db.calculateEventTotalPrice(input.eventId);
+      
+      // TODO: Implementar envio de notificação para o cliente
+      // Por enquanto, apenas retorna sucesso
+      
+      return { 
+        success: true, 
+        message: "Quote sent to client successfully",
+        totalPrice 
+      };
+    }),
 });

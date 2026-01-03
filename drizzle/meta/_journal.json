@@ -71,6 +71,20 @@
       "when": 1767396039808,
       "tag": "0009_broken_steve_rogers",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1767397799998,
+      "tag": "0010_careful_wild_child",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1767398423988,
+      "tag": "0011_previous_spectrum",
+      "breakpoints": true
     }
   ]
 }

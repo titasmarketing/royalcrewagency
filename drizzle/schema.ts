@@ -154,6 +154,9 @@ export const events = mysqlTable("events", {
   totalPrice: decimal("totalPrice", { precision: 10, scale: 2 }),
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+  paymentMethod: mysqlEnum("paymentMethod", ["stripe", "bank_transfer", "cash"]),
+  paymentLink: text("paymentLink"),
+  bankAccountDetails: text("bankAccountDetails"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
@@ -454,6 +457,7 @@ export const eventMenuSelections = mysqlTable("event_menu_selections", {
   eventId: int("eventId").notNull(),
   menuItemId: int("menuItemId").notNull(),
   quantity: int("quantity").default(1),
+  price: decimal("price", { precision: 10, scale: 2 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

@@ -74,6 +74,7 @@ export const menuRouter = router({
       eventId: z.number(),
       menuItemId: z.number(),
       quantity: z.number().default(1),
+      price: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       const db = await getDb();

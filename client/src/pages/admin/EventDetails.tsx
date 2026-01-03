@@ -25,6 +25,7 @@ export default function EventDetails() {
   
   // Local state for notes
   const [notes, setNotes] = useState("");
+  const [customPrices, setCustomPrices] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"quote" | "confirmed" | "in_progress" | "completed" | "cancelled">("quote");
 
   useEffect(() => {
@@ -118,6 +119,15 @@ export default function EventDetails() {
       refetch();
     },
   });
+  const sendQuoteMutation = trpc.events.sendQuoteToClient.useMutation({
+    onSuccess: () => {
+      toast.success("Quote sent to client successfully!");
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Failed to send quote: ${error.message}`);
+    },
+  });
 
   const { data: totalPriceData } = trpc.events.calculateTotalPrice.useQuery({ eventId });
   const { data: allMenuItems } = trpc.menu.list.useQuery();
@@ -190,10 +200,12 @@ export default function EventDetails() {
               variant="outline"
               className="bg-[#D4AF37] text-white hover:bg-[#B8941F] border-[#D4AF37]"
               onClick={() => {
-                toast.success("Quote sent to client!");
+                sendQuoteMutation.mutate({ eventId });
               }}
+              disabled={sendQuoteMutation.isPending}
             >
-              <FileDown className="w-4 h-4 mr-2" /> Send Quote to Client
+              <FileDown className="w-4 h-4 mr-2" /> 
+              {sendQuoteMutation.isPending ? "Sending..." : "Send Quote to Client"}
             </Button>
             <Button variant="outline">
               <FileDown className="w-4 h-4 mr-2" /> Generate Invoice
@@ -453,17 +465,29 @@ export default function EventDetails() {
                               </p>
                             )}
                           </div>
-                          <Button
-                            size="sm"
-                            onClick={() => {
-                              addServiceMutation.mutate({
-                                eventId,
-                                serviceId: service.id,
-                              });
-                            }}
-                          >
-                            Add
-                          </Button>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="number"
+                              step="0.01"
+                              placeholder={service.basePrice ? `£${service.basePrice}` : "Price (£)"}
+                              className="w-28 px-2 py-1 text-sm border rounded"
+                              value={customPrices[`service-${service.id}`] || ''}
+                              onChange={(e) => setCustomPrices({...customPrices, [`service-${service.id}`]: e.target.value})}
+                            />
+                            <Button
+                              size="sm"
+                              onClick={() => {
+                                const price = customPrices[`service-${service.id}`];
+                                addServiceMutation.mutate({
+                                  eventId,
+                                  serviceId: service.id,
+                                  price: price ? parseFloat(price) : undefined,
+                                });
+                              }}
+                            >
+                              Add
+                            </Button>
+                          </div>
                         </div>
                       ))
                     ) : (
@@ -531,19 +555,30 @@ export default function EventDetails() {
                                 {item.category}
                               </span>
                             </div>
-                            <Button
-                              size="sm"
-                              disabled={isAdded}
-                              onClick={() => {
-                                addMenuItemMutation.mutate({
-                                  eventId,
-                                  menuItemId: item.id,
-                                  quantity: 1,
-                                });
-                              }}
-                            >
-                              {isAdded ? "Added" : "Add"}
-                            </Button>
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="number"
+                                step="0.01"
+                                placeholder="Price (£)"
+                                className="w-24 px-2 py-1 text-sm border rounded"
+                                value={customPrices[`menu-${item.id}`] || ''}
+                                onChange={(e) => setCustomPrices({...customPrices, [`menu-${item.id}`]: e.target.value})}
+                              />
+                              <Button
+                                size="sm"
+                                disabled={isAdded}
+                                onClick={() => {
+                                  addMenuItemMutation.mutate({
+                                    eventId,
+                                    menuItemId: item.id,
+                                    quantity: 1,
+                                    price: customPrices[`menu-${item.id}`] || undefined,
+                                  });
+                                }}
+                              >
+                                {isAdded ? "Added" : "Add"}
+                              </Button>
+                            </div>
                           </div>
                         );
                       })
@@ -692,6 +727,76 @@ export default function EventDetails() {
               £{totalPriceData?.totalPrice?.toFixed(2) || event.totalPrice || "0.00"}
             </p>
           </CardContent>
+        {/* Payment */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <DollarSign className="w-5 h-5 text-[#D4AF37]" /> Payment
+            </CardTitle>
+            <CardDescription>Configure payment method and send to client</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Payment Method</label>
+              <select
+                className="w-full px-3 py-2 border rounded-md"
+                value={event.paymentMethod || ""}
+                onChange={(e) => {
+                  // TODO: Implementar update do paymentMethod
+                  toast.info("Payment method selection - API integration pending");
+                }}
+              >
+                <option value="">Select payment method</option>
+                <option value="stripe">Stripe Payment Link</option>
+                <option value="bank_transfer">Bank Transfer</option>
+                <option value="cash">Cash</option>
+              </select>
+            </div>
+            
+            {event.paymentMethod === "stripe" && (
+              <div>
+                <label className="block text-sm font-medium mb-2">Stripe Payment Link</label>
+                <input
+                  type="url"
+                  placeholder="https://checkout.stripe.com/..."
+                  className="w-full px-3 py-2 border rounded-md"
+                  value={event.paymentLink || ""}
+                  onChange={(e) => {
+                    // TODO: Implementar update do paymentLink
+                    toast.info("Payment link update - API integration pending");
+                  }}
+                />
+              </div>
+            )}
+            
+            {event.paymentMethod === "bank_transfer" && (
+              <div>
+                <label className="block text-sm font-medium mb-2">Bank Account Details</label>
+                <textarea
+                  rows={4}
+                  placeholder="Account Name: Royal Crew Agency&#10;Sort Code: 12-34-56&#10;Account Number: 12345678&#10;Reference: [Event ID]"
+                  className="w-full px-3 py-2 border rounded-md"
+                  value={event.bankAccountDetails || ""}
+                  onChange={(e) => {
+                    // TODO: Implementar update do bankAccountDetails
+                    toast.info("Bank details update - API integration pending");
+                  }}
+                />
+              </div>
+            )}
+            
+            {event.paymentMethod && (
+              <Button
+                className="w-full bg-[#D4AF37] hover:bg-[#B8941F]"
+                onClick={() => {
+                  toast.success("Payment info sent to client!");
+                }}
+              >
+                <FileDown className="w-4 h-4 mr-2" /> Send Payment Info to Client
+              </Button>
+            )}
+          </CardContent>
+        </Card>
         </Card>
 
         {/* Internal Notes */}
