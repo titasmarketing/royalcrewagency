@@ -137,8 +137,8 @@ export const staffRouter = router({
   // ============================================================================
   uploadPhoto: protectedProcedure
     .input(z.object({
-      photoUrl: z.string(),
-      photoKey: z.string(),
+      photoData: z.string(), // base64
+      fileName: z.string(),
       isPrimary: z.boolean().default(false),
     }))
     .mutation(async ({ input, ctx }) => {
@@ -149,13 +149,23 @@ export const staffRouter = router({
       if (!staff) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
       }
+      
+      // Convert base64 to buffer
+      const base64Data = input.photoData.split(',')[1];
+      const buffer = Buffer.from(base64Data, 'base64');
+      
+      // Upload to S3
+      const { storagePut } = await import('../storage');
+      const fileKey = `staff/${staff.id}/photos/${Date.now()}-${input.fileName}`;
+      const { url } = await storagePut(fileKey, buffer, 'image/jpeg');
+      
       await db.createStaffPhoto({
         staffId: staff.id,
-        photoUrl: input.photoUrl,
-        photoKey: input.photoKey,
+        photoUrl: url,
+        photoKey: fileKey,
         isPrimary: input.isPrimary,
       });
-      return { success: true, message: 'Photo uploaded!' };
+      return { success: true, message: 'Photo uploaded!', url };
     }),
 
   // ============================================================================

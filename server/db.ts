@@ -356,6 +356,16 @@ export async function getEventById(id: number) {
   
   if (result.length === 0) return undefined;
   
+  // Buscar staff assignments
+  const staffAssignments = await db
+    .select({
+      assignment: eventStaffAssignments,
+      staff: staffMembers,
+    })
+    .from(eventStaffAssignments)
+    .leftJoin(staffMembers, eq(eventStaffAssignments.staffId, staffMembers.id))
+    .where(eq(eventStaffAssignments.eventId, id));
+  
   return {
     ...result[0].event,
     client: result[0].client ? {
@@ -364,6 +374,10 @@ export async function getEventById(id: number) {
       email: result[0].user?.email,
       phone: result[0].user?.phone,
     } : null,
+    staffAssignments: staffAssignments.map(sa => ({
+      ...sa.assignment,
+      staff: sa.staff,
+    })),
   };
 }
 

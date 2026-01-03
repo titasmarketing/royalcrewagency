@@ -364,8 +364,71 @@ export default function EventDetails() {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-600">No staff assigned yet.</p>
-            {/* TODO: Display assigned staff list */}
+            {event?.staffAssignments && event.staffAssignments.length > 0 ? (
+              <div className="space-y-3">
+                {event.staffAssignments.map((assignment: any) => (
+                  <div key={assignment.id} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="font-medium text-gray-900">{assignment.staff?.name || "Staff Member"}</p>
+                        {assignment.status === "invited" && (
+                          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-300">
+                            Pending Confirmation
+                          </Badge>
+                        )}
+                        {assignment.status === "accepted" && (
+                          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
+                            Confirmed
+                          </Badge>
+                        )}
+                        {assignment.status === "declined" && (
+                          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-300">
+                            Declined
+                          </Badge>
+                        )}
+                      </div>
+                      {assignment.role && (
+                        <p className="text-sm text-gray-600">Role: {assignment.role}</p>
+                      )}
+                      {assignment.checkInTime && (
+                        <div className="flex items-center gap-4 mt-2 text-xs">
+                          <span className="text-green-600">
+                            ✅ Checked in: {new Date(assignment.checkInTime).toLocaleString()}
+                          </span>
+                          {assignment.checkInLocation && (
+                            <span className="text-gray-500">
+                              📍 {assignment.checkInLocation}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {assignment.checkOutTime && (
+                        <div className="flex items-center gap-4 mt-1 text-xs">
+                          <span className="text-orange-600">
+                            🚪 Checked out: {new Date(assignment.checkOutTime).toLocaleString()}
+                          </span>
+                          {assignment.checkOutLocation && (
+                            <span className="text-gray-500">
+                              📍 {assignment.checkOutLocation}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {/* TODO: Remove staff */}}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-600">No staff assigned yet.</p>
+            )}
           </CardContent>
         </Card>
 
