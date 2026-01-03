@@ -611,7 +611,16 @@ export default function Home() {
            </div>
            
            <div className="border-t border-gray-800 pt-8 text-center text-[10px] uppercase tracking-widest">
-              <p>&copy; 2024 Royal Crew Agency. All rights reserved.</p>
+              <p>
+                <a 
+                  href="https://agencyl1.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-[#D4AF37] transition-colors"
+                >
+                  agencyl1.com &copy; <span dangerouslySetInnerHTML={{__html: new Date().getFullYear().toString()}} />
+                </a>
+              </p>
            </div>
         </div>
       </footer>

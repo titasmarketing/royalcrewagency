@@ -507,3 +507,6 @@
 - [x] Criar seção Payment na EventDetails com dropdown de método e campos condicionais
 - [ ] Criar API sendPaymentInfoToClient (TODO)
 - [ ] Implementar APIs de update para paymentMethod, paymentLink, bankAccountDetails
+- [x] Atualizar rodapé do site com link da agencyl1.com
+- [x] Criar API updatePaymentInfo para salvar paymentMethod, paymentLink, bankAccountDetails
+- [x] Integrar campos Payment na EventDetails com API para salvar automaticamente

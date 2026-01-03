@@ -270,4 +270,19 @@ export const eventsRouter = router({
         totalPrice 
       };
     }),
+  // ============================================================================
+  // UPDATE PAYMENT INFO
+  // ============================================================================
+  updatePaymentInfo: adminProcedure
+    .input(z.object({
+      eventId: z.number(),
+      paymentMethod: z.enum(["stripe", "bank_transfer", "cash"]).optional(),
+      paymentLink: z.string().optional(),
+      bankAccountDetails: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const { eventId, ...updateData } = input;
+      await db.updateEvent(eventId, updateData);
+      return { success: true };
+    }),
 });

@@ -128,6 +128,15 @@ export default function EventDetails() {
       toast.error(`Failed to send quote: ${error.message}`);
     },
   });
+  const updatePaymentMutation = trpc.events.updatePaymentInfo.useMutation({
+    onSuccess: () => {
+      toast.success("Payment info updated!");
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Failed to update: ${error.message}`);
+    },
+  });
 
   const { data: totalPriceData } = trpc.events.calculateTotalPrice.useQuery({ eventId });
   const { data: allMenuItems } = trpc.menu.list.useQuery();
@@ -742,8 +751,10 @@ export default function EventDetails() {
                 className="w-full px-3 py-2 border rounded-md"
                 value={event.paymentMethod || ""}
                 onChange={(e) => {
-                  // TODO: Implementar update do paymentMethod
-                  toast.info("Payment method selection - API integration pending");
+                  const value = e.target.value as "stripe" | "bank_transfer" | "cash" | "";
+                  if (value) {
+                    updatePaymentMutation.mutate({ eventId, paymentMethod: value });
+                  }
                 }}
               >
                 <option value="">Select payment method</option>
@@ -761,9 +772,14 @@ export default function EventDetails() {
                   placeholder="https://checkout.stripe.com/..."
                   className="w-full px-3 py-2 border rounded-md"
                   value={event.paymentLink || ""}
+                  onBlur={(e) => {
+                    const value = e.target.value;
+                    if (value !== event.paymentLink) {
+                      updatePaymentMutation.mutate({ eventId, paymentLink: value });
+                    }
+                  }}
                   onChange={(e) => {
-                    // TODO: Implementar update do paymentLink
-                    toast.info("Payment link update - API integration pending");
+                    // Apenas atualiza o valor localmente, salva no onBlur
                   }}
                 />
               </div>
@@ -777,9 +793,14 @@ export default function EventDetails() {
                   placeholder="Account Name: Royal Crew Agency&#10;Sort Code: 12-34-56&#10;Account Number: 12345678&#10;Reference: [Event ID]"
                   className="w-full px-3 py-2 border rounded-md"
                   value={event.bankAccountDetails || ""}
+                  onBlur={(e) => {
+                    const value = e.target.value;
+                    if (value !== event.bankAccountDetails) {
+                      updatePaymentMutation.mutate({ eventId, bankAccountDetails: value });
+                    }
+                  }}
                   onChange={(e) => {
-                    // TODO: Implementar update do bankAccountDetails
-                    toast.info("Bank details update - API integration pending");
+                    // Apenas atualiza o valor localmente, salva no onBlur
                   }}
                 />
               </div>
