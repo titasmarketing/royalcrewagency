@@ -578,3 +578,11 @@
 - [x] Conectar botão "Add Menu Items" do ClientPortal
 - [x] Mostrar resumo de serviços e menu selecionados
 - [x] Calcular e mostrar preço total atualizado
+
+## Tracking Access Control
+
+- [x] Verificar página ClientTracking atual
+- [x] Mover tracking com GPS para admin-only (/admin/events/:id/tracking)
+- [x] Remover rota /client/tracking/:id do App.tsx
+- [x] Criar versão simplificada para cliente (status do evento, sem GPS)
+- [x] Atualizar botão "Track Event" no ClientPortal

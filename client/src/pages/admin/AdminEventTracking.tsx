@@ -17,7 +17,7 @@ interface StaffLocation {
   lastUpdate: Date;
 }
 
-export default function ClientTracking() {
+export default function AdminEventTracking() {
   const [eventStatus, setEventStatus] = useState<"scheduled" | "traveling" | "in_progress" | "completed">("traveling");
   const [staffLocations, setStaffLocations] = useState<StaffLocation[]>([
     {

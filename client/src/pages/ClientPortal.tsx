@@ -291,10 +291,10 @@ export default function ClientPortal() {
                       </Button>
                       <Button 
                         variant="outline" 
-                        onClick={() => navigate(`/client/tracking/${event.id}`)}
+                        onClick={() => navigate(`/client/events/${event.id}/status`)}
                         className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37]"
                       >
-                        Track Event
+                        View Status
                       </Button>
                     </div>
                   </div>

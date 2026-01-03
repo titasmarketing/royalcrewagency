@@ -19,7 +19,7 @@ import ServiceDetail from "./pages/ServiceDetail";
 import ClientPortal from "./pages/ClientPortal";
 import StaffAvailability from "./pages/StaffAvailability";
 import StaffWallet from "./pages/StaffWallet";
-import ClientTracking from "./pages/ClientTracking";
+import ClientEventStatus from "./pages/ClientEventStatus";
 import ClientFinancial from "./pages/ClientFinancial";
 import ClientEventDetails from "./pages/ClientEventDetails";
 import RecruitmentPortal from "./pages/RecruitmentPortal";
@@ -30,6 +30,7 @@ import AdminGallery from "./pages/admin/AdminGallery";
 import AdminMenu from "./pages/admin/AdminMenu";
 import EventDetails from "./pages/admin/EventDetails";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminEventTracking from "./pages/admin/AdminEventTracking";
 import Gallery from "./pages/Gallery";
 import Menu from "./pages/Menu";
 
@@ -56,8 +57,8 @@ function Router() {
         <Route path="/admin/gallery" component={AdminGallery} />
         <Route path="/admin/menu" component={AdminMenu} />
         <Route path="/admin/events/:id" component={EventDetails} />
-        <Route path="/admin/messages" component={AdminMessages} />
-        <Route path="/gallery" component={Gallery} />
+        <Route path={"/admin/messages"} component={AdminMessages} />
+      <Route path={"/admin/events/:id/tracking"} component={AdminEventTracking} />       <Route path="/gallery" component={Gallery} />
         <Route path="/menu" component={Menu} />
       <Route path={"/services"} component={Services} />
       <Route path={"/services/:slug"} component={ServiceDetail} />
@@ -66,7 +67,7 @@ function Router() {
       <Route path={"/staff/availability"} component={StaffAvailability} />
       <Route path={"/staff/wallet"} component={StaffWallet} />
       <Route path={"/client/events/:id"} component={ClientEventDetails} />
-      <Route path={"/client/tracking/:id"} component={ClientTracking} />
+      <Route path={"/client/events/:id/status"} component={ClientEventStatus} />
       <Route path={"/client/financial/:id"} component={ClientFinancial} />
       <Route path={"/work-with-us"} component={RecruitmentPortal} />
       <Route path={"/admin/applications"} component={AdminRecruitment} />
