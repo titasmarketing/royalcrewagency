@@ -12,7 +12,7 @@ export default function StaffPortal() {
   const [, navigate] = useLocation();
   
   const { data: myJobs, isLoading } = trpc.events.list.useQuery();
-  const { data: staffProfile } = trpc.staff.list.useQuery();
+  const { data: staffProfile } = trpc.staffAdmin.list.useQuery();
 
   if (!user) {
     return (

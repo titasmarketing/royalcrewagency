@@ -6,7 +6,7 @@ import { Link } from "wouter";
 
 export default function AdminDashboard() {
   const { data: events, isLoading: eventsLoading } = trpc.events.list.useQuery();
-  const { data: staff, isLoading: staffLoading } = trpc.staff.list.useQuery();
+  const { data: staff, isLoading: staffLoading } = trpc.staffAdmin.list.useQuery();
   const { data: clients, isLoading: clientsLoading } = trpc.clients.list.useQuery();
   const { data: services, isLoading: servicesLoading } = trpc.services.listAll.useQuery();
 

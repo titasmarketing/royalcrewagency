@@ -177,6 +177,10 @@ export const eventStaffAssignments = mysqlTable("event_staff_assignments", {
   paymentStatus: mysqlEnum("paymentStatus", ["pending", "paid", "bonus"]).default("pending").notNull(),
   invitedAt: timestamp("invitedAt").defaultNow().notNull(),
   respondedAt: timestamp("respondedAt"),
+  checkInTime: timestamp("checkInTime"),
+  checkOutTime: timestamp("checkOutTime"),
+  checkInLocation: text("checkInLocation"), // JSON: {lat, lng, address}
+  checkOutLocation: text("checkOutLocation"), // JSON: {lat, lng, address}
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -463,6 +467,39 @@ export const eventMenuSelections = mysqlTable("event_menu_selections", {
 
 export type EventMenuSelection = typeof eventMenuSelections.$inferSelect;
 export type InsertEventMenuSelection = typeof eventMenuSelections.$inferInsert;
+
+// ============================================================================
+// STAFF MESSAGES (Chat staff-admin)
+// ============================================================================
+
+export const staffMessages = mysqlTable("staff_messages", {
+  id: int("id").autoincrement().primaryKey(),
+  staffId: int("staffId").notNull(),
+  eventId: int("eventId"),
+  senderId: int("senderId").notNull(), // userId que enviou
+  senderRole: mysqlEnum("senderRole", ["staff", "admin"]).notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type StaffMessage = typeof staffMessages.$inferSelect;
+export type InsertStaffMessage = typeof staffMessages.$inferInsert;
+
+// ============================================================================
+// STAFF PHOTOS (Galeria de fotos do staff)
+// ============================================================================
+
+export const staffPhotos = mysqlTable("staff_photos", {
+  id: int("id").autoincrement().primaryKey(),
+  staffId: int("staffId").notNull(),
+  photoUrl: text("photoUrl").notNull(),
+  photoKey: text("photoKey").notNull(), // S3 key para deletar
+  isPrimary: boolean("isPrimary").default(false).notNull(), // Avatar principal
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type StaffPhoto = typeof staffPhotos.$inferSelect;
+export type InsertStaffPhoto = typeof staffPhotos.$inferInsert;
 
 // ============================================================================
 // RELATIONS

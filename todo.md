@@ -512,3 +512,38 @@
 - [x] Integrar campos Payment na EventDetails com API para salvar automaticamente
 - [x] Implementar botão "Ver Events" no card de cliente (Admin → Clients)
 - [x] Implementar botão "Edit" no card de cliente (Admin → Clients)
+
+## STAFF PORTAL MOBILE APP - FASE 1: DATABASE SCHEMA
+- [ ] Adicionar campos em event_staff: confirmationStatus (pending/accepted/declined), checkInTime, checkOutTime, checkInLocation, checkOutLocation
+- [ ] Criar tabela staff_messages (id, staffId, eventId, senderId, senderRole, message, createdAt)
+- [ ] Criar tabela staff_photos (id, staffId, photoUrl, photoKey, isPrimary, createdAt)
+- [ ] Fazer db:push das alterações
+
+## STAFF PORTAL MOBILE APP - FASE 2: BACKEND APIs
+- [x] Criar API staff.acceptJob (staffId, eventId) - muda confirmationStatus para accepted
+- [x] Criar API staff.declineJob (staffId, eventId) - muda confirmationStatus para declined
+- [x] Criar API staff.checkIn (staffId, eventId, location {lat, lng}) - salva timestamp + GPS
+- [x] Criar API staff.checkOut (staffId, eventId, location {lat, lng}) - salva timestamp + GPS
+- [x] Criar API staff.myJobs - lista apenas eventos onde staff foi assigned
+- [x] Criar API staff.sendMessage (eventId, message) - envia mensagem para admin
+- [x] Criar API staff.getMessages (eventId) - busca histórico de mensagens
+- [x] Criar API staff.uploadPhoto (photoFile) - upload para S3 + salva no DB
+- [x] Criar API staff.deletePhoto (photoId) - remove foto
+- [ ] Criar API staff.updateProfile (avatar, bio, etc)
+
+## STAFF PORTAL MOBILE APP - FASE 3: FRONTEND REDESIGN
+- [ ] Redesenhar StaffPortal com layout mobile-first (bottom navigation tabs)
+- [ ] Criar tabs: Home (My Jobs), Profile, Messages, Availability
+- [ ] Implementar Profile tab: avatar + galeria de fotos + upload
+- [ ] Implementar My Jobs tab: lista de eventos assigned com filtros (pending, upcoming, completed)
+- [ ] Adicionar cards de job com botões Accept/Decline (só para pending)
+- [ ] Implementar GPS Check-in/Check-out buttons (usar navigator.geolocation)
+- [ ] Implementar Messages tab: chat thread com admin por evento
+- [ ] Adicionar notificações visuais de novos jobs pending confirmation
+
+## STAFF PORTAL MOBILE APP - FASE 4: ADMIN INTEGRATION
+- [ ] Atualizar EventDetails: mostrar confirmation status de cada staff (badges coloridos)
+- [ ] Adicionar check-in/check-out times e locations na lista de staff assigned
+- [ ] Criar seção Messages no EventDetails para admin responder staff
+- [ ] Adicionar alerta visual quando staff decline job (admin precisa substituir)
+- [ ] Criar dashboard metric: "Pending Confirmations" count

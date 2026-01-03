@@ -11,6 +11,7 @@ import { recruitmentRouter } from "./routers/recruitment";
 import { documentsRouter } from "./routers/documents";
 import { eventsRouter } from "./routers/events";
 import { menuRouter } from "./routers/menu";
+import { staffRouter } from "./routers/staff";
 
 export const appRouter = router({
   system: systemRouter,
@@ -18,6 +19,7 @@ export const appRouter = router({
   recruitment: recruitmentRouter,
   documents: documentsRouter,
   events: eventsRouter,
+  staff: staffRouter,
   menu: menuRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -100,7 +102,7 @@ export const appRouter = router({
   // ============================================================================
   // STAFF
   // ============================================================================
-  staff: router({
+  staffAdmin: router({
     list: adminProcedure.query(async () => {
       return await db.getAllStaffMembers();
     }),

@@ -1,0 +1,189 @@
+import { router, protectedProcedure } from "../_core/trpc";
+import { z } from "zod";
+import * as db from "../db";
+import { TRPCError } from "@trpc/server";
+
+export const staffRouter = router({
+  // ============================================================================
+  // MY JOBS - Lista apenas eventos onde staff foi assigned
+  // ============================================================================
+  myJobs: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user.role !== 'staff') {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+    }
+    const staff = await db.getStaffByUserId(ctx.user.id);
+    if (!staff) {
+      throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
+    }
+    return await db.getStaffAssignedEvents(staff.id);
+  }),
+
+  // ============================================================================
+  // ACCEPT JOB - Staff aceita o job
+  // ============================================================================
+  acceptJob: protectedProcedure
+    .input(z.object({
+      assignmentId: z.number(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      await db.updateStaffAssignmentStatus(input.assignmentId, 'accepted');
+      return { success: true, message: 'Job accepted successfully!' };
+    }),
+
+  // ============================================================================
+  // DECLINE JOB - Staff recusa o job
+  // ============================================================================
+  declineJob: protectedProcedure
+    .input(z.object({
+      assignmentId: z.number(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      await db.updateStaffAssignmentStatus(input.assignmentId, 'declined');
+      return { success: true, message: 'Job declined' };
+    }),
+
+  // ============================================================================
+  // CHECK IN - Staff faz check-in no evento com GPS
+  // ============================================================================
+  checkIn: protectedProcedure
+    .input(z.object({
+      assignmentId: z.number(),
+      location: z.object({
+        lat: z.number(),
+        lng: z.number(),
+        address: z.string().optional(),
+      }),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      await db.staffCheckIn(input.assignmentId, input.location);
+      return { success: true, message: 'Checked in successfully!' };
+    }),
+
+  // ============================================================================
+  // CHECK OUT - Staff faz check-out do evento com GPS
+  // ============================================================================
+  checkOut: protectedProcedure
+    .input(z.object({
+      assignmentId: z.number(),
+      location: z.object({
+        lat: z.number(),
+        lng: z.number(),
+        address: z.string().optional(),
+      }),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      await db.staffCheckOut(input.assignmentId, input.location);
+      return { success: true, message: 'Checked out successfully!' };
+    }),
+
+  // ============================================================================
+  // SEND MESSAGE - Staff envia mensagem para admin
+  // ============================================================================
+  sendMessage: protectedProcedure
+    .input(z.object({
+      eventId: z.number().optional(),
+      message: z.string().min(1),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      const staff = await db.getStaffByUserId(ctx.user.id);
+      if (!staff) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
+      }
+      await db.createStaffMessage({
+        staffId: staff.id,
+        eventId: input.eventId,
+        senderId: ctx.user.id,
+        senderRole: 'staff',
+        message: input.message,
+      });
+      return { success: true, message: 'Message sent!' };
+    }),
+
+  // ============================================================================
+  // GET MESSAGES - Busca histórico de mensagens
+  // ============================================================================
+  getMessages: protectedProcedure
+    .input(z.object({
+      eventId: z.number().optional(),
+    }))
+    .query(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      const staff = await db.getStaffByUserId(ctx.user.id);
+      if (!staff) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
+      }
+      return await db.getStaffMessages(staff.id, input.eventId);
+    }),
+
+  // ============================================================================
+  // UPLOAD PHOTO - Staff faz upload de foto
+  // ============================================================================
+  uploadPhoto: protectedProcedure
+    .input(z.object({
+      photoUrl: z.string(),
+      photoKey: z.string(),
+      isPrimary: z.boolean().default(false),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      const staff = await db.getStaffByUserId(ctx.user.id);
+      if (!staff) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
+      }
+      await db.createStaffPhoto({
+        staffId: staff.id,
+        photoUrl: input.photoUrl,
+        photoKey: input.photoKey,
+        isPrimary: input.isPrimary,
+      });
+      return { success: true, message: 'Photo uploaded!' };
+    }),
+
+  // ============================================================================
+  // GET PHOTOS - Busca fotos do staff
+  // ============================================================================
+  getPhotos: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user.role !== 'staff') {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+    }
+    const staff = await db.getStaffByUserId(ctx.user.id);
+    if (!staff) {
+      throw new TRPCError({ code: 'NOT_FOUND', message: 'Staff profile not found' });
+    }
+    return await db.getStaffPhotos(staff.id);
+  }),
+
+  // ============================================================================
+  // DELETE PHOTO - Remove foto
+  // ============================================================================
+  deletePhoto: protectedProcedure
+    .input(z.object({
+      photoId: z.number(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      await db.deleteStaffPhoto(input.photoId);
+      return { success: true, message: 'Photo deleted!' };
+    }),
+});

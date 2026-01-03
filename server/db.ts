@@ -19,7 +19,9 @@ import {
   partnerCompanies, InsertPartnerCompany,
   galleryPhotos, InsertGalleryPhoto,
   eventServices, InsertEventService,
-  eventPartnerCompanies, InsertEventPartnerCompany
+  eventPartnerCompanies, InsertEventPartnerCompany,
+  staffMessages, InsertStaffMessage,
+  staffPhotos, InsertStaffPhoto
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -766,4 +768,143 @@ export async function calculateEventTotalPrice(eventId: number): Promise<number>
   await db.update(events).set({ totalPrice: total.toString() }).where(eq(events.id, eventId));
   
   return total;
+}
+
+// ============================================================================
+// STAFF PORTAL FUNCTIONS
+// ============================================================================
+
+export async function getStaffByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(staffMembers).where(eq(staffMembers.userId, userId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getStaffAssignedEvents(staffId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const assignments = await db
+    .select()
+    .from(eventStaffAssignments)
+    .where(eq(eventStaffAssignments.staffId, staffId))
+    .orderBy(desc(eventStaffAssignments.createdAt));
+  
+  // Buscar detalhes dos eventos
+  const eventsWithDetails = await Promise.all(
+    assignments.map(async (assignment) => {
+      const eventDetails = await db
+        .select()
+        .from(events)
+        .where(eq(events.id, assignment.eventId))
+        .limit(1);
+      
+      return {
+        ...assignment,
+        event: eventDetails[0] || null,
+      };
+    })
+  );
+  
+  return eventsWithDetails;
+}
+
+export async function updateStaffAssignmentStatus(assignmentId: number, status: 'invited' | 'accepted' | 'declined' | 'confirmed') {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db
+    .update(eventStaffAssignments)
+    .set({ 
+      status,
+      respondedAt: new Date(),
+    })
+    .where(eq(eventStaffAssignments.id, assignmentId));
+}
+
+export async function staffCheckIn(assignmentId: number, location: { lat: number; lng: number; address?: string }) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db
+    .update(eventStaffAssignments)
+    .set({
+      checkInTime: new Date(),
+      checkInLocation: JSON.stringify(location),
+    })
+    .where(eq(eventStaffAssignments.id, assignmentId));
+}
+
+export async function staffCheckOut(assignmentId: number, location: { lat: number; lng: number; address?: string }) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db
+    .update(eventStaffAssignments)
+    .set({
+      checkOutTime: new Date(),
+      checkOutLocation: JSON.stringify(location),
+    })
+    .where(eq(eventStaffAssignments.id, assignmentId));
+}
+
+export async function createStaffMessage(message: { staffId: number; eventId?: number; senderId: number; senderRole: 'staff' | 'admin'; message: string }) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db.insert(staffMessages).values(message);
+}
+
+export async function getStaffMessages(staffId: number, eventId?: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (eventId) {
+    return await db
+      .select()
+      .from(staffMessages)
+      .where(and(eq(staffMessages.staffId, staffId), eq(staffMessages.eventId, eventId)))
+      .orderBy(staffMessages.createdAt);
+  }
+  
+  return await db
+    .select()
+    .from(staffMessages)
+    .where(eq(staffMessages.staffId, staffId))
+    .orderBy(staffMessages.createdAt);
+}
+
+export async function createStaffPhoto(photo: { staffId: number; photoUrl: string; photoKey: string; isPrimary: boolean }) {
+  const db = await getDb();
+  if (!db) return;
+  
+  // Se é primary, remove primary de todas as outras fotos
+  if (photo.isPrimary) {
+    await db
+      .update(staffPhotos)
+      .set({ isPrimary: false })
+      .where(eq(staffPhotos.staffId, photo.staffId));
+  }
+  
+  await db.insert(staffPhotos).values(photo);
+}
+
+export async function getStaffPhotos(staffId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(staffPhotos)
+    .where(eq(staffPhotos.staffId, staffId))
+    .orderBy(desc(staffPhotos.isPrimary), desc(staffPhotos.createdAt));
+}
+
+export async function deleteStaffPhoto(photoId: number) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db.delete(staffPhotos).where(eq(staffPhotos.id, photoId));
 }

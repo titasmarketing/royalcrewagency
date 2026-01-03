@@ -15,9 +15,9 @@ import { toast } from "sonner";
 export default function AdminStaff() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const { data: staff, isLoading, refetch } = trpc.staff.list.useQuery();
+  const { data: staff, isLoading, refetch } = trpc.staffAdmin.list.useQuery();
   
-  const updateStaff = trpc.staff.update.useMutation({
+  const updateStaff = trpc.staffAdmin.update.useMutation({
     onSuccess: () => {
       toast.success("Staff atualizado com sucesso!");
       refetch();
