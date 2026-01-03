@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Box, Building2, Calendar, FileText, Image, LayoutDashboard, LogOut, Package, PanelLeft, Target, UtensilsCrossed, UserCircle, UserPlus, Users } from "lucide-react";
+import { Box, Building2, Calendar, FileText, Image, LayoutDashboard, LogOut, MessageSquare, Package, PanelLeft, Target, UtensilsCrossed, UserCircle, UserPlus, Users } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -32,6 +32,7 @@ const menuItems = [
   { icon: Package, label: "Services", path: "/admin/services" },
   { icon: Users, label: "Team", path: "/admin/staff" },
   { icon: UserCircle, label: "Clients", path: "/admin/clients" },
+  { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
   { icon: Building2, label: "Partner Companies", path: "/admin/partner-companies" },
   { icon: Image, label: "Gallery", path: "/admin/gallery" },
   { icon: UtensilsCrossed, label: "Menu", path: "/admin/menu" },
