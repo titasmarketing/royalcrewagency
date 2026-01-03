@@ -39,7 +39,7 @@ export default function ClientEventStatus() {
         <div className="container mx-auto px-4 py-6">
           <Button
             variant="ghost"
-            onClick={() => navigate("/client/portal")}
+            onClick={() => navigate("/client")}
             className="text-[#D4AF37] hover:text-[#B8941F] mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
