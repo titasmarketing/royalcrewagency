@@ -594,3 +594,11 @@
 - [x] Implementar polling automático a cada 30 segundos
 - [x] Adicionar botão "View Live Tracking" na EventDetails do admin
 - [x] Mostrar status real (traveling/arrived/working) baseado em check-in/out
+
+## ClientEventDetails - Fix Buttons
+
+- [x] Corrigir rota do botão "Track Event" (está indo para /client/tracking/1 que não existe)
+- [x] Implementar funcionalidade real do botão "Confirm Booking"
+- [x] Criar API confirmBooking no backend
+- [x] Mudar status do evento para "confirmed"
+- [ ] Enviar notificação ao admin quando cliente confirmar (TODO)

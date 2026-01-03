@@ -64,6 +64,16 @@ export default function ClientEventDetails() {
     },
   });
 
+  const confirmBookingMutation = trpc.events.confirmBooking.useMutation({
+    onSuccess: () => {
+      toast.success("Booking confirmed! Admin has been notified.");
+      refetch();
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to confirm booking");
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0c1b33] flex items-center justify-center">
@@ -350,15 +360,23 @@ export default function ClientEventDetails() {
               </CardHeader>
               <CardContent className="space-y-3">
                 {event.status === "quote" && (
-                  <Button className="w-full bg-green-600 hover:bg-green-700">
+                  <Button 
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      if (confirm("Confirm this booking? This will finalize your event request.")) {
+                        confirmBookingMutation.mutate({ eventId });
+                      }
+                    }}
+                    disabled={confirmBookingMutation.isPending}
+                  >
                     <CheckCircle className="w-4 h-4 mr-2" />
-                    Confirm Booking
+                    {confirmBookingMutation.isPending ? "Confirming..." : "Confirm Booking"}
                   </Button>
                 )}
                 <Button
                   variant="outline"
                   className="w-full border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
-                  onClick={() => navigate(`/client/tracking/${eventId}`)}
+                  onClick={() => navigate(`/client/events/${eventId}/status`)}
                 >
                   Track Event
                 </Button>

@@ -371,4 +371,27 @@ export const eventsRouter = router({
     .query(async ({ input }) => {
       return await db.getEventServices(input.eventId);
     }),
+
+  // ============================================================================
+  // CLIENT: CONFIRM BOOKING
+  // ============================================================================
+  confirmBooking: protectedProcedure
+    .input(z.object({ eventId: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      const event = await db.getEventById(input.eventId);
+      if (!event) throw new TRPCError({ code: 'NOT_FOUND', message: 'Event not found' });
+      
+      // Verificar se o usuário é o dono do evento
+      if (event.clientId !== ctx.user.id) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'You can only confirm your own events' });
+      }
+      
+      // Atualizar status para confirmed
+      await db.updateEventStatus(input.eventId, 'confirmed');
+      
+      // TODO: Enviar notificação ao admin
+      // await notifyOwner({ title: 'Booking Confirmed', content: `Event #${input.eventId} has been confirmed by client` });
+      
+      return { success: true };
+    }),
 });
