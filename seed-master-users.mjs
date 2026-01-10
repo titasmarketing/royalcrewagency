@@ -11,26 +11,24 @@ if (!DATABASE_URL) {
 async function seedMasterUsers() {
   const connection = await mysql.createConnection(DATABASE_URL);
 
-  console.log("🌱 Creating master users for all 3 portals...\n");
+  console.log("🌱 Creating 2 master admin users...\n");
+
+  // Primeiro, deletar usuários antigos de teste
+  await connection.execute(`DELETE FROM users WHERE email IN ('admin@royalcrew.com')`);
+  console.log("🗑️  Removed old test users\n");
 
   const users = [
     {
-      email: "admin@royalcrew.com",
-      password: "admin123",
-      name: "Admin Master",
-      role: "admin"
-    },
-    {
       email: "contato@lirolla.com",
       password: "Pagotto24",
-      name: "Lirolla Client",
-      role: "client"
+      name: "Lirolla Master",
+      role: "admin"
     },
     {
       email: "contato@royalcrewagency.com",
       password: "Reginaldo07",
-      name: "Royal Crew Staff",
-      role: "staff"
+      name: "Royal Crew Master",
+      role: "admin"
     }
   ];
 
@@ -45,20 +43,20 @@ async function seedMasterUsers() {
         [user.email, hashedPassword, user.name, user.role, "email"]
       );
 
-      console.log(`✅ ${user.role.toUpperCase()} user created:`);
+      console.log(`✅ ADMIN user created:`);
       console.log(`   📧 Email: ${user.email}`);
       console.log(`   🔑 Password: ${user.password}`);
-      console.log(`   👤 Role: ${user.role}`);
+      console.log(`   👤 Name: ${user.name}`);
       console.log("");
     }
 
-    console.log("🎉 All master users created successfully!");
-    console.log("\n📝 Login credentials:");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-    console.log("ADMIN Portal: admin@royalcrew.com / admin123");
-    console.log("CLIENT Portal: contato@lirolla.com / Pagotto24");
-    console.log("STAFF Portal: contato@royalcrewagency.com / Reginaldo07");
-    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    console.log("🎉 Master admin users created successfully!");
+    console.log("\n📝 Login credentials (both have FULL ADMIN access):");
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    console.log("1. contato@lirolla.com / Pagotto24");
+    console.log("2. contato@royalcrewagency.com / Reginaldo07");
+    console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    console.log("\n✨ Both users have ADMIN role = access to all portals!");
 
   } catch (error) {
     console.error("❌ Error creating users:", error);
