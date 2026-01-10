@@ -1,4 +1,4 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { getLoginUrl } from "@/const";
+import { getLoginUrl } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/useMobile";
 import { Box, Building2, Calendar, FileText, Image, LayoutDashboard, LogOut, MessageSquare, Package, PanelLeft, Target, UtensilsCrossed, UserCircle, UserPlus, Users } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";

@@ -1,0 +1,28 @@
+{
+  "query": "\nDELETE FROM users WHERE email IN ('contato@lirolla.com', 'contato@royalcrewagency.com');\n\nINSERT INTO users (email, name, password, role, loginMethod) VALUES \n('contato@lirolla.com', 'Lirolla Admin', '$2b$10$rKZqXqJxZ8xJxZ8xJxZ8xeO8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ', 'admin', 'jwt'),\n('contato@royalcrewagency.com', 'Royal Crew Admin', '$2b$10$rKZqXqJxZ8xJxZ8xJxZ8xeO8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ', 'admin', 'jwt');\n\nSELECT id, email, name, role FROM users;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user hyyzq3xMVjqtscL.b2b43a55eb34 --database EwTC2aGBhX6TgBKTYP5XEh --execute \nDELETE FROM users WHERE email IN ('contato@lirolla.com', 'contato@royalcrewagency.com');\n\nINSERT INTO users (email, name, password, role, loginMethod) VALUES \n('contato@lirolla.com', 'Lirolla Admin', '$2b$10$rKZqXqJxZ8xJxZ8xJxZ8xeO8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ', 'admin', 'jwt'),\n('contato@royalcrewagency.com', 'Royal Crew Admin', '$2b$10$rKZqXqJxZ8xJxZ8xJxZ8xeO8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ8xJxZ', 'admin', 'jwt');\n\nSELECT id, email, name, role FROM users;\n",
+  "rows": [
+    {
+      "id": "900001",
+      "email": "dewainejasonwilson@yahoo.co.uk",
+      "name": "Dewaine Wilson ",
+      "role": "staff"
+    },
+    {
+      "id": "900002",
+      "email": "contato@lirolla.com",
+      "name": "Lirolla Admin",
+      "role": "admin"
+    },
+    {
+      "id": "900003",
+      "email": "contato@royalcrewagency.com",
+      "name": "Royal Crew Admin",
+      "role": "admin"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\n900001\tdewainejasonwilson@yahoo.co.uk\tDewaine Wilson \tstaff\n900002\tcontato@lirolla.com\tLirolla Admin\tadmin\n900003\tcontato@royalcrewagency.com\tRoyal Crew Admin\tadmin\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

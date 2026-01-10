@@ -1,0 +1,31 @@
+{
+  "query": "SELECT id, email, name, role, password FROM users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user hyyzq3xMVjqtscL.b2b43a55eb34 --database EwTC2aGBhX6TgBKTYP5XEh --execute SELECT id, email, name, role, password FROM users;",
+  "rows": [
+    {
+      "id": "1",
+      "email": "contato@lirolla.com",
+      "name": "Marcel Roda Lirolla",
+      "role": "admin",
+      "password": "NULL"
+    },
+    {
+      "id": "870005",
+      "email": "contato@lirolla.com",
+      "name": "Lirolla Master",
+      "role": "admin",
+      "password": "$2b$10$fdH.RyrRR.eHsRhHWJhtyupDyTkBfpiTvfkX9G912DAgGtsZRSmre"
+    },
+    {
+      "id": "870006",
+      "email": "contato@royalcrewagency.com",
+      "name": "Royal Crew Master",
+      "role": "admin",
+      "password": "$2b$10$rZzUfOMGhS586HFORyNJTOrj2DCaJy0YC7CxtupEDszUn08WgtIz."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\tpassword\n1\tcontato@lirolla.com\tMarcel Roda Lirolla\tadmin\tNULL\n870005\tcontato@lirolla.com\tLirolla Master\tadmin\t$2b$10$fdH.RyrRR.eHsRhHWJhtyupDyTkBfpiTvfkX9G912DAgGtsZRSmre\n870006\tcontato@royalcrewagency.com\tRoyal Crew Master\tadmin\t$2b$10$rZzUfOMGhS586HFORyNJTOrj2DCaJy0YC7CxtupEDszUn08WgtIz.\n",
+  "stderr": "",
+  "execution_time_ms": 178
+}

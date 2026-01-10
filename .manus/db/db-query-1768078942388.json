@@ -1,0 +1,22 @@
+{
+  "query": "\nUPDATE users SET password = '$2b$10$mbydAL4zH9GXwynT18UXbeQ9.Ybts4emlejjP5VrzV25iOTsvZPnG' WHERE email = 'contato@lirolla.com';\nUPDATE users SET password = '$2b$10$GZF.wg6/CdVREA3kLW5gK.5.PJsSF6Lg8Syc1M4ahLjlV1iKQb7.a' WHERE email = 'contato@royalcrewagency.com';\n\nSELECT id, email, name, role FROM users WHERE email IN ('contato@lirolla.com', 'contato@royalcrewagency.com');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user hyyzq3xMVjqtscL.b2b43a55eb34 --database EwTC2aGBhX6TgBKTYP5XEh --execute \nUPDATE users SET password = '$2b$10$mbydAL4zH9GXwynT18UXbeQ9.Ybts4emlejjP5VrzV25iOTsvZPnG' WHERE email = 'contato@lirolla.com';\nUPDATE users SET password = '$2b$10$GZF.wg6/CdVREA3kLW5gK.5.PJsSF6Lg8Syc1M4ahLjlV1iKQb7.a' WHERE email = 'contato@royalcrewagency.com';\n\nSELECT id, email, name, role FROM users WHERE email IN ('contato@lirolla.com', 'contato@royalcrewagency.com');\n",
+  "rows": [
+    {
+      "id": "900002",
+      "email": "contato@lirolla.com",
+      "name": "Lirolla Admin",
+      "role": "admin"
+    },
+    {
+      "id": "900003",
+      "email": "contato@royalcrewagency.com",
+      "name": "Royal Crew Admin",
+      "role": "admin"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\n900002\tcontato@lirolla.com\tLirolla Admin\tadmin\n900003\tcontato@royalcrewagency.com\tRoyal Crew Admin\tadmin\n",
+  "stderr": "",
+  "execution_time_ms": 71
+}
