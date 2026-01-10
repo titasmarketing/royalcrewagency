@@ -1,0 +1,130 @@
+{
+  "query": "SELECT * FROM gallery_photos LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user hyyzq3xMVjqtscL.b2b43a55eb34 --database EwTC2aGBhX6TgBKTYP5XEh --execute SELECT * FROM gallery_photos LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "Elegant Wedding Reception",
+      "description": "A stunning wedding reception at a luxury London venue with our premium service team",
+      "imageUrl": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-wedding-1.jpg",
+      "category": "weddings",
+      "isFeatured": "1",
+      "displayOrder": "1",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "2",
+      "title": "Corporate Gala Dinner",
+      "description": "High-profile corporate event with VIP service and elite hospitality staff",
+      "imageUrl": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-corporate-1.jpg",
+      "category": "corporate_events",
+      "isFeatured": "1",
+      "displayOrder": "2",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "3",
+      "title": "Private Party Excellence",
+      "description": "Exclusive private celebration with bespoke cocktail service and premium catering",
+      "imageUrl": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-party-1.jpg",
+      "category": "private_parties",
+      "isFeatured": "1",
+      "displayOrder": "3",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "4",
+      "title": "Luxury Conference Service",
+      "description": "International business conference with multilingual staff and white-glove service",
+      "imageUrl": "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-conference-1.jpg",
+      "category": "conferences",
+      "isFeatured": "1",
+      "displayOrder": "4",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "5",
+      "title": "Garden Wedding Ceremony",
+      "description": "Beautiful outdoor wedding with professional coordination and service excellence",
+      "imageUrl": "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-wedding-2.jpg",
+      "category": "weddings",
+      "isFeatured": "0",
+      "displayOrder": "5",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "6",
+      "title": "Executive Board Dinner",
+      "description": "Intimate executive dinner with discreet service and fine dining standards",
+      "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-corporate-2.jpg",
+      "category": "corporate_events",
+      "isFeatured": "0",
+      "displayOrder": "6",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "7",
+      "title": "Birthday Celebration",
+      "description": "Memorable birthday party with creative mixology and entertainment coordination",
+      "imageUrl": "https://images.unsplash.com/photo-1464347744102-11db6282f854?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-party-2.jpg",
+      "category": "private_parties",
+      "isFeatured": "0",
+      "displayOrder": "7",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "8",
+      "title": "Charity Gala Evening",
+      "description": "Prestigious charity gala with full event management and premium hospitality",
+      "imageUrl": "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-gala-1.jpg",
+      "category": "gala_dinners",
+      "isFeatured": "0",
+      "displayOrder": "8",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "9",
+      "title": "Product Launch Event",
+      "description": "High-energy product launch with brand ambassadors and promotional staff",
+      "imageUrl": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-corporate-3.jpg",
+      "category": "corporate_events",
+      "isFeatured": "0",
+      "displayOrder": "9",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    },
+    {
+      "id": "10",
+      "title": "Rooftop Wedding Reception",
+      "description": "Spectacular rooftop wedding with panoramic views and exceptional service",
+      "imageUrl": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=800&fit=crop",
+      "imageKey": "gallery/sample-wedding-3.jpg",
+      "category": "weddings",
+      "isFeatured": "0",
+      "displayOrder": "10",
+      "createdAt": "2026-01-02 16:27:20",
+      "updatedAt": "2026-01-02 16:27:20"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tdescription\timageUrl\timageKey\tcategory\tisFeatured\tdisplayOrder\tcreatedAt\tupdatedAt\n1\tElegant Wedding Reception\tA stunning wedding reception at a luxury London venue with our premium service team\thttps://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=800&fit=crop\tgallery/sample-wedding-1.jpg\tweddings\t1\t1\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n2\tCorporate Gala Dinner\tHigh-profile corporate event with VIP service and elite hospitality staff\thttps://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=800&fit=crop\tgallery/sample-corporate-1.jpg\tcorporate_events\t1\t2\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n3\tPrivate Party Excellence\tExclusive private celebration with bespoke cocktail service and premium catering\thttps://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=800&fit=crop\tgallery/sample-party-1.jpg\tprivate_parties\t1\t3\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n4\tLuxury Conference Service\tInternational business conference with multilingual staff and white-glove service\thttps://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&h=800&fit=crop\tgallery/sample-conference-1.jpg\tconferences\t1\t4\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n5\tGarden Wedding Ceremony\tBeautiful outdoor wedding with professional coordination and service excellence\thttps://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=800&fit=crop\tgallery/sample-wedding-2.jpg\tweddings\t0\t5\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n6\tExecutive Board Dinner\tIntimate executive dinner with discreet service and fine dining standards\thttps://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=800&fit=crop\tgallery/sample-corporate-2.jpg\tcorporate_events\t0\t6\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n7\tBirthday Celebration\tMemorable birthday party with creative mixology and entertainment coordination\thttps://images.unsplash.com/photo-1464347744102-11db6282f854?w=800&h=800&fit=crop\tgallery/sample-party-2.jpg\tprivate_parties\t0\t7\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n8\tCharity Gala Evening\tPrestigious charity gala with full event management and premium hospitality\thttps://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&h=800&fit=crop\tgallery/sample-gala-1.jpg\tgala_dinners\t0\t8\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n9\tProduct Launch Event\tHigh-energy product launch with brand ambassadors and promotional staff\thttps://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=800&fit=crop\tgallery/sample-corporate-3.jpg\tcorporate_events\t0\t9\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n10\tRooftop Wedding Reception\tSpectacular rooftop wedding with panoramic views and exceptional service\thttps://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=800&fit=crop\tgallery/sample-wedding-3.jpg\tweddings\t0\t10\t2026-01-02 16:27:20\t2026-01-02 16:27:20\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}
