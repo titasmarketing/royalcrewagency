@@ -6,8 +6,9 @@ export function useAuth() {
   const logout = () => {
     // Remove token from localStorage
     localStorage.removeItem('auth_token');
-    // Force page reload to clear tRPC cache and redirect to login
-    window.location.href = '/login';
+    localStorage.removeItem('user');
+    // Force full page reload to /login to clear all cache
+    window.location.replace('/login');
   };
 
   return {
