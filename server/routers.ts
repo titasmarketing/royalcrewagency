@@ -12,6 +12,7 @@ import { documentsRouter } from "./routers/documents";
 import { eventsRouter } from "./routers/events";
 import { menuRouter } from "./routers/menu";
 import { staffRouter } from "./routers/staff";
+import { authRouter } from "./auth";
 
 export const appRouter = router({
   system: systemRouter,
@@ -21,7 +22,9 @@ export const appRouter = router({
   events: eventsRouter,
   staff: staffRouter,
   menu: menuRouter,
-  auth: router({
+  auth: authRouter,
+  // Legacy auth kept for compatibility
+  legacyAuth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);

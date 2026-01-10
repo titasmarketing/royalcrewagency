@@ -527,7 +527,9 @@ export async function createUser(user: InsertUser) {
   if (!db) throw new Error("Database not available");
   
   const result = await db.insert(users).values(user);
-  return result;
+  const userId = result[0].insertId;
+  const newUser = await getUserById(userId);
+  return newUser;
 }
 
 // ============================================================================
@@ -1101,4 +1103,22 @@ export async function removeEventService(eventId: number, serviceId: number) {
       eq(eventServices.eventId, eventId),
       eq(eventServices.serviceId, serviceId)
     ));
+}
+
+
+// ============================================================================
+// USER AUTHENTICATION
+// ============================================================================
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result[0] || null;
+}
+
+export async function updateUser(userId: number, data: Partial<InsertUser>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(users).set(data).where(eq(users.id, userId));
 }

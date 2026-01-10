@@ -33,12 +33,16 @@ import AdminMessages from "./pages/admin/AdminMessages";
 import AdminEventTracking from "./pages/admin/AdminEventTracking";
 import Gallery from "./pages/Gallery";
 import Menu from "./pages/Menu";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/login"} component={Login} />
+      <Route path={"/register"} component={Register} />
       <Route path={"/admin"}>
         {() => {
           window.location.href = "/admin/calendar";

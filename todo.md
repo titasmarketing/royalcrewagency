@@ -602,3 +602,33 @@
 - [x] Criar API confirmBooking no backend
 - [x] Mudar status do evento para "confirmed"
 - [ ] Enviar notificação ao admin quando cliente confirmar (TODO)
+
+## Custom Authentication System
+
+- [ ] Remover OAuth Manus do sistema
+- [ ] Criar API de registro (email + senha)
+- [ ] Criar API de login (email + senha) com JWT
+- [ ] Criar tela de Login customizada com logo Royal Crew
+- [ ] Criar tela de Registro customizada
+- [ ] Hash de senhas com bcrypt
+- [ ] Validação de email único
+- [ ] Remover referências ao OAUTH_SERVER_URL
+
+
+## 🔐 REESCREVER SISTEMA DE AUTENTICAÇÃO COMPLETO (REMOVER OAUTH MANUS)
+
+- [x] Instalar bcryptjs e jsonwebtoken
+- [x] Criar server/auth.ts com APIs de register/login/logout
+- [x] Adicionar campo password na tabela users
+- [x] Criar funções getUserByEmail e createUser no db.ts
+- [x] Criar páginas Login.tsx e Register.tsx
+- [x] Adicionar rotas /login e /register no App.tsx
+- [x] Reescrever server/_core/context.ts para usar JWT ao invés de OAuth
+- [x] Criar middleware de autenticação JWT
+- [x] Criar hook useAuth() customizado para substituir o atual
+- [x] Adicionar Authorization header com JWT token no tRPC client
+- [x] Remover chamadas de registerOAuthRoutes
+- [x] Criar seed script para admin inicial (admin@royalcrew.com / admin123)
+- [x] Forçar reload completo após login para recarregar tRPC com token
+- [ ] Testar fluxo completo: register → login → admin/client/staff → logout
+- [ ] Sistema pronto para deploy na Hostinger
