@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM users WHERE email = 'admin@royalcrew.com';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user hyyzq3xMVjqtscL.b2b43a55eb34 --database EwTC2aGBhX6TgBKTYP5XEh --execute DELETE FROM users WHERE email = 'admin@royalcrew.com';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 56
+}

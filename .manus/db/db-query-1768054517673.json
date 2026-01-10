@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, email, name, role FROM users WHERE role = 'admin';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user hyyzq3xMVjqtscL.b2b43a55eb34 --database EwTC2aGBhX6TgBKTYP5XEh --execute SELECT id, email, name, role FROM users WHERE role = 'admin';",
+  "rows": [
+    {
+      "id": "1",
+      "email": "contato@lirolla.com",
+      "name": "Marcel Roda Lirolla",
+      "role": "admin"
+    },
+    {
+      "id": "870005",
+      "email": "contato@lirolla.com",
+      "name": "Lirolla Master",
+      "role": "admin"
+    },
+    {
+      "id": "870006",
+      "email": "contato@royalcrewagency.com",
+      "name": "Royal Crew Master",
+      "role": "admin"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\n1\tcontato@lirolla.com\tMarcel Roda Lirolla\tadmin\n870005\tcontato@lirolla.com\tLirolla Master\tadmin\n870006\tcontato@royalcrewagency.com\tRoyal Crew Master\tadmin\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}
