@@ -216,10 +216,7 @@ export default function StaffPortal() {
               {user.name?.split(" ")[0]}
             </span>
             <button
-              onClick={() => {
-                logout();
-                navigate("/");
-              }}
+              onClick={logout}
               className="text-red-400 hover:text-red-300 transition-colors"
             >
               <LogOut className="w-4 h-4" />

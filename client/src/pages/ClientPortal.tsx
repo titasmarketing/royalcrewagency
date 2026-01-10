@@ -82,10 +82,7 @@ export default function ClientPortal() {
               {user.name}
             </span>
             <button
-              onClick={() => {
-                logout();
-                navigate("/");
-              }}
+              onClick={logout}
               className="text-red-400 hover:text-red-300 transition-colors"
             >
               <LogOut className="w-5 h-5" />
