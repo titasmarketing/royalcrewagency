@@ -14,7 +14,7 @@ export const eventsRouter = router({
       clientType: z.enum(["INDIVIDUAL", "BUSINESS"]),
       name: z.string().min(1),
       email: z.string().email(),
-      phone: z.string().min(1),
+      phone: z.string().optional(),
       companyName: z.string().optional(),
       address: z.string().min(1),
       city: z.string().min(1),
