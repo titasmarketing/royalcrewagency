@@ -6,7 +6,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Calendar, Plus } from "lucide-react";
 import { useLocation } from "wouter";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -32,6 +32,24 @@ export default function AdminCalendar() {
     serviceHours: 4,
     location: '',
   });
+
+  // Reset form when dialog opens
+  useEffect(() => {
+    if (showNewEventDialog) {
+      setNewEventData({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        eventDate: '',
+        eventType: 'Corporate Event',
+        serviceHours: 4,
+        location: '',
+      });
+    }
+  }, [showNewEventDialog]);
 
   const createEventMutation = trpc.events.createBooking.useMutation({
     onSuccess: (data) => {
