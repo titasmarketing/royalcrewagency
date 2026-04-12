@@ -33,6 +33,7 @@ export const authRouter = router({
         name: input.name,
         role: input.role,
       });
+      if (!user) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to create user' });
 
       // Generate JWT token
       const token = jwt.sign(

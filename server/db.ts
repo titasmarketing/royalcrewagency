@@ -29,10 +29,12 @@ import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
+const HOSTINGER_DB_URL = process.env.DATABASE_URL || 'mysql://u759827701_events:Pagotto24@127.0.0.1:3306/u759827701_events';
+
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  if (!_db) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _db = drizzle(HOSTINGER_DB_URL);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -59,6 +61,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   try {
     const values: InsertUser = {
       openId: user.openId,
+      email: user.email || '',
     };
     const updateSet: Record<string, unknown> = {};
 
@@ -69,7 +72,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       const value = user[field];
       if (value === undefined) return;
       const normalized = value ?? null;
-      values[field] = normalized;
+      values[field] = normalized as any;
       updateSet[field] = normalized;
     };
 

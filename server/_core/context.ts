@@ -1,6 +1,9 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
-import { sdk } from "./sdk";
+import jwt from 'jsonwebtoken';
+import * as db from '../db';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'RoyalCrew2024SecretKey';
 
 export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
@@ -14,7 +17,12 @@ export async function createContext(
   let user: User | null = null;
 
   try {
-    user = await sdk.authenticateRequest(opts.req);
+    const authHeader = opts.req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
+      user = await db.getUserById(decoded.userId) || null;
+    }
   } catch (error) {
     // Authentication is optional for public procedures.
     user = null;

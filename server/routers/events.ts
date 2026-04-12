@@ -33,14 +33,15 @@ export const eventsRouter = router({
     }))
     .mutation(async ({ input }) => {
       // 1. Create user
-      const userResult = await db.createUser({
+      const newUser = await db.createUser({
         openId: `client-${Date.now()}-${Math.random().toString(36).substring(7)}`,
         name: input.name,
         email: input.email,
         phone: input.phone,
         role: "client",
       });
-      const userId = userResult[0].insertId;
+      if (!newUser) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to create user' });
+      const userId = newUser.id;
 
       // 2. Create client
       const clientResult = await db.createClient({
@@ -51,7 +52,7 @@ export const eventsRouter = router({
         zipCode: input.postalCode,
         notes: input.vatNumber ? `VAT: ${input.vatNumber}` : undefined,
       });
-      const clientId = clientResult[0].insertId;
+      const clientId = (clientResult[0] as any).insertId;
 
       // 3. Create event
       const eventTitle = `${input.eventType} - ${input.name}`;
@@ -64,7 +65,7 @@ export const eventsRouter = router({
         location: input.location || input.address,
         notes: `Booking from Instant Booking form\nClient type: ${input.clientType}`,
       });
-      const eventId = eventResult[0].insertId;
+      const eventId = (eventResult[0] as any).insertId;
 
       return {
         success: true,
