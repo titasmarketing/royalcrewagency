@@ -6,7 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { 
   Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle, 
   Calendar, Clock, PartyPopper, ArrowRight, Zap, ShieldCheck,
-  Award, TrendingUp, Package, Coffee, X, User as UserIcon, Building2, Check
+  Award, TrendingUp, Package, Coffee, X, User as UserIcon, Building2, Check,
+  Car, Camera
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState, useRef } from "react";
@@ -66,7 +67,6 @@ export default function Home() {
   const servicesRef = useRef<HTMLDivElement | null>(null);
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
-  const menuRef = useRef<HTMLDivElement | null>(null);
   const workRef = useRef<HTMLDivElement | null>(null);
 
   // Booking Form State
@@ -113,7 +113,7 @@ export default function Home() {
   const handleStartBooking = (e: React.FormEvent) => {
     e.preventDefault();
     if (!bookingData.date || !bookingData.email || bookingData.staffNeeds.length === 0) {
-      toast.error("Por favor preencha data, email e selecione pelo menos um profissional.");
+      toast.error("Please fill in date, email and select at least one professional.");
       return;
     }
     setShowCompleteModal(true);
@@ -169,17 +169,16 @@ export default function Home() {
           <div className="flex justify-between h-20 items-center">
             <div className="flex flex-col items-center cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
               <div className="text-[#D4AF37] mb-1"><Crown className="w-6 h-6" /></div>
-              <span className="text-xl font-bold tracking-[0.2em] text-white uppercase">Royal Crew</span>
-              <span className="text-[10px] tracking-[0.4em] text-[#D4AF37] -mt-1">EST. 2024</span>
+              <span className="text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase">Royal Crew</span>
+              <span className="text-[10px] tracking-[0.4em] text-[#D4AF37] -mt-1">AGENCY</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-10">
-              <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Home</button>
-              <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">About</button>
-              <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Services</button>
-              <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Gallery</button>
-              <button onClick={() => scrollTo(menuRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Menu</button>
-              <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-white hover:text-[#D4AF37] transition-colors">Work With Us</button>
+              <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Home</button>
+              <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">About</button>
+              <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Services</button>
+              <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Gallery</button>
+              <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Work With Us</button>
             </div>
 
             <div className="flex items-center gap-4">
@@ -217,7 +216,7 @@ export default function Home() {
               The Elite of <br/><span className="text-[#D4AF37] font-bold">Hospitality</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 font-light tracking-wide leading-relaxed italic max-w-2xl mx-auto">
-              We provide the UK's most qualified staff for weddings and high-end corporate events.
+              Elevating hospitality standards in Europe with elite staff for exclusive events.
             </p>
           </div>
 
@@ -314,9 +313,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { label: 'Events Delivered', value: '450+' },
-            { label: 'Cities Covered', value: '12' },
+            { label: 'Countries Covered', value: '12' },
             { label: 'Client Satisfaction', value: '99%' },
-            { label: 'Elite Team', value: '1.2k' },
+            { label: 'Proudly Punctual Elite Team', value: '1.2k' },
           ].map((stat, i) => (
             <div key={i} className="text-center border-r border-gray-100 last:border-none">
               <p className="text-3xl font-bold text-[#0c1b33] mb-1 tracking-tighter">{stat.value}</p>
@@ -343,12 +342,16 @@ export default function Home() {
             <p className="text-gray-600 leading-relaxed text-lg font-light">
               We're not just a staffing agency. We're the strategic partner that ensures every interaction at your event reflects the highest standards of luxury hospitality.
             </p>
+            <p className="text-gray-600 leading-relaxed text-base font-light">
+              Our agency was created with a clear purpose: to provide reliable staffing and logistical support that allows events and businesses to run seamlessly. What began as a small team dedicated to assisting catering companies and private events has evolved into a professional service agency offering skilled porters, drivers porters, cleaners, photographers and event support staff. We understand that behind every successful event there is a strong, well-organized team working with precision and professionalism. Our mission is to connect clients with experienced professionals who deliver efficiency, discretion, and excellence in every detail. Whether supporting corporate functions, private celebrations, or hospitality operations, we focus on quality service, flexibility, and trust. We don't just supply staff — we provide solutions that help our clients create exceptional experiences.
+            </p>
+            <p className="text-[#D4AF37] font-bold tracking-widest text-sm italic">Discreet, Professional, Exceptional…</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
               <div className="flex gap-4 items-start">
                 <ShieldCheck className="text-[#D4AF37] w-6 h-6 shrink-0" />
                 <div>
                   <h4 className="text-sm font-bold text-[#0c1b33] uppercase">Secure & Verified</h4>
-                  <p className="text-xs text-gray-500 mt-1">Rigorous selection and background checks.</p>
+                  <p className="text-xs text-gray-500 mt-1">Rigorous DBS selection and background checks.</p>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
@@ -368,8 +371,8 @@ export default function Home() {
               <div className="flex gap-4 items-start">
                 <Package className="text-[#D4AF37] w-6 h-6 shrink-0" />
                 <div>
-                  <h4 className="text-sm font-bold text-[#0c1b33] uppercase">Complete Management</h4>
-                  <p className="text-xs text-gray-500 mt-1">CMS, CRM, ERP integrated in one platform.</p>
+                  <h4 className="text-sm font-bold text-[#0c1b33] uppercase">Competitive Rates</h4>
+                  <p className="text-xs text-gray-500 mt-1">Prices according quotations.</p>
                 </div>
               </div>
             </div>
@@ -382,15 +385,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Our Expertise</span>
-            <h2 className="text-5xl font-light text-white tracking-tight uppercase">High-Level <span className="font-bold text-[#D4AF37]">Team</span></h2>
+            <h2 className="text-5xl font-light text-[#D4AF37] tracking-tight uppercase">High-Level <span className="font-bold text-[#D4AF37]">Team</span></h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: 'Mixology & Bar', icon: Coffee, desc: 'Award-winning bartenders and fine cocktail specialists for exclusive receptions.' },
-              { title: 'Table Service', icon: Users, desc: 'Elite waiters trained in international etiquette and hospitality standards.' },
+              { title: 'Professional Drivers', icon: Car, desc: 'Full qualified driver for any job and anywhere in Europe.' },
+              { title: 'High Service', icon: Users, desc: 'Elite trained staff for any event and logistics standards.' },
               { title: 'VIP Reception', icon: Crown, desc: 'Multilingual hosts and reception models to make the best first impression.' },
-              { title: 'Security Management', icon: ShieldCheck, desc: 'Discreet professionals to ensure guest tranquility and privacy.' },
+              { title: 'Photographer', icon: Camera, desc: 'High-end event photography for sophisticated occasions delivering discretion and elegance.' },
               { title: 'Coordinators', icon: ArrowRight, desc: 'Team leaders to manage all staff logistics at the event venue.' },
               { title: 'Support Team', icon: Zap, desc: 'Setup and quick cleaning staff so you don\'t have to worry about anything.' },
             ].map((service, i) => (
@@ -398,7 +401,7 @@ export default function Home() {
                 <div className="mb-6 text-[#D4AF37] w-12 h-12 flex items-center justify-center bg-white/5 rounded-xl group-hover:scale-110 transition-transform">
                   <service.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wider">{service.title}</h3>
+                <h3 className="text-xl font-bold text-[#D4AF37] mb-4 uppercase tracking-wider">{service.title}</h3>
                 <p className="text-gray-400 text-sm leading-relaxed mb-6">{service.desc}</p>
               </div>
             ))}
@@ -411,64 +414,17 @@ export default function Home() {
         <GallerySection />
       </section>
 
-      {/* Menu Section */}
-      <section ref={menuRef} className="py-32 relative overflow-hidden" style={{
+      {/* Crown Section (substituiu o Menu) */}
+      <section className="py-32 relative overflow-hidden" style={{
         backgroundImage: 'url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
       }}>
-        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-[#0c1b33]/90"></div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Culinary Excellence</span>
-            <h2 className="text-5xl font-light text-white tracking-tight uppercase mb-6">
-              Our Premium <span className="font-bold text-[#D4AF37]">Menu</span>
-            </h2>
-            <p className="text-gray-300 text-xl max-w-3xl mx-auto leading-relaxed">
-              Exquisite dishes crafted by our partner chefs for your luxury events. All items are priced per person and fully customizable.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {/* Feature 1 */}
-            <div className="bg-white/5 backdrop-blur-sm border border-[#D4AF37]/30 rounded-xl p-8 text-center hover:bg-white/10 transition-all">
-              <div className="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Coffee className="w-8 h-8 text-[#D4AF37]" />
-              </div>
-              <h3 className="text-white font-bold text-xl mb-3">Gourmet Selection</h3>
-              <p className="text-gray-400">Carefully curated dishes from award-winning chefs</p>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="bg-white/5 backdrop-blur-sm border border-[#D4AF37]/30 rounded-xl p-8 text-center hover:bg-white/10 transition-all">
-              <div className="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <ShieldCheck className="w-8 h-8 text-[#D4AF37]" />
-              </div>
-              <h3 className="text-white font-bold text-xl mb-3">Premium Ingredients</h3>
-              <p className="text-gray-400">Only the finest locally-sourced and imported ingredients</p>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="bg-white/5 backdrop-blur-sm border border-[#D4AF37]/30 rounded-xl p-8 text-center hover:bg-white/10 transition-all">
-              <div className="w-16 h-16 bg-[#D4AF37]/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Award className="w-8 h-8 text-[#D4AF37]" />
-              </div>
-              <h3 className="text-white font-bold text-xl mb-3">Fully Customizable</h3>
-              <p className="text-gray-400">Tailored menus to match your event theme and preferences</p>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <Button
-              onClick={() => navigate('/menu')}
-              className="h-16 px-12 tracking-[0.4em] bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 shadow-2xl font-bold"
-            >
-              View Full Menu
-            </Button>
-          </div>
+        <div className="relative z-10 flex flex-col items-center justify-center py-16">
+          <Crown className="w-40 h-40 text-[#D4AF37] drop-shadow-[0_0_40px_rgba(212,175,55,0.6)]" />
+          <p className="text-[#D4AF37] text-xs font-bold tracking-[0.8em] uppercase mt-8">Royal Crew Agency</p>
         </div>
       </section>
 
@@ -503,8 +459,8 @@ export default function Home() {
 
              <div className="text-center mb-10">
                 <Crown className="w-8 h-8 text-[#D4AF37] mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-[#0c1b33] tracking-widest uppercase">Quase lá!</h2>
-                <p className="text-xs text-gray-400 font-bold tracking-widest uppercase mt-1">Complete seus dados para finalizar a reserva</p>
+                <h2 className="text-2xl font-bold text-[#0c1b33] tracking-widest uppercase">Almost there!</h2>
+                <p className="text-xs text-gray-400 font-bold tracking-widest uppercase mt-1">Complete your details to finalise the booking</p>
              </div>
 
              <form onSubmit={handleFinalSubmit} className="space-y-6">
@@ -514,14 +470,14 @@ export default function Home() {
                     onClick={() => setClientData({...clientData, clientType: 'INDIVIDUAL'})}
                     className={`flex-1 py-3 text-[10px] font-bold uppercase rounded-md transition-all ${clientData.clientType === 'INDIVIDUAL' ? 'bg-white shadow-sm text-[#0c1b33]' : 'text-gray-400'}`}
                   >
-                    <UserIcon className="w-3 h-3 inline mr-2" /> Pessoa Física
+                    <UserIcon className="w-3 h-3 inline mr-2" /> Individual
                   </button>
                   <button 
                     type="button" 
                     onClick={() => setClientData({...clientData, clientType: 'BUSINESS'})}
                     className={`flex-1 py-3 text-[10px] font-bold uppercase rounded-md transition-all ${clientData.clientType === 'BUSINESS' ? 'bg-white shadow-sm text-[#0c1b33]' : 'text-gray-400'}`}
                   >
-                    <Building2 className="w-3 h-3 inline mr-2" /> Empresa (UK)
+                    <Building2 className="w-3 h-3 inline mr-2" /> Business (UK)
                   </button>
                 </div>
 
@@ -569,7 +525,7 @@ export default function Home() {
 
                 <div className="pt-6">
                   <Button type="submit" className="w-full h-14 tracking-[0.4em] bg-[#0c1b33] text-white">
-                    Confirmar Reserva <Check className="w-4 h-4 ml-2 inline-block" />
+                    Confirm Booking <Check className="w-4 h-4 ml-2 inline-block" />
                   </Button>
                 </div>
              </form>
@@ -584,14 +540,15 @@ export default function Home() {
               <div className="col-span-1 md:col-span-2">
                  <div className="flex flex-col items-start mb-6">
                     <div className="text-[#D4AF37] mb-1"><Crown className="w-8 h-8" /></div>
-                    <span className="text-xl font-bold tracking-[0.2em] text-white">ROYAL CREW</span>
+                    <span className="text-xl font-bold tracking-[0.2em] text-[#D4AF37]">ROYAL CREW</span>
+                    <span className="text-[10px] tracking-[0.4em] text-[#D4AF37]">AGENCY</span>
                  </div>
                  <p className="text-sm max-w-sm leading-relaxed">
-                   Elevating hospitality standards in London and across the UK with elite staff for exclusive events.
+                   Elevating hospitality standards in Europe with elite staff for exclusive events.
                  </p>
               </div>
               <div>
-                 <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Navigation</h4>
+                 <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Navigation</h4>
                  <ul className="space-y-4 text-[10px] uppercase tracking-widest">
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(servicesRef)}>Services</li>
@@ -600,7 +557,7 @@ export default function Home() {
                  </ul>
               </div>
               <div>
-                 <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
+                 <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
                  <ul className="space-y-4 text-[10px] uppercase tracking-widest">
                     <li className="hover:text-[#D4AF37] cursor-pointer">Terms of Service</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer">Privacy Policy</li>
