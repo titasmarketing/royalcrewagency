@@ -10,38 +10,34 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { ENV } from "./_core/env";
 
+// Cloudflare R2 credentials (royalcrew bucket)
+const R2_ACCESS_KEY = process.env.R2_ACCESS_KEY_ID || "e36967551400898fac9d37f5ec92972b";
+const R2_SECRET_KEY = process.env.R2_SECRET_ACCESS_KEY || "998c12dee0ac02bb81019a3fffae3e26682d6dfb34f0d13e009db74b1da64b15";
+const R2_ENDPOINT_URL = process.env.R2_ENDPOINT || "https://023a0bad3f17632316cd10358db2201f.r2.cloudflarestorage.com";
+const R2_BUCKET = process.env.R2_BUCKET_NAME || "royalcrew";
+const R2_PUBLIC_BASE = process.env.R2_PUBLIC_URL || "https://dados.royalcrewagency.com";
+
 function getR2Client(): S3Client {
-  if (!ENV.r2Endpoint || !ENV.r2AccessKeyId || !ENV.r2SecretAccessKey) {
-    throw new Error(
-      "R2 credentials missing: set R2_ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY"
-    );
-  }
   return new S3Client({
     region: "auto",
-    endpoint: ENV.r2Endpoint,
+    endpoint: R2_ENDPOINT_URL,
     credentials: {
-      accessKeyId: ENV.r2AccessKeyId,
-      secretAccessKey: ENV.r2SecretAccessKey,
+      accessKeyId: R2_ACCESS_KEY,
+      secretAccessKey: R2_SECRET_KEY,
     },
   });
 }
 
 function getBucketName(): string {
-  if (!ENV.r2BucketName) throw new Error("R2_BUCKET_NAME is not set");
-  return ENV.r2BucketName;
+  return R2_BUCKET;
 }
 
 function normalizeKey(relKey: string): string {
   return relKey.replace(/^\/+/, "");
 }
 
-/**
- * Build the public URL for a stored object.
- * If R2_PUBLIC_URL is set (custom domain), use it; otherwise construct from endpoint.
- */
 function buildPublicUrl(key: string): string {
-  const base = ENV.r2PublicUrl || ENV.r2Endpoint;
-  return `${base.replace(/\/+$/, "")}/${key}`;
+  return `${R2_PUBLIC_BASE.replace(/\/+$/, "")}/${key}`;
 }
 
 /**
