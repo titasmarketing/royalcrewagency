@@ -136,6 +136,8 @@ export default function RecruitmentPortal() {
     "Valet",
     "Cleaning",
     "Setup/Breakdown",
+    "Driver",
+    "Porter",
   ];
 
   const businessTypes = [
