@@ -41,7 +41,7 @@ export default function Login() {
       <Card className="w-full max-w-md bg-[#1a2942] border-[#D4AF37]/20">
         <CardHeader className="space-y-4 text-center">
           <div className="flex justify-center">
-            <img src="/manus-storage/royal-crew-logo-final_967d03a1.png" alt="Royal Crew Agency" className="h-24 w-auto" />
+            <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
           </div>
           <div>
             <CardDescription className="text-gray-400 mt-2">

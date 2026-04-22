@@ -72,7 +72,7 @@ export default function InstallApp() {
       {/* Header */}
       <div className="text-center mb-8">
         <div className="w-20 h-20 rounded-2xl overflow-hidden mx-auto mb-4 shadow-lg shadow-[#D4AF37]/20 border-2 border-[#D4AF37]/30">
-          <img src="/manus-storage/royal-crew-logo-final_967d03a1.png" alt="Royal Crew Agency" className="h-24 w-auto" />
+          <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
         </div>
         <h1 className="text-2xl font-bold text-white">Royal Crew Agency</h1>
         <p className="text-[#D4AF37] text-sm mt-1 tracking-widest uppercase">Staff App</p>

@@ -16,7 +16,7 @@ export default function Services() {
           <div className="flex items-center justify-between">
             <Link href="/">
               <div className="flex items-center gap-3 cursor-pointer">
-                <img src="/manus-storage/royal-crew-logo-final_967d03a1.png" alt="Royal Crew Agency" className="h-12 w-auto" />
+                <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-12 w-auto" />
                 <div>
                   <h1 className="text-xl font-bold text-foreground">Royal Crew Agency</h1>
                   <p className="text-xs text-muted-foreground">GOD MODE Platform</p>
@@ -185,7 +185,7 @@ export default function Services() {
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/manus-storage/royal-crew-logo-final_967d03a1.png" alt="Royal Crew Agency" className="h-8 w-auto" />
+              <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-8 w-auto" />
               <span className="text-sm text-muted-foreground">© 2025 Royal Crew Agency. Todos os direitos reservados.</span>
             </div>
             <div className="flex items-center gap-2">
