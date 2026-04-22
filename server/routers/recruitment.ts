@@ -4,7 +4,6 @@ import { adminProcedure } from "../_core/adminProcedure";
 import { getDb } from "../db";
 import { staffMembers, users } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
-import { notifyOwner } from "../_core/notification";
 import { storagePut } from "../storage";
 
 export const recruitmentRouter = router({
@@ -78,12 +77,6 @@ export const recruitmentRouter = router({
           rating: "0.00",
           totalEvents: 0,
           isActive: false, // Inativo até aprovação
-        });
-
-        // Notificar admin sobre nova candidatura
-        await notifyOwner({
-          title: "Nova Candidatura Recebida",
-          content: `${input.name} (${input.email}) se candidatou para fazer parte da equipe. Especialidades: ${input.specialties.join(", ")}`,
         });
 
         return {
