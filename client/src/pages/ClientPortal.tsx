@@ -54,18 +54,14 @@ export default function ClientPortal() {
   };
 
   const staffTypes = [
-    "Waiter",
-    "Bartender",
-    "Chef",
-    "Kitchen Assistant",
-    "Coordinator",
-    "Receptionist",
-    "Security",
-    "Valet",
-    "Cleaning",
-    "Setup/Breakdown",
-    "Driver",
-    "Porter",
+    "Event Porter",
+    "Kitchen Porter",
+    "General Cleaning and Deep Cleaning",
+    "Warehouse Assistance",
+    "Driver Porter",
+    "Host / Hostess",
+    "Event Coordinator",
+    "Barback",
   ];
 
   return (
