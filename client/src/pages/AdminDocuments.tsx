@@ -6,110 +6,40 @@ import { trpc } from "@/lib/trpc";
 import { FileText, Download, Eye, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-
 export default function AdminDocuments() {
   const { data: events } = trpc.events.list.useQuery();
 
-  const generateContractMutation = trpc.documents.generateContract.useMutation({
-    onSuccess: (data) => {
-      // Download PDF
-      const link = document.createElement("a");
-      link.href = `data:application/pdf;base64,${data.pdf}`;
-      link.download = data.filename;
-      link.click();
-      toast.success("Contrato gerado com sucesso!");
-    },
-    onError: (error: any) => {
-      toast.error(`Erro ao gerar contrato: ${error.message}`);
-    },
-  });
-
-  const generateServiceOrderMutation = trpc.documents.generateServiceOrder.useMutation({
-    onSuccess: (data) => {
-      const link = document.createElement("a");
-      link.href = `data:application/pdf;base64,${data.pdf}`;
-      link.download = data.filename;
-      link.click();
-      toast.success("Ordem de serviço gerada com sucesso!");
-    },
-    onError: (error: any) => {
-      toast.error(`Erro ao gerar ordem de serviço: ${error.message}`);
-    },
-  });
-
-  const generateInvoiceMutation = trpc.documents.generateInvoice.useMutation({
-    onSuccess: (data) => {
-      const link = document.createElement("a");
-      link.href = `data:application/pdf;base64,${data.pdf}`;
-      link.download = data.filename;
-      link.click();
-      toast.success("Nota fiscal gerada com sucesso!");
-    },
-    onError: (error: any) => {
-      toast.error(`Erro ao gerar nota fiscal: ${error.message}`);
-    },
-  });
-
-  const handleGenerateContract = (event: any) => {
-    generateContractMutation.mutate({
-      eventTitle: event.title,
-      eventDate: format(new Date(event.eventDate), "dd/MM/yyyy"),
-      clientName: "Cliente Exemplo",
-      clientDocument: "000.000.000-00",
-      location: event.location || "Local não especificado",
-      totalPrice: event.totalPrice || "0.00",
-      services: ["Organização de evento", "Team completa", "Materiais e insumos"],
-    });
+  const downloadPdf = (data: { pdf: string; filename: string }) => {
+    const link = document.createElement("a");
+    link.href = `data:application/pdf;base64,${data.pdf}`;
+    link.download = data.filename;
+    link.click();
   };
 
-  const handleGenerateServiceOrder = (event: any) => {
-    generateServiceOrderMutation.mutate({
-      eventTitle: event.title,
-      eventDate: format(new Date(event.eventDate), "dd/MM/yyyy"),
-      location: event.location || "Local não especificado",
-      staffMembers: [
-        { name: "Exemplo Staff 1", role: "Garçom", startTime: "18:00", endTime: "23:00" },
-        { name: "Exemplo Staff 2", role: "Bartender", startTime: "18:00", endTime: "23:00" },
-      ],
-      inventoryItems: [
-        { name: "Taças", quantity: 50, unit: "un" },
-        { name: "Guardanapos", quantity: 100, unit: "un" },
-      ],
-    });
-  };
+  const generateContractMutation = trpc.documents.generateContractFromEvent.useMutation({
+    onSuccess: (data) => { downloadPdf(data); toast.success("Contract generated!"); },
+    onError: (error: any) => { toast.error(`Error: ${error.message}`); },
+  });
+  const generateServiceOrderMutation = trpc.documents.generateServiceOrderFromEvent.useMutation({
+    onSuccess: (data) => { downloadPdf(data); toast.success("Service order generated!"); },
+    onError: (error: any) => { toast.error(`Error: ${error.message}`); },
+  });
+  const generateInvoiceMutation = trpc.documents.generateInvoiceFromEvent.useMutation({
+    onSuccess: (data) => { downloadPdf(data); toast.success("Invoice generated!"); },
+    onError: (error: any) => { toast.error(`Error: ${error.message}`); },
+  });
 
-  const handleGenerateInvoice = (event: any) => {
-    const subtotal = parseFloat(event.totalPrice || "0");
-    const taxes = subtotal * 0.15; // 15% de impostos
-    const total = subtotal + taxes;
-
-    generateInvoiceMutation.mutate({
-      invoiceNumber: `NF-${Date.now()}`,
-      eventTitle: event.title,
-      clientName: "Cliente Exemplo",
-      clientDocument: "000.000.000-00",
-      services: [
-        {
-          description: "Organização e execução de evento",
-          quantity: 1,
-          unitPrice: event.totalPrice || "0.00",
-          total: event.totalPrice || "0.00",
-        },
-      ],
-      subtotal: subtotal.toFixed(2),
-      taxes: taxes.toFixed(2),
-      total: total.toFixed(2),
-    });
-  };
+  const handleGenerateContract = (event: any) => generateContractMutation.mutate({ eventId: event.id });
+  const handleGenerateServiceOrder = (event: any) => generateServiceOrderMutation.mutate({ eventId: event.id });
+  const handleGenerateInvoice = (event: any) => generateInvoiceMutation.mutate({ eventId: event.id });
 
   const getStatusBadge = (status: string) => {
     const statusMap = {
       quote: { label: "Budget", variant: "secondary" as const },
       confirmed: { label: "Confirmed", variant: "default" as const },
-      in_progress: { label: "Em Andamento", variant: "default" as const },
-      completed: { label: "Concluído", variant: "outline" as const },
-      cancelled: { label: "Cancelado", variant: "destructive" as const },
+      in_progress: { label: "In Progress", variant: "default" as const },
+      completed: { label: "Completed", variant: "outline" as const },
+      cancelled: { label: "Cancelled", variant: "destructive" as const },
     };
     return statusMap[status as keyof typeof statusMap] || statusMap.quote;
   };
@@ -119,9 +49,9 @@ export default function AdminDocuments() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Documents</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Document Management</h1>
           <p className="text-muted-foreground">
-            Gere contratos, ordens de serviço e notas fiscais automaticamente
+            Generate contracts, service orders and invoices automatically from real event data
           </p>
         </div>
 
@@ -143,7 +73,7 @@ export default function AdminDocuments() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Aguardando Contrato
+                Awaiting Contract
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -169,7 +99,7 @@ export default function AdminDocuments() {
 
         {/* Events List */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-foreground">Events e Documents</h2>
+          <h2 className="text-xl font-bold text-foreground">Events & Documents</h2>
 
           {events && events.length > 0 ? (
             <div className="grid grid-cols-1 gap-4">
@@ -187,7 +117,7 @@ export default function AdminDocuments() {
                           <CardDescription className="flex items-center gap-4">
                             <span className="flex items-center gap-1">
                               <Calendar className="h-4 w-4" />
-                              {format(new Date(event.eventDate), "dd/MM/yyyy", { locale: ptBR })}
+                              {format(new Date(event.eventDate), "dd/MM/yyyy")}
                             </span>
                             {event.location && <span>📍 {event.location}</span>}
                             {event.totalPrice && (
@@ -209,7 +139,7 @@ export default function AdminDocuments() {
                           disabled={generateContractMutation.isPending}
                         >
                           <FileText className="h-4 w-4" />
-                          Gerar Contrato
+                          Generate Contract
                         </Button>
 
                         <Button
@@ -220,7 +150,7 @@ export default function AdminDocuments() {
                           disabled={generateServiceOrderMutation.isPending}
                         >
                           <FileText className="h-4 w-4" />
-                          Ordem de Serviço
+                          Service Order
                         </Button>
 
                         <Button
@@ -231,7 +161,7 @@ export default function AdminDocuments() {
                           disabled={generateInvoiceMutation.isPending}
                         >
                           <FileText className="h-4 w-4" />
-                          Nota Fiscal
+                          Invoice
                         </Button>
                       </div>
                     </CardContent>
@@ -243,7 +173,7 @@ export default function AdminDocuments() {
             <Card>
               <CardContent className="flex flex-col items-center justify-center h-64">
                 <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">None evento cadastrado</p>
+                <p className="text-muted-foreground">No events registered</p>
               </CardContent>
             </Card>
           )}

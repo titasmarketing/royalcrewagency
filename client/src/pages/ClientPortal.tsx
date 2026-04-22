@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { LogOut, Crown } from "lucide-react";
+import { LogOut, Crown, Download } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
 
@@ -18,6 +18,19 @@ export default function ClientPortal() {
   
   const { data: myEvents, isLoading, refetch } = trpc.events.clientListEvents.useQuery();
   const utils = trpc.useUtils();
+
+  const downloadInvoiceMutation = trpc.documents.clientDownloadInvoice.useMutation({
+    onSuccess: (data) => {
+      const link = document.createElement("a");
+      link.href = `data:application/pdf;base64,${data.pdf}`;
+      link.download = data.filename;
+      link.click();
+      toast.success("Invoice downloaded!");
+    },
+    onError: (err) => {
+      toast.error(err.message || "Failed to download invoice.");
+    },
+  });
 
   const createRequestMutation = trpc.events.clientCreateRequest.useMutation({
     onSuccess: () => {
@@ -308,7 +321,7 @@ export default function ClientPortal() {
                         {event.location}
                       </p>
                     </div>
-                    <div className="mt-6 md:mt-0 flex gap-3">
+                    <div className="mt-6 md:mt-0 flex gap-3 flex-wrap">
                       <Button 
                         onClick={() => navigate(`/client/events/${event.id}`)}
                         className="text-[10px] uppercase font-bold tracking-wider bg-[#D4AF37] hover:bg-[#B8941F] text-[#0c1b33]"
@@ -322,6 +335,17 @@ export default function ClientPortal() {
                       >
                         View Status
                       </Button>
+                      {(event.status === "confirmed" || event.status === "completed" || event.status === "in_progress") && (
+                        <Button
+                          variant="outline"
+                          onClick={() => downloadInvoiceMutation.mutate({ eventId: event.id })}
+                          disabled={downloadInvoiceMutation.isPending}
+                          className="text-[10px] uppercase font-bold tracking-wider border-[#D4AF37]/30 hover:border-[#D4AF37] hover:text-[#D4AF37] gap-1"
+                        >
+                          <Download className="h-3 w-3" />
+                          Invoice
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </Card>
