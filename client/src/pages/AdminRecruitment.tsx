@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, XCircle, Clock, Mail, Phone, MapPin, Briefcase } from "lucide-react";
+import { CheckCircle, XCircle, Clock, Mail, Phone, MapPin, Briefcase, User } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -144,6 +144,15 @@ export default function AdminRecruitment() {
                       <Card key={app.id} className="border-2 hover:border-accent/50 transition-all">
                         <CardContent className="pt-6">
                           <div className="flex items-start justify-between mb-4">
+                            <div className="flex items-start gap-4">
+                              {/* Foto do candidato */}
+                              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#D4AF37]/30 flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                                {app.profileImage ? (
+                                  <img src={app.profileImage} alt={app.name || 'Candidato'} className="w-full h-full object-cover" />
+                                ) : (
+                                  <User className="w-8 h-8 text-gray-400" />
+                                )}
+                              </div>
                             <div>
                               <h3 className="text-xl font-bold text-foreground mb-1">{app.name}</h3>
                               <div className="flex flex-wrap gap-2 mb-2">
@@ -155,6 +164,7 @@ export default function AdminRecruitment() {
                                     </Badge>
                                   ))}
                               </div>
+                            </div>
                             </div>
                             <Badge variant="secondary" className="gap-1">
                               <Clock className="h-3 w-3" />

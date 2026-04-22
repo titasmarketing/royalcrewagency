@@ -5,6 +5,7 @@ import { getDb } from "../db";
 import { staffMembers, users } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { notifyOwner } from "../_core/notification";
+import { storagePut } from "../storage";
 
 export const recruitmentRouter = router({
   // Public procedure para criar candidatura
@@ -23,6 +24,8 @@ export const recruitmentRouter = router({
         experience: z.string().optional(),
         specialties: z.array(z.string()),
         hourlyRate: z.string().optional(),
+        photoBase64: z.string().optional(), // base64 da foto do candidato
+        photoMimeType: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -42,6 +45,22 @@ export const recruitmentRouter = router({
 
         const userId = newUser.insertId;
 
+        // Upload da foto se fornecida
+        let profileImageUrl: string | null = null;
+        if (input.photoBase64 && input.photoMimeType) {
+          try {
+            const base64Data = input.photoBase64.replace(/^data:[^;]+;base64,/, '');
+            const buffer = Buffer.from(base64Data, 'base64');
+            const ext = input.photoMimeType.split('/')[1] || 'jpg';
+            const fileKey = `applications/${userId}-photo-${Date.now()}.${ext}`;
+            const { url } = await storagePut(fileKey, buffer, input.photoMimeType);
+            profileImageUrl = url;
+          } catch (photoError) {
+            console.error('Error uploading photo:', photoError);
+            // Não bloqueia a candidatura se a foto falhar
+          }
+        }
+
         // Criar perfil de staff com status "pending"
         await db.insert(staffMembers).values({
           userId: userId,
@@ -49,7 +68,7 @@ export const recruitmentRouter = router({
           hourlyRate: input.hourlyRate ? input.hourlyRate : null,
           bio: input.bio || null,
           experience: input.experience || null,
-  
+          profileImage: profileImageUrl,
           phone: input.phone,
           address: input.address || null,
           city: input.city || null,
@@ -84,7 +103,7 @@ export const recruitmentRouter = router({
       throw new Error("Database not available");
     }
 
-    const applications = await db
+      const applications = await db
       .select({
         id: staffMembers.id,
         name: users.name,
@@ -95,6 +114,7 @@ export const recruitmentRouter = router({
         bio: staffMembers.bio,
         hourlyRate: staffMembers.hourlyRate,
         status: staffMembers.status,
+        profileImage: staffMembers.profileImage,
         createdAt: staffMembers.createdAt,
       })
       .from(staffMembers)

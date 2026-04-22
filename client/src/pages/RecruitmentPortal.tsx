@@ -6,8 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-import { Crown, CheckCircle, Users, DollarSign, Calendar, Star, Building2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { Crown, CheckCircle, Users, DollarSign, Calendar, Star, Building2, Camera, X } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 
@@ -30,6 +30,29 @@ export default function RecruitmentPortal() {
     specialties: [] as string[],
     hourlyRate: "",
   });
+
+  // Photo upload state
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoBase64, setPhotoBase64] = useState<string | null>(null);
+  const [photoMimeType, setPhotoMimeType] = useState<string | null>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Photo must be less than 5MB");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const result = ev.target?.result as string;
+      setPhotoPreview(result);
+      setPhotoBase64(result);
+      setPhotoMimeType(file.type);
+    };
+    reader.readAsDataURL(file);
+  };
 
   // Company form data
   const [companyData, setCompanyData] = useState({
@@ -75,7 +98,11 @@ export default function RecruitmentPortal() {
       return;
     }
 
-    createApplicationMutation.mutate(formData);
+    createApplicationMutation.mutate({
+      ...formData,
+      photoBase64: photoBase64 || undefined,
+      photoMimeType: photoMimeType || undefined,
+    });
   };
 
   const handleCompanySubmit = (e: React.FormEvent) => {
@@ -319,6 +346,47 @@ export default function RecruitmentPortal() {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleIndividualSubmit} className="space-y-6">
+                    {/* Profile Photo */}
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Profile Photo <span className="text-red-500">*</span></h3>
+                      <div className="flex items-center gap-6">
+                        <div
+                          className="relative w-28 h-28 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer overflow-hidden hover:border-[#D4AF37] transition-colors bg-gray-50"
+                          onClick={() => photoInputRef.current?.click()}
+                        >
+                          {photoPreview ? (
+                            <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="flex flex-col items-center gap-1 text-gray-400">
+                              <Camera className="w-8 h-8" />
+                              <span className="text-[10px] text-center">Add Photo</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-sm font-medium text-foreground">Upload your photo</p>
+                          <p className="text-xs text-muted-foreground">JPG, PNG or WEBP. Max 5MB.<br/>Clear face photo required.</p>
+                          <div className="flex gap-2">
+                            <Button type="button" variant="outline" size="sm" onClick={() => photoInputRef.current?.click()}>
+                              <Camera className="w-3 h-3 mr-2" /> Choose Photo
+                            </Button>
+                            {photoPreview && (
+                              <Button type="button" variant="outline" size="sm" onClick={() => { setPhotoPreview(null); setPhotoBase64(null); setPhotoMimeType(null); }}>
+                                <X className="w-3 h-3" />
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <input
+                        ref={photoInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        className="hidden"
+                        onChange={handlePhotoChange}
+                      />
+                    </div>
+
                     {/* Personal Information */}
                     <div>
                       <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
