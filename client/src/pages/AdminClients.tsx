@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Users, Building, Eye, Pencil, Trash2, Plus } from "lucide-react";
+import { Users, Building, Eye, Pencil, Trash2, Plus, AlertTriangle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
@@ -30,6 +30,13 @@ type Client = {
 export default function AdminClients() {
   const { data: clients, isLoading, refetch } = trpc.clients.list.useQuery();
   const [, setLocation] = useLocation();
+
+  // Delete confirmation dialog state
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: number; name: string } | null>(null);
+  const { data: clientEvents } = trpc.events.listByClient.useQuery(
+    { clientId: deleteConfirm?.id ?? 0 },
+    { enabled: !!deleteConfirm }
+  );
 
   // Edit dialog state
   const [editingClient, setEditingClient] = useState<Client | null>(null);
@@ -122,8 +129,15 @@ export default function AdminClients() {
   };
 
   const handleDelete = (id: number, name: string) => {
-    if (!confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) return;
-    deleteClient.mutate({ id });
+    setDeleteConfirm({ id, name });
+    // Close edit dialog if open
+    setEditingClient(null);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteConfirm) return;
+    deleteClient.mutate({ id: deleteConfirm.id, deleteEvents: true });
+    setDeleteConfirm(null);
   };
 
   const handleCreateClient = () => {
@@ -476,6 +490,60 @@ export default function AdminClients() {
             <Button variant="outline" onClick={() => setIsNewDialogOpen(false)}>Cancel</Button>
             <Button onClick={handleCreateClient} disabled={createClient.isPending}>
               {createClient.isPending ? "Creating..." : "Create Client"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteConfirm !== null} onOpenChange={(open) => { if (!open) setDeleteConfirm(null); }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="h-5 w-5" />
+              Delete Client
+            </DialogTitle>
+            <DialogDescription>
+              You are about to permanently delete <strong>{deleteConfirm?.name}</strong>.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2 space-y-3">
+            {clientEvents && clientEvents.length > 0 ? (
+              <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 space-y-2">
+                <p className="text-sm font-semibold text-destructive flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Calendar Warning
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  This client has <strong>{clientEvents.length} event{clientEvents.length > 1 ? 's' : ''}</strong> in the calendar:
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1 max-h-32 overflow-y-auto">
+                  {clientEvents.map(ev => (
+                    <li key={ev.id} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-destructive inline-block" />
+                      {ev.title} — {ev.eventDate ? new Date(ev.eventDate).toLocaleDateString('en-GB') : 'No date'}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-sm font-medium text-destructive">
+                  All these events will also be permanently deleted.
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                This client has no events in the calendar.
+              </p>
+            )}
+            <p className="text-sm text-muted-foreground">This action cannot be undone.</p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              disabled={deleteClient.isPending}
+            >
+              <Trash2 className="h-4 w-4 mr-1" />
+              {deleteClient.isPending ? "Deleting..." : "Delete Client & Events"}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -311,8 +311,11 @@ export const appRouter = router({
       }),
 
     delete: adminProcedure
-      .input(z.object({ id: z.number() }))
+      .input(z.object({ id: z.number(), deleteEvents: z.boolean().default(true) }))
       .mutation(async ({ input }) => {
+        if (input.deleteEvents) {
+          await db.deleteEventsByClientId(input.id);
+        }
         await db.deleteClient(input.id);
         return { success: true };
       }),
