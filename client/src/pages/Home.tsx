@@ -424,7 +424,7 @@ export default function Home() {
       }}>
         <div className="absolute inset-0 bg-[#0c1b33]/90"></div>
         <div className="relative z-10 flex flex-col items-center justify-center py-16">
-          <Crown className="w-40 h-40 text-[#D4AF37] drop-shadow-[0_0_40px_rgba(212,175,55,0.6)]" />
+          <Crown className="w-[640px] h-[640px] text-[#D4AF37] drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
           <p className="text-[#D4AF37] text-xs font-bold tracking-[0.8em] uppercase mt-8">Royal Crew Agency</p>
         </div>
       </section>
@@ -433,7 +433,7 @@ export default function Home() {
       <section ref={workRef} className="py-32 bg-white text-center px-6">
         <div className="max-w-4xl mx-auto bg-[#f8fafc] p-12 md:p-20 rounded-3xl border border-gray-100 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Crown className="w-40 h-40 text-[#D4AF37]" />
+            <Crown className="w-[640px] h-[640px] text-[#D4AF37]" />
           </div>
           <div className="relative z-10">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-6">Premium Careers</span>
