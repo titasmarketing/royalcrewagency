@@ -3,6 +3,9 @@ import { adminProcedure } from "../_core/adminProcedure";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
+import { sendEventConfirmedEmail } from "../email";
+import { generateInvoice } from "../pdfGenerator";
+import { format } from "date-fns";
 
 export const eventsRouter = router({
   // ============================================================================
@@ -104,6 +107,43 @@ export const eventsRouter = router({
     }))
     .mutation(async ({ input }) => {
       await db.updateEventStatus(input.id, input.status);
+
+      // Auto-send confirmation email + invoice PDF when admin confirms event
+      if (input.status === "confirmed") {
+        try {
+          const event = await db.getEventById(input.id);
+          if (event) {
+            const clientData = await db.getClientById(event.clientId);
+            const clientEmail = clientData?.email;
+            const clientName = clientData?.name || (clientData as any)?.companyName || "Client";
+            if (clientEmail) {
+              const eventServices = await db.getEventServices(input.id);
+              const price = event.totalPrice ? parseFloat(event.totalPrice).toFixed(2) : "0.00";
+              const services = eventServices.length > 0
+                ? eventServices.map((s) => { const p = s.servicePrice ? parseFloat(s.servicePrice).toFixed(2) : "0.00"; return { description: s.serviceName || "Service", quantity: 1, unitPrice: p, total: p }; })
+                : [{ description: "Event organisation and execution", quantity: 1, unitPrice: price, total: price }];
+              const subtotal = services.reduce((sum, s) => sum + parseFloat(s.total), 0);
+              const taxes = subtotal * 0.2;
+              const invoiceNumber = `INV-${event.id}-${Date.now()}`;
+              const pdfBuffer = await generateInvoice({
+                invoiceNumber, eventTitle: event.title, clientName,
+                clientDocument: (clientData as any)?.document || "—",
+                services, subtotal: subtotal.toFixed(2), taxes: taxes.toFixed(2), total: (subtotal + taxes).toFixed(2),
+              });
+              await sendEventConfirmedEmail({
+                to: clientEmail, clientName, eventTitle: event.title,
+                eventDate: format(new Date(event.eventDate), "dd/MM/yyyy"),
+                location: event.location || "To be confirmed", totalPrice: price,
+                invoicePdfBase64: pdfBuffer.toString("base64"),
+                invoiceFilename: `invoice_${invoiceNumber}.pdf`,
+              });
+            }
+          }
+        } catch (emailErr) {
+          console.error("[updateStatus] Email send failed (non-blocking):", emailErr);
+        }
+      }
+
       return { success: true };
     }),
 
