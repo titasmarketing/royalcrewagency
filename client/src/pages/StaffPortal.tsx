@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   LogOut, Crown, Calendar, MapPin, Clock, CheckCircle, XCircle,
-  User, MessageSquare, Home, Camera, Upload, Navigation, Trash2, Send
+  User, MessageSquare, Home, Camera, Upload, Navigation, Trash2, Send,
+  Wifi, WifiOff, Smartphone
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
@@ -36,6 +37,44 @@ export default function StaffPortal() {
     { enabled: !!selectedEventId }
   );
   
+  const [gpsSharing, setGpsSharing] = useState(false);
+  const gpsIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const updateLocationMutation = trpc.staff.updateLocation.useMutation();
+
+  const startGpsSharing = () => {
+    if (!navigator.geolocation) {
+      toast.error("GPS not supported on this device");
+      return;
+    }
+    const sendLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          updateLocationMutation.mutate({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          });
+        },
+        () => { /* silent fail */ }
+      );
+    };
+    sendLocation();
+    gpsIntervalRef.current = setInterval(sendLocation, 30000); // every 30s
+    setGpsSharing(true);
+    toast.success("📍 Location sharing started");
+  };
+
+  const stopGpsSharing = () => {
+    if (gpsIntervalRef.current) clearInterval(gpsIntervalRef.current);
+    setGpsSharing(false);
+    toast.info("Location sharing stopped");
+  };
+
+  useEffect(() => {
+    return () => {
+      if (gpsIntervalRef.current) clearInterval(gpsIntervalRef.current);
+    };
+  }, []);
+
   const acceptJobMutation = trpc.staff.acceptJob.useMutation();
   const declineJobMutation = trpc.staff.declineJob.useMutation();
   const checkInMutation = trpc.staff.checkIn.useMutation();
@@ -211,7 +250,28 @@ export default function StaffPortal() {
               </span>
             </div>
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* GPS Toggle */}
+            <button
+              onClick={gpsSharing ? stopGpsSharing : startGpsSharing}
+              title={gpsSharing ? "Stop sharing location" : "Share location"}
+              className={`flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold uppercase transition-colors ${
+                gpsSharing
+                  ? "bg-green-500/20 text-green-400 border border-green-500/40"
+                  : "bg-gray-700/40 text-gray-400 border border-gray-600/40"
+              }`}
+            >
+              {gpsSharing ? <Wifi className="w-3 h-3" /> : <WifiOff className="w-3 h-3" />}
+              <span>{gpsSharing ? "Live" : "GPS"}</span>
+            </button>
+            {/* Install App */}
+            <a
+              href="/install"
+              title="Install App"
+              className="text-[#D4AF37]/60 hover:text-[#D4AF37] transition-colors"
+            >
+              <Smartphone className="w-4 h-4" />
+            </a>
             <span className="text-gray-400 text-[10px] uppercase font-bold">
               {user.name?.split(" ")[0]}
             </span>

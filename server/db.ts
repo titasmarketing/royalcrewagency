@@ -333,6 +333,35 @@ export async function getAllStaffMembers() {
   }));
 }
 
+export async function updateStaffLocation(userId: number, latitude: number, longitude: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db
+    .update(staffMembers)
+    .set({ latitude: String(latitude), longitude: String(longitude), updatedAt: new Date() })
+    .where(eq(staffMembers.userId, userId));
+}
+
+export async function getActiveStaffLocations() {
+  const db = await getDb();
+  if (!db) return [];
+  const rows = await db
+    .select({
+      id: staffMembers.id,
+      userId: staffMembers.userId,
+      latitude: staffMembers.latitude,
+      longitude: staffMembers.longitude,
+      updatedAt: staffMembers.updatedAt,
+      name: users.name,
+      phone: users.phone,
+      profileImage: staffMembers.profileImage,
+    })
+    .from(staffMembers)
+    .innerJoin(users, eq(staffMembers.userId, users.id))
+    .where(eq(staffMembers.isActive, true));
+  return rows.filter(r => r.latitude !== null && r.longitude !== null);
+}
+
 export async function getActiveStaffMembers() {
   const db = await getDb();
   if (!db) return [];

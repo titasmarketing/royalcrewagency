@@ -632,3 +632,19 @@
 - [x] Forçar reload completo após login para recarregar tRPC com token
 - [ ] Testar fluxo completo: register → login → admin/client/staff → logout
 - [ ] Sistema pronto para deploy na Hostinger
+
+## GPS Tracking em Tempo Real + PWA
+
+- [x] Adicionar campos latitude e longitude na tabela staffMembers
+- [x] Criar API staff.updateLocation para staff partilhar localização GPS
+- [x] Criar API staff.getAllLocations para admin ver todas as localizações activas
+- [x] Adicionar botão GPS toggle no header do StaffPortal (GPS/Live)
+- [x] Enviar localização GPS a cada 30 segundos via setInterval
+- [x] Criar página AdminStaffMap (/admin/staff-map) com mapa Google Maps
+- [x] Mostrar marcadores dourados para cada staff com GPS activo
+- [x] Adicionar link "Staff Map" no sidebar do DashboardLayout
+- [x] Adicionar botão Install App (ícone Smartphone) no header do StaffPortal
+- [x] Criar página /install com instruções iOS e botão Android
+- [x] Configurar PWA: manifest.json + service worker (sw.js)
+- [x] Adicionar apple-touch-icon e ícones PWA (192x192, 512x512, 180x180)
+- [x] Rota /admin/staff-map adicionada ao App.tsx

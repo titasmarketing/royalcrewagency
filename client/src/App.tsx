@@ -30,10 +30,12 @@ import AdminGallery from "./pages/admin/AdminGallery";
 import AdminMenu from "./pages/admin/AdminMenu";
 import EventDetails from "./pages/admin/EventDetails";
 import AdminEventTracking from "./pages/admin/AdminEventTracking";
+import AdminStaffMap from "./pages/admin/AdminStaffMap";
 import Gallery from "./pages/Gallery";
 import Menu from "./pages/Menu";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import InstallApp from "./pages/InstallApp";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -60,7 +62,8 @@ function Router() {
         <Route path="/admin/gallery" component={AdminGallery} />
         <Route path="/admin/menu" component={AdminMenu} />
         <Route path="/admin/events/:id" component={EventDetails} />
-      <Route path={"/admin/events/:id/tracking"} component={AdminEventTracking} />       <Route path="/gallery" component={Gallery} />
+      <Route path={'/admin/events/:id/tracking'} component={AdminEventTracking} />
+      <Route path={'/admin/staff-map'} component={AdminStaffMap} />       <Route path="/gallery" component={Gallery} />
         <Route path="/menu" component={Menu} />
       <Route path={"/services"} component={Services} />
       <Route path={"/services/:slug"} component={ServiceDetail} />
@@ -71,6 +74,7 @@ function Router() {
       <Route path={"/client/events/:id"} component={ClientEventDetails} />
       <Route path={"/client/events/:id/status"} component={ClientEventStatus} />
       <Route path={"/client/financial/:id"} component={ClientFinancial} />
+      <Route path={"/install"} component={InstallApp} />
       <Route path={"/work-with-us"} component={RecruitmentPortal} />
       <Route path={"/admin/applications"} component={AdminRecruitment} />
       <Route path={"/404"} component={NotFound} />

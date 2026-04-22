@@ -282,5 +282,29 @@ export const staffRouter = router({
       const dbModule = await import('../db');
       return await dbModule.getEventStaffAssignments(input.eventId);
     }),
+
+  // ============================================================================
+  // UPDATE LOCATION - Staff partilha localização GPS em tempo real
+  // ============================================================================
+  updateLocation: protectedProcedure
+    .input(z.object({
+      latitude: z.number(),
+      longitude: z.number(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== 'staff') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Staff access required' });
+      }
+      await db.updateStaffLocation(ctx.user.id, input.latitude, input.longitude);
+      return { success: true };
+    }),
+
+  // ============================================================================
+  // GET ALL STAFF LOCATIONS - Admin vê localização de todos os staff activos
+  // ============================================================================
+  getAllLocations: adminProcedure
+    .query(async () => {
+      return await db.getActiveStaffLocations();
+    }),
 });
 

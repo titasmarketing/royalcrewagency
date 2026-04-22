@@ -36,6 +36,11 @@ export const appRouter = router({
       return await db.getAllServices();
     }),
     
+    // Public endpoint returning all services (active + inactive) for staff specialties/roles
+    listForStaff: publicProcedure.query(async () => {
+      return await db.getAllServices();
+    }),
+    
     featured: publicProcedure.query(async () => {
       return await db.getFeaturedServices();
     }),
