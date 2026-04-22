@@ -325,10 +325,21 @@ export const appRouter = router({
     delete: adminProcedure
       .input(z.object({ id: z.number(), deleteEvents: z.boolean().default(true) }))
       .mutation(async ({ input }) => {
+        // Get client to find userId before deleting
+        const client = await db.getClientById(input.id);
         if (input.deleteEvents) {
           await db.deleteEventsByClientId(input.id);
         }
         await db.deleteClient(input.id);
+        // Delete the associated user to free up the email
+        if (client?.userId) {
+          const drizzleDb = await db.getDb();
+          if (drizzleDb) {
+            const { users: usersTable } = await import("../drizzle/schema");
+            const { eq } = await import("drizzle-orm");
+            await drizzleDb.delete(usersTable).where(eq(usersTable.id, client.userId));
+          }
+        }
         return { success: true };
       }),
   }),

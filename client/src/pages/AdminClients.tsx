@@ -16,6 +16,9 @@ import { toast } from "sonner";
 type Client = {
   id: number;
   companyName: string | null;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
   document: string | null;
   address: string | null;
   city: string | null;
@@ -223,16 +226,24 @@ export default function AdminClients() {
                   <div className="flex items-start gap-4">
                     <Avatar className="h-16 w-16">
                       <AvatarFallback className="bg-accent/10 text-accent text-lg font-bold">
-                        {client.companyName ? getInitials(client.companyName) : "CL"}
+                        {getInitials((client as any).name || client.companyName || null) || "CL"}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <CardTitle className="truncate">{client.companyName || "Cliente"}</CardTitle>
+                      <CardTitle className="truncate">
+                        {client.companyName || (client as any).name || "Unnamed Client"}
+                      </CardTitle>
+                      {client.companyName && (client as any).name && (
+                        <p className="text-sm text-muted-foreground truncate">{(client as any).name}</p>
+                      )}
+                      {(client as any).email && (
+                        <p className="text-xs text-muted-foreground truncate">{(client as any).email}</p>
+                      )}
                       <div className="flex items-center gap-2 mt-2">
                         {client.companyName ? (
-                          <Badge variant="default">Empresa</Badge>
+                          <Badge variant="default">Company</Badge>
                         ) : (
-                          <Badge variant="secondary">Pessoa Física</Badge>
+                          <Badge variant="secondary">Individual</Badge>
                         )}
                       </div>
                     </div>
@@ -280,7 +291,7 @@ export default function AdminClients() {
                     <Button
                       size="sm"
                       variant="destructive"
-                      onClick={() => handleDelete(client.id, client.companyName || "Client")}
+                      onClick={() => handleDelete(client.id, client.companyName || (client as any).name || "Client")}
                       disabled={deleteClient.isPending}
                     >
                       <Trash2 className="w-4 h-4" />
