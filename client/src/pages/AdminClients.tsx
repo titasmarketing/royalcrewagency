@@ -228,7 +228,7 @@ export default function AdminClients() {
                   {client.document && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Building className="h-4 w-4" />
-                      <span>{client.companyName ? 'CNPJ' : 'CPF'}: {client.document}</span>
+                      <span>Doc: {client.document}</span>
                     </div>
                   )}
                   {client.city && (
@@ -307,7 +307,7 @@ export default function AdminClients() {
                 />
               </div>
               <div className="space-y-1">
-                <Label>Document (CPF/CNPJ)</Label>
+                <Label>Document</Label>
                 <Input
                   value={form.document}
                   onChange={e => setForm(f => ({ ...f, document: e.target.value }))}
@@ -422,7 +422,7 @@ export default function AdminClients() {
                 />
               </div>
               <div className="space-y-1">
-                <Label>Document (CPF/CNPJ/VAT)</Label>
+                <Label>Document</Label>
                 <Input
                   value={newForm.document}
                   onChange={e => setNewForm(f => ({ ...f, document: e.target.value }))}

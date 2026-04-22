@@ -286,6 +286,11 @@ export async function getAllStaffMembers() {
   
   return result.map(r => ({
     ...r.staff,
+    specialties: Array.isArray(r.staff.specialties)
+      ? r.staff.specialties
+      : (typeof r.staff.specialties === 'string'
+          ? (() => { try { return JSON.parse(r.staff.specialties as string); } catch { return []; } })()
+          : []),
     user: r.user,
   }));
 }
@@ -306,6 +311,11 @@ export async function getActiveStaffMembers() {
   
   return result.map(r => ({
     ...r.staff,
+    specialties: Array.isArray(r.staff.specialties)
+      ? r.staff.specialties
+      : (typeof r.staff.specialties === 'string'
+          ? (() => { try { return JSON.parse(r.staff.specialties as string); } catch { return []; } })()
+          : []),
     user: r.user,
   }));
 }

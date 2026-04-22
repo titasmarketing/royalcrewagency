@@ -519,7 +519,7 @@ export default function AdminStaff() {
                     )}
                   </div>
 
-                  {member.specialties && member.specialties.length > 0 && (
+                  {member.specialties && Array.isArray(member.specialties) && member.specialties.length > 0 && (
                     <div>
                       <p className="text-xs font-medium text-muted-foreground mb-2">Specialties:</p>
                       <div className="flex flex-wrap gap-1">
