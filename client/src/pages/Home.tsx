@@ -249,6 +249,7 @@ export default function Home() {
                       <SelectItem value="Corporate Gala">Corporate Gala</SelectItem>
                       <SelectItem value="VIP Private Party">VIP Private Party</SelectItem>
                       <SelectItem value="Exhibition">Exhibition</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
