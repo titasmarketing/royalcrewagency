@@ -648,3 +648,13 @@
 - [x] Configurar PWA: manifest.json + service worker (sw.js)
 - [x] Adicionar apple-touch-icon e ícones PWA (192x192, 512x512, 180x180)
 - [x] Rota /admin/staff-map adicionada ao App.tsx
+
+## Cloudflare R2 Storage
+
+- [x] Configurar credenciais R2 como secrets (R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_ENDPOINT, R2_BUCKET_NAME, R2_PUBLIC_URL)
+- [x] Instalar @aws-sdk/client-s3 e @aws-sdk/s3-request-presigner
+- [x] Reescrever server/storage.ts para usar Cloudflare R2 via AWS SDK S3-compatible
+- [x] Adicionar variáveis R2 ao ENV (server/_core/env.ts)
+- [x] Criar função storageDelete para remover ficheiros do R2
+- [x] Testar upload, presigned URL e delete com vitest (3/3 testes passaram)
+- [x] URL pública via domínio customizado: https://dados.royalcrewagency.com

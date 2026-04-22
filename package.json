@@ -13,8 +13,8 @@
     "db:push": "drizzle-kit generate && drizzle-kit migrate"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.693.0",
-    "@aws-sdk/s3-request-presigner": "^3.693.0",
+    "@aws-sdk/client-s3": "^3.907.0",
+    "@aws-sdk/s3-request-presigner": "^3.907.0",
     "@fullcalendar/core": "^6.1.19",
     "@fullcalendar/daygrid": "^6.1.19",
     "@fullcalendar/interaction": "^6.1.19",
