@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
-import { Users, Building, Eye, Pencil, Trash2 } from "lucide-react";
+import { Users, Building, Eye, Pencil, Trash2, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
@@ -30,6 +30,8 @@ type Client = {
 export default function AdminClients() {
   const { data: clients, isLoading, refetch } = trpc.clients.list.useQuery();
   const [, setLocation] = useLocation();
+
+  // Edit dialog state
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [form, setForm] = useState({
     companyName: "",
@@ -41,6 +43,21 @@ export default function AdminClients() {
     notes: "",
   });
 
+  // New client dialog state
+  const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  const [newForm, setNewForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    companyName: "",
+    document: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    notes: "",
+  });
+
   useEffect(() => {
     if (editingClient) {
       setForm({
@@ -48,7 +65,7 @@ export default function AdminClients() {
         document: editingClient.document || "",
         address: editingClient.address || "",
         city: editingClient.city || "",
-        county: editingClient.county || "",
+        county: (editingClient.county as string) || "",
         zipCode: editingClient.zipCode || "",
         notes: editingClient.notes || "",
       });
@@ -76,6 +93,29 @@ export default function AdminClients() {
     },
   });
 
+  const createClient = trpc.clients.createManual.useMutation({
+    onSuccess: () => {
+      toast.success("Client created successfully!");
+      setIsNewDialogOpen(false);
+      setNewForm({
+        name: "",
+        email: "",
+        phone: "",
+        companyName: "",
+        document: "",
+        address: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        notes: "",
+      });
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error creating client: ${error.message}`);
+    },
+  });
+
   const handleSave = () => {
     if (!editingClient) return;
     updateClient.mutate({ id: editingClient.id, ...form });
@@ -84,6 +124,14 @@ export default function AdminClients() {
   const handleDelete = (id: number, name: string) => {
     if (!confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) return;
     deleteClient.mutate({ id });
+  };
+
+  const handleCreateClient = () => {
+    if (!newForm.name.trim() || !newForm.email.trim()) {
+      toast.error("Name and email are required.");
+      return;
+    }
+    createClient.mutate(newForm);
   };
 
   const getInitials = (name: string | null) => {
@@ -100,6 +148,10 @@ export default function AdminClients() {
             <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Clients</h1>
             <p className="text-muted-foreground">Visualize e gerencie todos os clientes</p>
           </div>
+          <Button onClick={() => setIsNewDialogOpen(true)} className="gap-2">
+            <Plus className="h-4 w-4" />
+            New Client
+          </Button>
         </div>
 
         {/* Stats */}
@@ -130,7 +182,7 @@ export default function AdminClients() {
           </Card>
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">News este Month</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">New this Month</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-accent">
@@ -200,7 +252,7 @@ export default function AdminClients() {
                       onClick={() => setLocation(`/admin/clients/${client.id}/events`)}
                     >
                       <Eye className="w-4 h-4 mr-1" />
-                      Ver Events
+                      Events
                     </Button>
                     <Button
                       size="sm"
@@ -228,7 +280,11 @@ export default function AdminClients() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Users className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">None cliente cadastrado ainda</p>
+              <p className="text-muted-foreground mb-4">No clients registered yet</p>
+              <Button onClick={() => setIsNewDialogOpen(true)} className="gap-2">
+                <Plus className="h-4 w-4" />
+                Add First Client
+              </Button>
             </CardContent>
           </Card>
         )}
@@ -316,6 +372,110 @@ export default function AdminClients() {
             <Button variant="outline" onClick={() => setEditingClient(null)}>Cancel</Button>
             <Button onClick={handleSave} disabled={updateClient.isPending}>
               {updateClient.isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* New Client Dialog */}
+      <Dialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Register New Client</DialogTitle>
+            <DialogDescription>
+              Manually add a client to the system.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <Label>Contact Name *</Label>
+                <Input
+                  value={newForm.name}
+                  onChange={e => setNewForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="John Smith"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Email *</Label>
+                <Input
+                  type="email"
+                  value={newForm.email}
+                  onChange={e => setNewForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="john@company.com"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Phone</Label>
+                <Input
+                  value={newForm.phone}
+                  onChange={e => setNewForm(f => ({ ...f, phone: e.target.value }))}
+                  placeholder="+44 7700 000000"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Company Name</Label>
+                <Input
+                  value={newForm.companyName}
+                  onChange={e => setNewForm(f => ({ ...f, companyName: e.target.value }))}
+                  placeholder="Royal Events Ltd"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Document (CPF/CNPJ/VAT)</Label>
+                <Input
+                  value={newForm.document}
+                  onChange={e => setNewForm(f => ({ ...f, document: e.target.value }))}
+                  placeholder="Document number"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Postcode</Label>
+                <Input
+                  value={newForm.zipCode}
+                  onChange={e => setNewForm(f => ({ ...f, zipCode: e.target.value }))}
+                  placeholder="SW1A 1AA"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>City</Label>
+                <Input
+                  value={newForm.city}
+                  onChange={e => setNewForm(f => ({ ...f, city: e.target.value }))}
+                  placeholder="London"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>County / State</Label>
+                <Input
+                  value={newForm.state}
+                  onChange={e => setNewForm(f => ({ ...f, state: e.target.value }))}
+                  placeholder="Greater London"
+                />
+              </div>
+              <div className="col-span-2 space-y-1">
+                <Label>Address</Label>
+                <Input
+                  value={newForm.address}
+                  onChange={e => setNewForm(f => ({ ...f, address: e.target.value }))}
+                  placeholder="Full address"
+                />
+              </div>
+              <div className="col-span-2 space-y-1">
+                <Label>Notes</Label>
+                <Textarea
+                  value={newForm.notes}
+                  onChange={e => setNewForm(f => ({ ...f, notes: e.target.value }))}
+                  placeholder="Internal notes about this client..."
+                  rows={3}
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsNewDialogOpen(false)}>Cancel</Button>
+            <Button onClick={handleCreateClient} disabled={createClient.isPending}>
+              {createClient.isPending ? "Creating..." : "Create Client"}
             </Button>
           </DialogFooter>
         </DialogContent>

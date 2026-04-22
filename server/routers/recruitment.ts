@@ -36,14 +36,14 @@ export const recruitmentRouter = router({
 
       try {
         // Criar usuário temporário para o candidato
-        const [newUser] = await db.insert(users).values({
+        const newUserResult = await db.insert(users).values({
           openId: `temp-${Date.now()}-${Math.random().toString(36).substring(7)}`,
           name: input.name,
           email: input.email,
           role: "staff",
         });
 
-        const userId = newUser.insertId;
+        const userId = (newUserResult[0] as any).insertId;
 
         // Upload da foto se fornecida
         let profileImageUrl: string | null = null;

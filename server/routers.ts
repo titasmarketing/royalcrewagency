@@ -136,6 +136,51 @@ export const appRouter = router({
         await db.createStaffMember(input);
         return { success: true };
       }),
+
+    createManual: adminProcedure
+      .input(z.object({
+        name: z.string(),
+        email: z.string().email(),
+        phone: z.string().optional(),
+        specialties: z.array(z.string()).optional(),
+        hourlyRate: z.string().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        county: z.string().optional(),
+        postcode: z.string().optional(),
+        bio: z.string().optional(),
+        experience: z.string().optional(),
+        isActive: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const drizzleDb = await db.getDb();
+        if (!drizzleDb) throw new Error("Database not available");
+        const { users: usersTable, staffMembers: staffTable } = await import("../drizzle/schema");
+        const userResult = await drizzleDb.insert(usersTable).values({
+          openId: `manual-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+          name: input.name,
+          email: input.email,
+          role: "staff",
+        });
+        const userId = (userResult[0] as any).insertId;
+        await drizzleDb.insert(staffTable).values({
+          userId,
+          specialties: input.specialties || [],
+          hourlyRate: input.hourlyRate || null,
+          phone: input.phone || null,
+          address: input.address || null,
+          city: input.city || null,
+          county: input.county || null,
+          postcode: input.postcode || null,
+          bio: input.bio || null,
+          experience: input.experience || null,
+          status: "approved",
+          isActive: input.isActive ?? true,
+          rating: "0.00",
+          totalEvents: 0,
+        });
+        return { success: true };
+      }),
     
     update: adminProcedure
       .input(z.object({
@@ -208,6 +253,43 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         await db.createClient(input);
+        return { success: true };
+      }),
+
+    createManual: adminProcedure
+      .input(z.object({
+        name: z.string(),
+        email: z.string().email(),
+        phone: z.string().optional(),
+        companyName: z.string().optional(),
+        document: z.string().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        state: z.string().optional(),
+        zipCode: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const drizzleDb = await db.getDb();
+        if (!drizzleDb) throw new Error("Database not available");
+        const { users: usersTable, clients: clientsTable } = await import("../drizzle/schema");
+        const userResult = await drizzleDb.insert(usersTable).values({
+          openId: `manual-client-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+          name: input.name,
+          email: input.email,
+          role: "client",
+        });
+        const userId = (userResult[0] as any).insertId;
+        await drizzleDb.insert(clientsTable).values({
+          userId,
+          companyName: input.companyName || null,
+          document: input.document || null,
+          address: input.address || null,
+          city: input.city || null,
+          state: input.state || null,
+          zipCode: input.zipCode || null,
+          notes: input.notes || null,
+        });
         return { success: true };
       }),
 

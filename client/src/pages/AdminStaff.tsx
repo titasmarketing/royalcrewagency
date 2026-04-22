@@ -8,9 +8,24 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
-import { Plus, Users, Star, MapPin, DollarSign, Calendar, Edit, Trash2 } from "lucide-react";
+import { Plus, Users, Star, MapPin, DollarSign, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+
+const ALL_SPECIALTIES = [
+  "Bartender",
+  "Waiter/Waitress",
+  "Chef",
+  "Event Porter",
+  "Kitchen Porter",
+  "Host/Hostess",
+  "Event Coordinator",
+  "Barback",
+  "Driver",
+  "Porter",
+  "General Cleaning",
+  "Warehouse Assistance",
+];
 
 type StaffMember = {
   id: number;
@@ -28,6 +43,7 @@ type StaffMember = {
 };
 
 export default function AdminStaff() {
+  // Edit dialog state
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<StaffMember | null>(null);
   const [editForm, setEditForm] = useState({
@@ -37,6 +53,23 @@ export default function AdminStaff() {
     address: "",
     bio: "",
     isActive: true,
+  });
+
+  // New staff dialog state
+  const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  const [newForm, setNewForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    hourlyRate: "",
+    city: "",
+    county: "",
+    postcode: "",
+    address: "",
+    bio: "",
+    experience: "",
+    isActive: true,
+    specialties: [] as string[],
   });
 
   const { data: staff, isLoading, refetch } = trpc.staffAdmin.list.useQuery();
@@ -62,6 +95,31 @@ export default function AdminStaff() {
     },
     onError: (error) => {
       toast.error(`Error deleting staff: ${error.message}`);
+    },
+  });
+
+  const createStaff = trpc.staffAdmin.createManual.useMutation({
+    onSuccess: () => {
+      toast.success("Staff member created successfully!");
+      setIsNewDialogOpen(false);
+      setNewForm({
+        name: "",
+        email: "",
+        phone: "",
+        hourlyRate: "",
+        city: "",
+        county: "",
+        postcode: "",
+        address: "",
+        bio: "",
+        experience: "",
+        isActive: true,
+        specialties: [],
+      });
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error creating staff: ${error.message}`);
     },
   });
 
@@ -93,6 +151,23 @@ export default function AdminStaff() {
     deleteStaff.mutate({ id: editingMember.id });
   };
 
+  const handleCreateStaff = () => {
+    if (!newForm.name.trim() || !newForm.email.trim()) {
+      toast.error("Name and email are required.");
+      return;
+    }
+    createStaff.mutate(newForm);
+  };
+
+  const toggleNewSpecialty = (specialty: string) => {
+    setNewForm(prev => ({
+      ...prev,
+      specialties: prev.specialties.includes(specialty)
+        ? prev.specialties.filter(s => s !== specialty)
+        : [...prev.specialties, specialty],
+    }));
+  };
+
   const getInitials = (name: string | null) => {
     if (!name) return "??";
     return name
@@ -112,6 +187,10 @@ export default function AdminStaff() {
             <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Staff</h1>
             <p className="text-muted-foreground">Gerencie equipe, disponibilidade e escalas</p>
           </div>
+          <Button onClick={() => setIsNewDialogOpen(true)} className="gap-2">
+            <Plus className="h-4 w-4" />
+            New Staff
+          </Button>
         </div>
 
         {/* Stats */}
@@ -247,6 +326,143 @@ export default function AdminStaff() {
           </DialogContent>
         </Dialog>
 
+        {/* New Staff Dialog */}
+        <Dialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Register New Staff Member</DialogTitle>
+              <DialogDescription>
+                Manually add a staff member to the system.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Full Name *</Label>
+                  <Input
+                    value={newForm.name}
+                    onChange={(e) => setNewForm({ ...newForm, name: e.target.value })}
+                    placeholder="John Smith"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Email *</Label>
+                  <Input
+                    type="email"
+                    value={newForm.email}
+                    onChange={(e) => setNewForm({ ...newForm, email: e.target.value })}
+                    placeholder="john@example.com"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Phone</Label>
+                  <Input
+                    value={newForm.phone}
+                    onChange={(e) => setNewForm({ ...newForm, phone: e.target.value })}
+                    placeholder="+44 7700 000000"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Hourly Rate (£)</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={newForm.hourlyRate}
+                    onChange={(e) => setNewForm({ ...newForm, hourlyRate: e.target.value })}
+                    placeholder="0.00"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>City</Label>
+                  <Input
+                    value={newForm.city}
+                    onChange={(e) => setNewForm({ ...newForm, city: e.target.value })}
+                    placeholder="London"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>County</Label>
+                  <Input
+                    value={newForm.county}
+                    onChange={(e) => setNewForm({ ...newForm, county: e.target.value })}
+                    placeholder="Greater London"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Postcode</Label>
+                  <Input
+                    value={newForm.postcode}
+                    onChange={(e) => setNewForm({ ...newForm, postcode: e.target.value })}
+                    placeholder="SW1A 1AA"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Address</Label>
+                  <Input
+                    value={newForm.address}
+                    onChange={(e) => setNewForm({ ...newForm, address: e.target.value })}
+                    placeholder="123 Main St"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Bio</Label>
+                <Input
+                  value={newForm.bio}
+                  onChange={(e) => setNewForm({ ...newForm, bio: e.target.value })}
+                  placeholder="Brief description..."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Experience</Label>
+                <Input
+                  value={newForm.experience}
+                  onChange={(e) => setNewForm({ ...newForm, experience: e.target.value })}
+                  placeholder="e.g. 5 years in hospitality..."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Specialties</Label>
+                <div className="flex flex-wrap gap-2">
+                  {ALL_SPECIALTIES.map((specialty) => (
+                    <button
+                      key={specialty}
+                      type="button"
+                      onClick={() => toggleNewSpecialty(specialty)}
+                      className={`px-3 py-1 rounded-full text-sm border transition-colors ${
+                        newForm.specialties.includes(specialty)
+                          ? "bg-accent text-accent-foreground border-accent"
+                          : "bg-transparent text-muted-foreground border-border hover:border-accent"
+                      }`}
+                    >
+                      {specialty}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>Active from start</Label>
+                <Switch
+                  checked={newForm.isActive}
+                  onCheckedChange={(checked) => setNewForm({ ...newForm, isActive: checked })}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsNewDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleCreateStaff} disabled={createStaff.isPending}>
+                {createStaff.isPending ? "Creating..." : "Create Staff Member"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         {/* Staff List */}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
@@ -287,22 +503,18 @@ export default function AdminStaff() {
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Star className="h-4 w-4 text-accent fill-accent" />
-                      <span>Avaliação: {parseFloat(member.rating || "0").toFixed(1)}/5.0</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Calendar className="h-4 w-4" />
-                      <span>Events: {member.totalEvents}</span>
+                      <span>Rating: {parseFloat(member.rating || "0").toFixed(1)}/5.0</span>
                     </div>
                     {member.hourlyRate && (
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <DollarSign className="h-4 w-4" />
-                        <span>£ {parseFloat(member.hourlyRate).toFixed(2)}/hora</span>
+                        <span>£ {parseFloat(member.hourlyRate).toFixed(2)}/hr</span>
                       </div>
                     )}
                     {member.city && (
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <MapPin className="h-4 w-4" />
-                        <span>{member.city}, {member.county}</span>
+                        <span>{member.city}{member.county ? `, ${member.county}` : ""}</span>
                       </div>
                     )}
                   </div>
@@ -327,7 +539,7 @@ export default function AdminStaff() {
                       className="flex-1"
                       onClick={() => handleToggleActive(member.id, !member.isActive)}
                     >
-                      {member.isActive ? "Desativar" : "Ativar"}
+                      {member.isActive ? "Deactivate" : "Activate"}
                     </Button>
                     <Button
                       size="sm"
@@ -347,7 +559,11 @@ export default function AdminStaff() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Users className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">Nenhum membro de staff cadastrado ainda</p>
+              <p className="text-muted-foreground mb-4">No staff members registered yet</p>
+              <Button onClick={() => setIsNewDialogOpen(true)} className="gap-2">
+                <Plus className="h-4 w-4" />
+                Add First Staff Member
+              </Button>
             </CardContent>
           </Card>
         )}
