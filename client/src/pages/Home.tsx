@@ -25,7 +25,7 @@ function GallerySection() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
           <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Portfolio</span>
-          <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight uppercase">Our <span className="font-bold text-[#D4AF37]">Events</span></h2>
+          <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight uppercase">Our <span className="font-light text-[#D4AF37]">Events</span></h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
