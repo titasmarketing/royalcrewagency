@@ -29,7 +29,6 @@ import AdminPartnerCompanies from "./pages/admin/AdminPartnerCompanies";
 import AdminGallery from "./pages/admin/AdminGallery";
 import AdminMenu from "./pages/admin/AdminMenu";
 import EventDetails from "./pages/admin/EventDetails";
-import AdminMessages from "./pages/admin/AdminMessages";
 import AdminEventTracking from "./pages/admin/AdminEventTracking";
 import Gallery from "./pages/Gallery";
 import Menu from "./pages/Menu";
@@ -61,7 +60,6 @@ function Router() {
         <Route path="/admin/gallery" component={AdminGallery} />
         <Route path="/admin/menu" component={AdminMenu} />
         <Route path="/admin/events/:id" component={EventDetails} />
-        <Route path={"/admin/messages"} component={AdminMessages} />
       <Route path={"/admin/events/:id/tracking"} component={AdminEventTracking} />       <Route path="/gallery" component={Gallery} />
         <Route path="/menu" component={Menu} />
       <Route path={"/services"} component={Services} />
