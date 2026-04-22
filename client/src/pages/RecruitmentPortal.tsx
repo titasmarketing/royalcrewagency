@@ -125,20 +125,8 @@ export default function RecruitmentPortal() {
     }));
   };
 
-  const availableSpecialties = [
-    "Waiter",
-    "Bartender",
-    "Chef",
-    "Kitchen Assistant",
-    "Coordinator",
-    "Receptionist",
-    "Security",
-    "Valet",
-    "Cleaning",
-    "Setup/Breakdown",
-    "Driver",
-    "Porter",
-  ];
+  const { data: servicesData } = trpc.services.list.useQuery();
+  const availableSpecialties = servicesData?.map((s: any) => s.name) ?? [];
 
   const businessTypes = [
     { value: "catering", label: "Catering & Food Services" },

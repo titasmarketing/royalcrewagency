@@ -110,6 +110,20 @@ export default function Home() {
     });
   };
 
+  const removeStaff = (type: string) => {
+    setBookingData(prev => {
+      const existing = prev.staffNeeds.find(s => s.type === type);
+      if (!existing) return prev;
+      if (existing.count <= 1) {
+        return { ...prev, staffNeeds: prev.staffNeeds.filter(s => s.type !== type) };
+      }
+      return {
+        ...prev,
+        staffNeeds: prev.staffNeeds.map(s => s.type === type ? { ...s, count: s.count - 1 } : s)
+      };
+    });
+  };
+
   const handleStartBooking = (e: React.FormEvent) => {
     e.preventDefault();
     if (!bookingData.date || !bookingData.email || bookingData.staffNeeds.length === 0) {
@@ -282,21 +296,37 @@ export default function Home() {
                   {staffTypes.length === 0 ? (
                     <p className="text-gray-500 text-xs col-span-full text-center py-4">No services available. Please add services in Admin → Services.</p>
                   ) : (
-                    staffTypes.map(skill => (
-                      <button
-                        key={skill}
-                        type="button"
-                        onClick={() => addStaff(skill)}
-                        className={`text-[9px] font-bold uppercase p-3 border rounded-lg transition-all flex justify-between items-center ${bookingData.staffNeeds.find(s => s.type === skill) ? 'border-[#D4AF37] bg-[#D4AF37]/10 text-white shadow-[0_0_15px_rgba(212,175,55,0.2)]' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
-                      >
-                        {skill}
-                        {bookingData.staffNeeds.find(s => s.type === skill) && (
-                          <span className="bg-[#D4AF37] text-[#0c1b33] px-2 py-0.5 rounded-full text-[8px]">
-                            {bookingData.staffNeeds.find(s => s.type === skill)?.count}
-                          </span>
-                        )}
-                      </button>
-                    ))
+                    staffTypes.map(skill => {
+                      const staffNeed = bookingData.staffNeeds.find(s => s.type === skill);
+                      const isSelected = !!staffNeed;
+                      return (
+                        <div
+                          key={skill}
+                          className={`text-[9px] font-bold uppercase p-3 border rounded-lg transition-all flex justify-between items-center gap-1 ${isSelected ? 'border-[#D4AF37] bg-[#D4AF37]/10 text-white shadow-[0_0_15px_rgba(212,175,55,0.2)]' : 'border-white/10 text-gray-400 hover:border-white/30'}`}
+                        >
+                          <button type="button" onClick={() => addStaff(skill)} className="flex-1 text-left">
+                            {skill}
+                          </button>
+                          {isSelected && (
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                type="button"
+                                onClick={() => removeStaff(skill)}
+                                className="bg-[#D4AF37]/30 hover:bg-[#D4AF37]/60 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] leading-none"
+                              >−</button>
+                              <span className="bg-[#D4AF37] text-[#0c1b33] px-1.5 py-0.5 rounded-full text-[8px] min-w-[16px] text-center">
+                                {staffNeed.count}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => addStaff(skill)}
+                                className="bg-[#D4AF37]/30 hover:bg-[#D4AF37]/60 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] leading-none"
+                              >+</button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })
                   )}
                 </div>
               </div>
