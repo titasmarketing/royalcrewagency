@@ -319,11 +319,13 @@ export default function AdminGallery() {
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   {uploadPreview ? (
                     <div className="space-y-4">
-                      <img
-                        src={uploadPreview}
-                        alt="Preview"
-                        className="max-h-64 mx-auto rounded-lg"
-                      />
+                      <div className="relative aspect-square w-48 mx-auto rounded-lg overflow-hidden">
+                        <img
+                          src={uploadPreview}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                       <Button
                         variant="outline"
                         onClick={() => {
