@@ -476,8 +476,7 @@ export default function Home() {
       }}>
         <div className="absolute inset-0 bg-[#0c1b33]/90"></div>
         <div className="relative z-10 flex flex-col items-center justify-center py-16">
-          <Crown className="w-[800px] h-[400px] text-[#D4AF37] drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
-          <p className="text-[#D4AF37] text-xs font-bold tracking-[0.8em] uppercase mt-8">Royal Crew Agency</p>
+          <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-auto h-48 md:h-64 drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
         </div>
       </section>
 
@@ -485,7 +484,7 @@ export default function Home() {
       <section ref={workRef} className="py-32 bg-white text-center px-6">
         <div className="max-w-4xl mx-auto bg-[#f8fafc] p-12 md:p-20 rounded-3xl border border-gray-100 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Crown className="w-[640px] h-[640px] text-[#D4AF37]" />
+            <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-[400px] h-auto opacity-5" />
           </div>
           <div className="relative z-10">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-6">Premium Careers</span>
@@ -511,7 +510,7 @@ export default function Home() {
              </button>
 
              <div className="text-center mb-10">
-                <Crown className="w-8 h-8 text-[#D4AF37] mx-auto mb-4" />
+                <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-12 h-auto mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-[#0c1b33] tracking-widest uppercase">Almost there!</h2>
                 <p className="text-xs text-gray-400 font-bold tracking-widest uppercase mt-1">Complete your details to finalise the booking</p>
              </div>
