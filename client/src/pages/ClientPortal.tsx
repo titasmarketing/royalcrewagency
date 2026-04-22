@@ -16,7 +16,28 @@ export default function ClientPortal() {
   const [, navigate] = useLocation();
   const [showNewOrder, setShowNewOrder] = useState(false);
   
-  const { data: myEvents, isLoading } = trpc.events.list.useQuery();
+  const { data: myEvents, isLoading, refetch } = trpc.events.clientListEvents.useQuery();
+  const utils = trpc.useUtils();
+
+  const createRequestMutation = trpc.events.clientCreateRequest.useMutation({
+    onSuccess: () => {
+      toast.success("Request submitted successfully! We will contact you soon.");
+      setShowNewOrder(false);
+      setNewOrderForm({
+        eventName: "",
+        eventType: "Wedding",
+        date: "",
+        durationHours: 4,
+        location: "",
+        postcode: "",
+        requiredStaff: [],
+      });
+      utils.events.clientListEvents.invalidate();
+    },
+    onError: (err) => {
+      toast.error(err.message || "Failed to submit request. Please try again.");
+    },
+  });
   
   const [newOrderForm, setNewOrderForm] = useState({
     eventName: "",
@@ -37,9 +58,19 @@ export default function ClientPortal() {
   }
 
   const handleCreateOrder = () => {
-    // TODO: Integrar com backend
-    toast.success("Request submitted successfully!");
-    setShowNewOrder(false);
+    if (!newOrderForm.eventName.trim()) {
+      toast.error("Please enter an event name.");
+      return;
+    }
+    if (!newOrderForm.date) {
+      toast.error("Please select a date.");
+      return;
+    }
+    if (newOrderForm.requiredStaff.length === 0) {
+      toast.error("Please select at least one service.");
+      return;
+    }
+    createRequestMutation.mutate(newOrderForm);
   };
 
   const addStaffRequirement = (type: string) => {
@@ -227,9 +258,10 @@ export default function ClientPortal() {
             <div className="mt-8 flex justify-end">
               <Button
                 onClick={handleCreateOrder}
+                disabled={createRequestMutation.isPending}
                 className="bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-[#0c1b33] font-bold uppercase tracking-wider"
               >
-                Submit Royal Request
+                {createRequestMutation.isPending ? "Submitting..." : "Submit Royal Request"}
               </Button>
             </div>
           </Card>

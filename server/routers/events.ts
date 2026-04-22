@@ -374,6 +374,62 @@ export const eventsRouter = router({
     }),
 
   // ============================================================================
+  // CLIENT: CREATE STAFF REQUEST
+  // ============================================================================
+  clientCreateRequest: protectedProcedure
+    .input(z.object({
+      eventName: z.string().min(1),
+      eventType: z.string(),
+      date: z.string(),
+      durationHours: z.number().min(1),
+      location: z.string().optional(),
+      postcode: z.string().optional(),
+      requiredStaff: z.array(z.object({
+        type: z.string(),
+        count: z.number().min(1),
+      })),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      // Find or create client record for this user
+      let clientId: number;
+      const existingClient = await db.getClientByUserId(ctx.user.id);
+      if (existingClient) {
+        clientId = existingClient.id;
+      } else {
+        const clientResult = await db.createClient({
+          userId: ctx.user.id,
+          address: input.postcode || 'N/A',
+          city: 'N/A',
+          zipCode: input.postcode || 'N/A',
+        });
+        clientId = (clientResult[0] as any).insertId;
+      }
+
+      const staffSummary = input.requiredStaff.map(s => `${s.count}x ${s.type}`).join(', ');
+      const eventResult = await db.createEvent({
+        clientId,
+        title: input.eventName,
+        description: `Event type: ${input.eventType}\nDuration: ${input.durationHours} hours\nStaff needs: ${staffSummary}`,
+        status: 'quote',
+        eventDate: new Date(input.date),
+        location: input.location || input.postcode || 'TBD',
+        notes: `Staff request from client portal\nPostcode: ${input.postcode || 'N/A'}`,
+      });
+      const eventId = (eventResult[0] as any).insertId;
+
+      return { success: true, eventId };
+    }),
+
+  // ============================================================================
+  // CLIENT: LIST OWN EVENTS
+  // ============================================================================
+  clientListEvents: protectedProcedure.query(async ({ ctx }) => {
+    const client = await db.getClientByUserId(ctx.user.id);
+    if (!client) return [];
+    return await db.getEventsByClientId(client.id);
+  }),
+
+  // ============================================================================
   // CLIENT: CONFIRM BOOKING
   // ============================================================================
   confirmBooking: protectedProcedure
