@@ -315,7 +315,7 @@ export default function Home() {
             { label: 'Events Delivered', value: '450+' },
             { label: 'Countries Covered', value: '12' },
             { label: 'Client Satisfaction', value: '99%' },
-            { label: 'Proudly Punctual Elite Team', value: '1.2k' },
+            { label: 'Elite Team', value: 'PROUDLY PUNCTUAL' },
           ].map((stat, i) => (
             <div key={i} className="text-center border-r border-gray-100 last:border-none">
               <p className="text-3xl font-bold text-[#0c1b33] mb-1 tracking-tighter">{stat.value}</p>
