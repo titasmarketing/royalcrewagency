@@ -308,6 +308,9 @@ export const appRouter = router({
     update: adminProcedure
       .input(z.object({
         id: z.number(),
+        name: z.string().optional(),
+        email: z.string().email().optional(),
+        phone: z.string().optional(),
         companyName: z.string().optional(),
         document: z.string().optional(),
         address: z.string().optional(),
@@ -317,8 +320,25 @@ export const appRouter = router({
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        await db.updateClient(id, data);
+        const { id, name, email, phone, ...clientData } = input;
+        // Update client table fields
+        await db.updateClient(id, clientData);
+        // Update user table fields (name, email, phone) if provided
+        if (name !== undefined || email !== undefined || phone !== undefined) {
+          const client = await db.getClientById(id);
+          if (client?.userId) {
+            const drizzleDb = await db.getDb();
+            if (drizzleDb) {
+              const { users: usersTable } = await import("../drizzle/schema");
+              const { eq } = await import("drizzle-orm");
+              const userUpdate: Record<string, unknown> = {};
+              if (name !== undefined) userUpdate.name = name;
+              if (email !== undefined) userUpdate.email = email;
+              if (phone !== undefined) userUpdate.phone = phone;
+              await drizzleDb.update(usersTable).set(userUpdate).where(eq(usersTable.id, client.userId));
+            }
+          }
+        }
         return { success: true };
       }),
 

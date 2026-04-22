@@ -44,6 +44,9 @@ export default function AdminClients() {
   // Edit dialog state
   const [editingClient, setEditingClient] = useState<Client | null>(null);
   const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
     companyName: "",
     document: "",
     address: "",
@@ -71,6 +74,9 @@ export default function AdminClients() {
   useEffect(() => {
     if (editingClient) {
       setForm({
+        name: (editingClient as any).name || "",
+        email: (editingClient as any).email || "",
+        phone: (editingClient as any).phone || "",
         companyName: editingClient.companyName || "",
         document: editingClient.document || "",
         address: editingClient.address || "",
@@ -317,18 +323,43 @@ export default function AdminClients() {
 
       {/* Edit Client Dialog */}
       <Dialog open={editingClient !== null} onOpenChange={(open) => { if (!open) setEditingClient(null); }}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Client</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2 space-y-1">
+              <div className="space-y-1">
+                <Label>Full Name</Label>
+                <Input
+                  value={form.name}
+                  onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                  placeholder="John Smith"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  value={form.email}
+                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  placeholder="john@company.com"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Phone</Label>
+                <Input
+                  value={form.phone}
+                  onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                  placeholder="+44 20 1234 5678"
+                />
+              </div>
+              <div className="space-y-1">
                 <Label>Company Name</Label>
                 <Input
                   value={form.companyName}
                   onChange={e => setForm(f => ({ ...f, companyName: e.target.value }))}
-                  placeholder="Company or client name"
+                  placeholder="Company name (optional)"
                 />
               </div>
               <div className="space-y-1">
