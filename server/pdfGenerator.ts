@@ -1,5 +1,5 @@
 import PDFDocument from "pdfkit";
-import { Readable } from "stream";
+import { LOGO_BASE64 } from "./logoBase64";
 
 interface ContractData {
   eventTitle: string;
@@ -28,239 +28,235 @@ interface ServiceOrderData {
   }>;
 }
 
+/** Draw the standard header with logo + company name */
+function drawHeader(doc: InstanceType<typeof PDFDocument>) {
+  const logoBuffer = Buffer.from(LOGO_BASE64, "base64");
+  const pageWidth = doc.page.width;
+  const logoSize = 60;
+  const logoX = (pageWidth - logoSize) / 2;
+  doc.image(logoBuffer, logoX, 40, { width: logoSize, height: logoSize });
+
+  doc
+    .moveDown(0)
+    .fontSize(18)
+    .fillColor("#0c1b33")
+    .text("ROYAL CREW AGENCY", 0, 110, { align: "center" })
+    .fontSize(9)
+    .fillColor("#888888")
+    .text("Premium Event Staffing & Management", { align: "center" })
+    .moveDown(1.5);
+
+  const margin = 50;
+  const y = doc.y;
+  doc
+    .moveTo(margin, y)
+    .lineTo(pageWidth - margin, y)
+    .strokeColor("#D4AF37")
+    .lineWidth(1.5)
+    .stroke()
+    .moveDown(1);
+}
+
+/** Draw footer with generation date */
+function drawFooter(doc: InstanceType<typeof PDFDocument>) {
+  const pageWidth = doc.page.width;
+  const footerY = doc.page.height - 45;
+  const margin = 50;
+
+  doc
+    .moveTo(margin, footerY - 10)
+    .lineTo(pageWidth - margin, footerY - 10)
+    .strokeColor("#D4AF37")
+    .lineWidth(0.5)
+    .stroke();
+
+  doc
+    .fontSize(7.5)
+    .fillColor("#999999")
+    .text(
+      `Generated on ${new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" })} at ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}   ·   Royal Crew Agency   ·   www.royalcrewagency.com`,
+      margin,
+      footerY,
+      { align: "center", width: pageWidth - margin * 2 }
+    );
+}
+
 /**
- * Gera um contrato de prestação de serviços em PDF
+ * Generate a Service Contract PDF (fully in English)
  */
 export async function generateContract(data: ContractData): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: "A4", margin: 50 });
     const chunks: Buffer[] = [];
-
     doc.on("data", (chunk) => chunks.push(chunk));
     doc.on("end", () => resolve(Buffer.concat(chunks)));
     doc.on("error", reject);
 
-    // Header com logo e título
-    doc
-      .fontSize(20)
-      .fillColor("#001F3F")
-      .text("ROYAL CREW AGENCY", { align: "center" })
-      .fontSize(10)
-      .fillColor("#666666")
-      .text("Plataforma Premium de Gestão de Eventos", { align: "center" })
-      .moveDown(2);
+    drawHeader(doc);
 
-    // Título do documento
     doc
-      .fontSize(16)
+      .fontSize(15)
       .fillColor("#D4AF37")
-      .text("CONTRATO DE PRESTAÇÃO DE SERVIÇOS", { align: "center" })
-      .moveDown(2);
-
-    // Informações do evento
-    doc
-      .fontSize(12)
-      .fillColor("#000000")
-      .text("DADOS DO EVENTO", { underline: true })
-      .moveDown(0.5);
+      .text("SERVICE AGREEMENT", { align: "center" })
+      .moveDown(1.5);
 
     doc
-      .fontSize(10)
-      .text(`Evento: ${data.eventTitle}`, { continued: false })
-      .text(`Data: ${data.eventDate}`)
-      .text(`Local: ${data.location}`)
-      .moveDown(1);
-
-    // Informações do contratante
-    doc
-      .fontSize(12)
-      .text("CONTRATANTE", { underline: true })
-      .moveDown(0.5);
+      .fontSize(11)
+      .fillColor("#0c1b33")
+      .text("EVENT DETAILS", { underline: true })
+      .moveDown(0.4);
 
     doc
       .fontSize(10)
-      .text(`Nome/Razão Social: ${data.clientName}`)
-      .text(`CPF/CNPJ: ${data.clientDocument}`)
+      .fillColor("#333333")
+      .text(`Event: ${data.eventTitle}`)
+      .text(`Date: ${data.eventDate}`)
+      .text(`Venue: ${data.location || "To be confirmed"}`)
       .moveDown(1);
 
-    // Serviços contratados
     doc
-      .fontSize(12)
-      .text("SERVIÇOS CONTRATADOS", { underline: true })
-      .moveDown(0.5);
+      .fontSize(11)
+      .fillColor("#0c1b33")
+      .text("CLIENT DETAILS", { underline: true })
+      .moveDown(0.4);
+
+    doc
+      .fontSize(10)
+      .fillColor("#333333")
+      .text(`Full Name / Company: ${data.clientName}`)
+      .text(`Reference / ID: ${data.clientDocument}`)
+      .moveDown(1);
+
+    doc
+      .fontSize(11)
+      .fillColor("#0c1b33")
+      .text("SERVICES CONTRACTED", { underline: true })
+      .moveDown(0.4);
 
     data.services.forEach((service, index) => {
-      doc.fontSize(10).text(`${index + 1}. ${service}`);
+      doc.fontSize(10).fillColor("#333333").text(`${index + 1}. ${service}`);
     });
     doc.moveDown(1);
 
-    // Valor total
     doc
-      .fontSize(12)
-      .text("VALOR TOTAL", { underline: true })
-      .moveDown(0.5);
+      .fontSize(11)
+      .fillColor("#0c1b33")
+      .text("TOTAL VALUE", { underline: true })
+      .moveDown(0.4);
 
     doc
-      .fontSize(14)
+      .fontSize(16)
       .fillColor("#D4AF37")
-      .text(`£ ${data.totalPrice}`, { align: "left" })
-      .moveDown(2);
+      .text(`£ ${data.totalPrice}`)
+      .moveDown(1.5);
 
-    // Cláusulas contratuais
     doc
-      .fontSize(12)
-      .fillColor("#000000")
-      .text("CLÁUSULAS CONTRATUAIS", { underline: true })
-      .moveDown(0.5);
+      .fontSize(11)
+      .fillColor("#0c1b33")
+      .text("TERMS & CONDITIONS", { underline: true })
+      .moveDown(0.4);
 
     const clauses = [
-      "1. DO OBJETO: O presente contrato tem por objeto a prestação de serviços de organização e execução de eventos conforme especificado acima.",
-      "2. DO PAGAMENTO: O pagamento será realizado conforme condições acordadas entre as partes.",
-      "3. DAS RESPONSABILIDADES: A CONTRATADA se responsabiliza pela execução dos serviços com qualidade e profissionalismo.",
-      "4. DO CANCELAMENTO: Em caso de cancelamento, aplicam-se as políticas de cancelamento vigentes.",
-      "5. DO FORO: Fica eleito o foro da comarca da prestação dos serviços para dirimir quaisquer dúvidas oriundas do presente contrato.",
+      "1. SCOPE: This agreement covers the provision of event staffing and management services as specified above.",
+      "2. PAYMENT: Payment shall be made in accordance with the conditions agreed between both parties.",
+      "3. RESPONSIBILITIES: Royal Crew Agency undertakes to deliver all services with the highest standards of quality and professionalism.",
+      "4. CANCELLATION: In the event of cancellation, the applicable cancellation policy in force at the time shall apply.",
+      "5. JURISDICTION: Any disputes arising from this agreement shall be subject to the jurisdiction of the courts of England and Wales.",
     ];
 
     clauses.forEach((clause) => {
-      doc.fontSize(9).text(clause, { align: "justify" }).moveDown(0.5);
+      doc.fontSize(9).fillColor("#444444").text(clause, { align: "justify" }).moveDown(0.5);
     });
 
     doc.moveDown(2);
 
-    // Assinaturas
-    const signatureY = doc.y + 50;
-    doc
-      .fontSize(10)
-      .text("_".repeat(40), 50, signatureY)
-      .text("CONTRATANTE", 50, signatureY + 20, { align: "left" });
+    const sigY = doc.y;
+    const pageWidth = doc.page.width;
+    const margin = 50;
+    const colW = (pageWidth - margin * 2 - 40) / 2;
 
-    doc
-      .text("_".repeat(40), 320, signatureY)
-      .text("ROYAL CREW AGENCY", 320, signatureY + 20, { align: "left" });
+    doc.moveTo(margin, sigY).lineTo(margin + colW, sigY).strokeColor("#333333").lineWidth(0.8).stroke();
+    doc.moveTo(margin + colW + 40, sigY).lineTo(pageWidth - margin, sigY).strokeColor("#333333").lineWidth(0.8).stroke();
+    doc.fontSize(9).fillColor("#333333")
+      .text("CLIENT", margin, sigY + 5, { width: colW })
+      .text("ROYAL CREW AGENCY", margin + colW + 40, sigY + 5, { width: colW });
 
-    // Footer
-    doc
-      .fontSize(8)
-      .fillColor("#666666")
-      .text(
-        `Documento gerado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR")}`,
-        50,
-        doc.page.height - 50,
-        { align: "center" }
-      );
-
+    drawFooter(doc);
     doc.end();
   });
 }
 
 /**
- * Gera uma ordem de serviço em PDF
+ * Generate a Service Order PDF (fully in English)
  */
 export async function generateServiceOrder(data: ServiceOrderData): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: "A4", margin: 50 });
     const chunks: Buffer[] = [];
-
     doc.on("data", (chunk) => chunks.push(chunk));
     doc.on("end", () => resolve(Buffer.concat(chunks)));
     doc.on("error", reject);
 
-    // Header
-    doc
-      .fontSize(20)
-      .fillColor("#001F3F")
-      .text("ROYAL CREW AGENCY", { align: "center" })
-      .fontSize(10)
-      .fillColor("#666666")
-      .text("Plataforma Premium de Gestão de Eventos", { align: "center" })
-      .moveDown(2);
+    drawHeader(doc);
 
-    // Título
     doc
-      .fontSize(16)
+      .fontSize(15)
       .fillColor("#D4AF37")
-      .text("ORDEM DE SERVIÇO", { align: "center" })
-      .moveDown(2);
+      .text("SERVICE ORDER", { align: "center" })
+      .moveDown(1.5);
 
-    // Informações do evento
     doc
-      .fontSize(12)
-      .fillColor("#000000")
-      .text("DADOS DO EVENTO", { underline: true })
-      .moveDown(0.5);
+      .fontSize(11)
+      .fillColor("#0c1b33")
+      .text("EVENT INFORMATION", { underline: true })
+      .moveDown(0.4);
 
     doc
       .fontSize(10)
-      .text(`Evento: ${data.eventTitle}`)
-      .text(`Data: ${data.eventDate}`)
-      .text(`Local: ${data.location}`)
+      .fillColor("#333333")
+      .text(`Event: ${data.eventTitle}`)
+      .text(`Date: ${data.eventDate}`)
+      .text(`Venue: ${data.location || "To be confirmed"}`)
       .moveDown(1);
 
-    // Equipe escalada
     if (data.staffMembers.length > 0) {
-      doc
-        .fontSize(12)
-        .text("EQUIPE ESCALADA", { underline: true })
-        .moveDown(0.5);
-
+      doc.fontSize(11).fillColor("#0c1b33").text("ASSIGNED TEAM", { underline: true }).moveDown(0.4);
       data.staffMembers.forEach((member, index) => {
-        doc
-          .fontSize(10)
-          .text(
-            `${index + 1}. ${member.name} - ${member.role} (${member.startTime} às ${member.endTime})`
-          );
+        doc.fontSize(10).fillColor("#333333")
+          .text(`${index + 1}. ${member.name} — ${member.role} (${member.startTime} to ${member.endTime})`);
       });
       doc.moveDown(1);
     }
 
-    // Materiais necessários
     if (data.inventoryItems.length > 0) {
-      doc
-        .fontSize(12)
-        .text("MATERIAIS NECESSÁRIOS", { underline: true })
-        .moveDown(0.5);
-
+      doc.fontSize(11).fillColor("#0c1b33").text("REQUIRED MATERIALS", { underline: true }).moveDown(0.4);
       data.inventoryItems.forEach((item, index) => {
-        doc.fontSize(10).text(`${index + 1}. ${item.name} - ${item.quantity} ${item.unit}`);
+        doc.fontSize(10).fillColor("#333333").text(`${index + 1}. ${item.name} — ${item.quantity} ${item.unit}`);
       });
       doc.moveDown(1);
     }
 
-    // Instruções
-    doc
-      .fontSize(12)
-      .text("INSTRUÇÕES GERAIS", { underline: true })
-      .moveDown(0.5);
+    doc.fontSize(11).fillColor("#0c1b33").text("GENERAL INSTRUCTIONS", { underline: true }).moveDown(0.4);
 
     const instructions = [
-      "• Todos os membros da equipe devem chegar com 30 minutos de antecedência",
-      "• Uniformes devem estar impecáveis e de acordo com o padrão Royal Crew",
-      "• Verificar todos os materiais antes do início do evento",
-      "• Manter comunicação constante com o coordenador do evento",
-      "• Reportar qualquer imprevisto imediatamente",
+      "• All team members must arrive at least 30 minutes before the event start time.",
+      "• Uniforms must be immaculate and comply with Royal Crew Agency standards.",
+      "• Verify all materials and equipment before the event begins.",
+      "• Maintain constant communication with the event coordinator.",
+      "• Report any unexpected issues immediately to the supervisor.",
     ];
 
     instructions.forEach((instruction) => {
-      doc.fontSize(9).text(instruction).moveDown(0.3);
+      doc.fontSize(9).fillColor("#444444").text(instruction).moveDown(0.3);
     });
 
-    // Footer
-    doc
-      .fontSize(8)
-      .fillColor("#666666")
-      .text(
-        `Documento gerado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR")}`,
-        50,
-        doc.page.height - 50,
-        { align: "center" }
-      );
-
+    drawFooter(doc);
     doc.end();
   });
 }
 
 /**
- * Gera uma nota fiscal simplificada em PDF
+ * Generate an Invoice PDF (fully in English)
  */
 export async function generateInvoice(data: {
   invoiceNumber: string;
@@ -275,114 +271,79 @@ export async function generateInvoice(data: {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: "A4", margin: 50 });
     const chunks: Buffer[] = [];
-
     doc.on("data", (chunk) => chunks.push(chunk));
     doc.on("end", () => resolve(Buffer.concat(chunks)));
     doc.on("error", reject);
 
-    // Header
-    doc
-      .fontSize(20)
-      .fillColor("#001F3F")
-      .text("ROYAL CREW AGENCY", { align: "center" })
-      .fontSize(10)
-      .fillColor("#666666")
-      .text("Plataforma Premium de Gestão de Eventos", { align: "center" })
-      .moveDown(2);
+    drawHeader(doc);
 
-    // Título e número
     doc
-      .fontSize(16)
+      .fontSize(15)
       .fillColor("#D4AF37")
-      .text("NOTA FISCAL DE SERVIÇO", { align: "center" })
-      .fontSize(12)
-      .fillColor("#000000")
-      .text(`Nº ${data.invoiceNumber}`, { align: "center" })
-      .moveDown(2);
+      .text("INVOICE", { align: "center" })
+      .fontSize(11)
+      .fillColor("#555555")
+      .text(`No. ${data.invoiceNumber}`, { align: "center" })
+      .moveDown(1.5);
 
-    // Dados do cliente
-    doc
-      .fontSize(12)
-      .text("DADOS DO CLIENTE", { underline: true })
-      .moveDown(0.5);
+    doc.fontSize(11).fillColor("#0c1b33").text("CLIENT DETAILS", { underline: true }).moveDown(0.4);
 
     doc
       .fontSize(10)
-      .text(`Nome/Razão Social: ${data.clientName}`)
-      .text(`CPF/CNPJ: ${data.clientDocument}`)
-      .text(`Referente ao evento: ${data.eventTitle}`)
+      .fillColor("#333333")
+      .text(`Full Name / Company: ${data.clientName}`)
+      .text(`Reference / ID: ${data.clientDocument}`)
+      .text(`Event: ${data.eventTitle}`)
       .moveDown(1);
 
-    // Tabela de serviços
-    doc
-      .fontSize(12)
-      .text("DISCRIMINAÇÃO DOS SERVIÇOS", { underline: true })
-      .moveDown(0.5);
+    doc.fontSize(11).fillColor("#0c1b33").text("SERVICES RENDERED", { underline: true }).moveDown(0.5);
 
-    // Cabeçalho da tabela
     const tableTop = doc.y;
+    const pageWidth = doc.page.width;
+    const margin = 50;
+
     doc
       .fontSize(9)
-      .text("Descrição", 50, tableTop, { width: 200 })
-      .text("Qtd", 260, tableTop, { width: 40 })
-      .text("Valor Unit.", 310, tableTop, { width: 80 })
-      .text("Total", 400, tableTop, { width: 100 });
+      .fillColor("#0c1b33")
+      .text("Description", margin, tableTop, { width: 210 })
+      .text("Qty", 270, tableTop, { width: 40 })
+      .text("Unit Price", 320, tableTop, { width: 90 })
+      .text("Total", 420, tableTop, { width: 100 });
 
-    doc
-      .moveTo(50, tableTop + 15)
-      .lineTo(550, tableTop + 15)
-      .stroke();
+    doc.moveTo(margin, tableTop + 15).lineTo(pageWidth - margin, tableTop + 15)
+      .strokeColor("#D4AF37").lineWidth(1).stroke();
 
     let currentY = tableTop + 25;
 
-    // Linhas da tabela
     data.services.forEach((service) => {
       doc
         .fontSize(9)
-        .text(service.description, 50, currentY, { width: 200 })
-        .text(service.quantity.toString(), 260, currentY, { width: 40 })
-        .text(`£ ${service.unitPrice}`, 310, currentY, { width: 80 })
-        .text(`£ ${service.total}`, 400, currentY, { width: 100 });
-
+        .fillColor("#333333")
+        .text(service.description, margin, currentY, { width: 210 })
+        .text(service.quantity.toString(), 270, currentY, { width: 40 })
+        .text(`£ ${service.unitPrice}`, 320, currentY, { width: 90 })
+        .text(`£ ${service.total}`, 420, currentY, { width: 100 });
       currentY += 20;
     });
 
-    doc
-      .moveTo(50, currentY)
-      .lineTo(550, currentY)
-      .stroke();
+    doc.moveTo(margin, currentY).lineTo(pageWidth - margin, currentY)
+      .strokeColor("#cccccc").lineWidth(0.5).stroke();
+    currentY += 15;
 
-    currentY += 20;
-
-    // Totais
-    doc
-      .fontSize(10)
-      .text("Subtotal:", 350, currentY)
+    doc.fontSize(10).fillColor("#333333")
+      .text("Subtotal:", 340, currentY)
       .text(`£ ${data.subtotal}`, 450, currentY);
+    currentY += 18;
 
-    currentY += 20;
+    doc.text("VAT / Taxes:", 340, currentY).text(`£ ${data.taxes}`, 450, currentY);
+    currentY += 18;
 
-    doc.text("Impostos:", 350, currentY).text(`£ ${data.taxes}`, 450, currentY);
-
-    currentY += 20;
-
-    doc
-      .fontSize(12)
-      .fillColor("#D4AF37")
-      .text("TOTAL:", 350, currentY)
+    doc.rect(330, currentY - 4, pageWidth - margin - 330, 24).fillColor("#0c1b33").fill();
+    doc.fontSize(12).fillColor("#D4AF37")
+      .text("TOTAL:", 340, currentY)
       .text(`£ ${data.total}`, 450, currentY);
 
-    // Footer
-    doc
-      .fontSize(8)
-      .fillColor("#666666")
-      .text(
-        `Documento gerado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR")}`,
-        50,
-        doc.page.height - 50,
-        { align: "center" }
-      );
-
+    drawFooter(doc);
     doc.end();
   });
 }
