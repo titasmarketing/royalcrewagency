@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context-jwt";
 import uploadRouter from "../upload";
 import { serveStatic, setupVite } from "./vite";
+import { registerStorageProxy } from "./storageProxy";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -37,6 +38,8 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   app.use(cookieParser());
   // OAuth removed - using JWT authentication
+  // Storage proxy for manus-storage assets
+  registerStorageProxy(app);
   // Upload API
   app.use("/api", uploadRouter);
   // tRPC API
