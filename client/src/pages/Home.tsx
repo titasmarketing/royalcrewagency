@@ -212,8 +212,8 @@ export default function Home() {
                <Crown className="w-8 h-8 text-[#D4AF37]" />
                <div className="h-px w-12 bg-[#D4AF37]"></div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-light tracking-[0.1em] text-white uppercase leading-tight">
-              The Elite of <br/><span className="text-[#D4AF37] font-bold">Hospitality</span>
+            <h1 className="text-4xl md:text-6xl font-light tracking-[0.1em] text-[#D4AF37] uppercase leading-tight">
+              The Elite of <br/>Hospitality
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 font-light tracking-wide leading-relaxed italic max-w-2xl mx-auto">
               Elevating hospitality standards in Europe with elite staff for exclusive events.
