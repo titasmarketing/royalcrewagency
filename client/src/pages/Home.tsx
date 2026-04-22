@@ -424,7 +424,7 @@ export default function Home() {
       }}>
         <div className="absolute inset-0 bg-[#0c1b33]/90"></div>
         <div className="relative z-10 flex flex-col items-center justify-center py-16">
-          <Crown className="w-[640px] h-[640px] text-[#D4AF37] drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
+          <Crown className="w-[800px] h-[400px] text-[#D4AF37] drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
           <p className="text-[#D4AF37] text-xs font-bold tracking-[0.8em] uppercase mt-8">Royal Crew Agency</p>
         </div>
       </section>
