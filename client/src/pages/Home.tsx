@@ -181,10 +181,8 @@ export default function Home() {
       <nav className="bg-[#0c1b33]/90 backdrop-blur-md border-b border-[#D4AF37]/20 sticky top-0 z-50 py-2">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-              <div className="text-[#D4AF37] mb-1"><Crown className="w-6 h-6" /></div>
-              <span className="text-xl font-bold tracking-[0.2em] text-[#D4AF37] uppercase">Royal Crew</span>
-              <span className="text-[10px] tracking-[0.4em] text-[#D4AF37] -mt-1">AGENCY</span>
+            <div className="flex items-center cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+              <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-16 w-auto" />
             </div>
             
             <div className="hidden md:flex items-center space-x-10">
@@ -570,9 +568,7 @@ export default function Home() {
            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
               <div className="col-span-1 md:col-span-2">
                  <div className="flex flex-col items-start mb-6">
-                    <div className="text-[#D4AF37] mb-1"><Crown className="w-8 h-8" /></div>
-                    <span className="text-xl font-bold tracking-[0.2em] text-[#D4AF37]">ROYAL CREW</span>
-                    <span className="text-[10px] tracking-[0.4em] text-[#D4AF37]">AGENCY</span>
+                    <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-20 w-auto" />
                  </div>
                  <p className="text-sm max-w-sm leading-relaxed">
                    Elevating hospitality standards in Europe with elite staff for exclusive events.

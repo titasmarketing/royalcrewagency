@@ -38,16 +38,8 @@ export default function Gallery() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between h-20 items-center">
             <Link href="/">
-              <div className="flex flex-col items-center cursor-pointer">
-                <div className="text-[#D4AF37] mb-1">
-                  <Crown className="w-6 h-6" />
-                </div>
-                <span className="text-xl font-bold tracking-[0.2em] text-white uppercase">
-                  Royal Crew
-                </span>
-                <span className="text-[10px] tracking-[0.4em] text-[#D4AF37] -mt-1">
-                  EST. 2024
-                </span>
+              <div className="flex items-center cursor-pointer">
+                <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-16 w-auto" />
               </div>
             </Link>
 
@@ -192,10 +184,7 @@ export default function Gallery() {
       <footer className="bg-[#050b1a] text-gray-500 py-16 border-t border-white/5 mt-auto">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="flex flex-col items-center mb-6">
-            <div className="text-[#D4AF37] mb-2">
-              <Crown className="w-8 h-8" />
-            </div>
-            <span className="text-xl font-bold tracking-[0.2em] text-white">ROYAL CREW</span>
+            <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-20 w-auto" />
           </div>
           <p className="text-xs uppercase tracking-widest">
             &copy; 2024 Royal Crew Agency. All rights reserved.

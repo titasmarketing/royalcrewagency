@@ -268,11 +268,8 @@ export default function RecruitmentPortal() {
       {/* Header */}
       <header className="border-b bg-[#0c1b33] backdrop-blur sticky top-0 z-50">
         <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4 cursor-pointer" onClick={() => (window.location.href = "/")}>
-            <Crown className="text-[#D4AF37] w-6 h-6" />
-            <span className="text-white font-bold tracking-[0.2em] text-sm uppercase">
-              Royal Crew
-            </span>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = "/")}>
+            <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-12 w-auto" />
           </div>
           <Button 
             variant="outline" 

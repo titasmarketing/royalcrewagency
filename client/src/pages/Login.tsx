@@ -41,12 +41,9 @@ export default function Login() {
       <Card className="w-full max-w-md bg-[#1a2942] border-[#D4AF37]/20">
         <CardHeader className="space-y-4 text-center">
           <div className="flex justify-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#D4AF37] to-[#B8941F] rounded-full flex items-center justify-center">
-              <Crown className="w-8 h-8 text-white" />
-            </div>
+            <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-24 w-auto" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold text-white">Royal Crew</CardTitle>
             <CardDescription className="text-gray-400 mt-2">
               Sign in to your account
             </CardDescription>

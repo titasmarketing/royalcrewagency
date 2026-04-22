@@ -101,11 +101,8 @@ export default function ClientPortal() {
       <nav className="bg-[#0c1b33] border-b border-[#D4AF37]/20 py-4 px-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link href="/">
-            <div className="flex items-center gap-4 cursor-pointer">
-              <Crown className="text-[#D4AF37] w-6 h-6" />
-              <span className="text-white font-bold tracking-[0.2em] text-sm uppercase">
-                Royal Client
-              </span>
+            <div className="flex items-center cursor-pointer">
+              <img src="/royal-crew-logo.png" alt="Royal Crew Agency" className="h-12 w-auto" />
             </div>
           </Link>
           <div className="flex items-center gap-6">
