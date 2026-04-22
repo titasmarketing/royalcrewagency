@@ -40,6 +40,7 @@ const menuItems = [
   { icon: Target, label: "Matchmaking", path: "/admin/matchmaking" },
   { icon: UserPlus, label: "Applications", path: "/admin/applications" },
   { icon: Map, label: "Staff Map", path: "/admin/staff-map" },
+  { icon: MessageSquare, label: "Messages", path: "/admin/messages" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

@@ -658,3 +658,13 @@
 - [x] Criar função storageDelete para remover ficheiros do R2
 - [x] Testar upload, presigned URL e delete com vitest (3/3 testes passaram)
 - [x] URL pública via domínio customizado: https://dados.royalcrewagency.com
+
+## Auditoria Completa - Problemas Encontrados e Correções
+- [x] Adicionar favicon.ico ao client/public (actualmente sem favicon.ico)
+- [x] Adicionar link rel="shortcut icon" no index.html apontando para icon-192x192.png
+- [x] Adicionar rota /admin/messages no App.tsx (AdminMessages existe mas não tem rota)
+- [x] Adicionar "Messages" ao sidebar do DashboardLayout
+- [x] StaffWallet: substituir mock data por dados reais (trpc.staff.myJobs + payments)
+- [x] ClientFinancial: substituir mock data por dados reais (trpc.events.clientListEvents)
+- [x] AdminMatchmaking: substituir mock data por lógica real usando server/matchmaking.ts
+- [ ] AdminDocuments: geração de PDF usa dados hardcoded (clientName, staffMembers) - melhorar

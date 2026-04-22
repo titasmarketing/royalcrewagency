@@ -12,6 +12,7 @@ import { eventsRouter } from "./routers/events";
 import { menuRouter } from "./routers/menu";
 import { staffRouter } from "./routers/staff";
 import { authRouter } from "./auth";
+import { findBestMatches } from "./matchmaking";
 
 export const appRouter = router({
   system: systemRouter,
@@ -22,6 +23,28 @@ export const appRouter = router({
   staff: staffRouter,
   menu: menuRouter,
   auth: authRouter,
+  // ============================================================================
+  // MATCHMAKING
+  // ============================================================================
+  matchmaking: router({
+    findMatches: adminProcedure
+      .input(z.object({
+        eventDate: z.string(),
+        location: z.string(),
+        requiredRoles: z.array(z.string()),
+        maxBudget: z.number().optional(),
+        limit: z.number().optional().default(10),
+      }))
+      .mutation(async ({ input }) => {
+        const matches = await findBestMatches({
+          eventDate: new Date(input.eventDate),
+          location: input.location,
+          requiredRoles: input.requiredRoles,
+          maxBudget: input.maxBudget,
+        }, input.limit);
+        return matches;
+      }),
+  }),
   // OAuth removed - using JWT authentication
 
   // ============================================================================

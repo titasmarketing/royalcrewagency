@@ -1,372 +1,156 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DollarSign, FileText, Download, CreditCard, AlertCircle, CheckCircle } from "lucide-react";
+import { FileText, Calendar, AlertCircle, CheckCircle, Loader2, Clock } from "lucide-react";
 import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-
-interface Invoice {
-  id: number;
-  eventTitle: string;
-  eventDate: Date;
-  amount: number;
-  status: "pending" | "paid" | "overdue";
-  dueDate: Date;
-  paidDate?: Date;
-  invoiceNumber: string;
-}
+import { enGB } from "date-fns/locale";
+import { trpc } from "@/lib/trpc";
 
 export default function ClientFinancial() {
-  const invoices: Invoice[] = [
-    {
-      id: 1,
-      eventTitle: "Casamento - Maria & João",
-      eventDate: new Date(2024, 11, 15),
-      amount: 8500.00,
-      status: "paid",
-      dueDate: new Date(2024, 11, 10),
-      paidDate: new Date(2024, 11, 8),
-      invoiceNumber: "NF-2024-001",
-    },
-    {
-      id: 2,
-      eventTitle: "Festa Corporativa - Tech Summit",
-      eventDate: new Date(2024, 11, 28),
-      amount: 12000.00,
-      status: "pending",
-      dueDate: new Date(2024, 11, 25),
-      invoiceNumber: "NF-2024-002",
-    },
-    {
-      id: 3,
-      eventTitle: "Aniversário - 50 anos",
-      eventDate: new Date(2024, 10, 20),
-      amount: 5500.00,
-      status: "overdue",
-      dueDate: new Date(2024, 10, 15),
-      invoiceNumber: "NF-2024-003",
-    },
-  ];
+  const { data: myEvents, isLoading } = trpc.events.clientListEvents.useQuery();
 
-  const totalPending = invoices
-    .filter((i) => i.status === "pending" || i.status === "overdue")
-    .reduce((sum, i) => sum + i.amount, 0);
+  const events = myEvents || [];
+  const completedEvents = events.filter(e => e.status === 'completed');
+  const pendingEvents = events.filter(e => e.status !== 'completed' && e.status !== 'cancelled');
 
-  const totalPaid = invoices
-    .filter((i) => i.status === "paid")
-    .reduce((sum, i) => sum + i.amount, 0);
+  const totalPaid = completedEvents.reduce((sum, e) => sum + parseFloat(e.totalPrice || '0'), 0);
+  const totalPending = pendingEvents.reduce((sum, e) => sum + parseFloat(e.totalPrice || '0'), 0);
 
-  const overdueCount = invoices.filter((i) => i.status === "overdue").length;
-
-  const getStatusBadge = (status: Invoice["status"]) => {
-    const statusMap = {
-      pending: { label: "Pendente", variant: "secondary" as const, color: "text-yellow-600" },
-      paid: { label: "Pago", variant: "default" as const, color: "text-green-600" },
-      overdue: { label: "Vencido", variant: "destructive" as const, color: "text-red-600" },
-    };
-    return statusMap[status];
+  const getStatusBadge = (event: any) => {
+    if (event.status === 'completed') return { label: "Paid", variant: "default" as const, color: "text-green-600", icon: CheckCircle };
+    if (event.status === 'in_progress') return { label: "In Progress", variant: "secondary" as const, color: "text-blue-600", icon: Clock };
+    if (event.status === 'confirmed') return { label: "Confirmed", variant: "secondary" as const, color: "text-yellow-600", icon: Clock };
+    if (event.status === 'cancelled') return { label: "Cancelled", variant: "destructive" as const, color: "text-red-600", icon: AlertCircle };
+    return { label: "Quote", variant: "outline" as const, color: "text-orange-600", icon: AlertCircle };
   };
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-[#D4AF37]" />
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Área Financeira</h1>
-          <p className="text-muted-foreground">
-            Gerencie pagamentos, faturas e documentos fiscais
-          </p>
+          <h1 className="text-3xl font-bold text-[#0c1b33] uppercase tracking-wider">Financial</h1>
+          <p className="text-gray-600 mt-2">View your invoices and payment history</p>
         </div>
 
-        {/* Financial Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="border-2 border-yellow-200 bg-yellow-50/50">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-yellow-600" />
-                A Pagar
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-yellow-600">
-                £ {totalPending.toFixed(2)}
+          <Card className="border-2 border-green-200 bg-green-50">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-green-700">Total Paid</p>
+                  <p className="text-3xl font-bold text-green-600">£ {totalPaid.toFixed(2)}</p>
+                  <p className="text-xs text-green-600 mt-1">{completedEvents.length} events</p>
+                </div>
+                <div className="h-12 w-12 rounded-full bg-green-200 flex items-center justify-center">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {invoices.filter((i) => i.status === "pending" || i.status === "overdue").length} fatura(s)
-              </p>
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-green-200 bg-green-50/50">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                Total Pago
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-green-600">
-                £ {totalPaid.toFixed(2)}
+          <Card className="border-2 border-orange-200 bg-orange-50">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-orange-700">Pending</p>
+                  <p className="text-3xl font-bold text-orange-600">£ {totalPending.toFixed(2)}</p>
+                  <p className="text-xs text-orange-600 mt-1">{pendingEvents.length} events</p>
+                </div>
+                <div className="h-12 w-12 rounded-full bg-orange-200 flex items-center justify-center">
+                  <AlertCircle className="h-6 w-6 text-orange-600" />
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {invoices.filter((i) => i.status === "paid").length} pagamento(s)
-              </p>
             </CardContent>
           </Card>
 
-          <Card className={`border-2 ${overdueCount > 0 ? "border-red-200 bg-red-50/50" : "border-gray-200"}`}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <AlertCircle className={`h-4 w-4 ${overdueCount > 0 ? "text-red-600" : "text-gray-600"}`} />
-                Vencidos
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className={`text-3xl font-bold ${overdueCount > 0 ? "text-red-600" : "text-gray-600"}`}>
-                {overdueCount}
+          <Card className="border-2 border-blue-200 bg-blue-50">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-blue-700">Total Events</p>
+                  <p className="text-3xl font-bold text-blue-600">{events.length}</p>
+                  <p className="text-xs text-blue-600 mt-1">All time</p>
+                </div>
+                <div className="h-12 w-12 rounded-full bg-blue-200 flex items-center justify-center">
+                  <Calendar className="h-6 w-6 text-blue-600" />
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {overdueCount > 0 ? "Atenção necessária" : "Nenhum vencimento"}
-              </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Invoices */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Faturas e Notas Fiscais</CardTitle>
-                <CardDescription>History completo de pagamentos e documentos</CardDescription>
-              </div>
-              <Button variant="outline" className="gap-2">
-                <Download className="h-4 w-4" />
-                Exportar Relatório
-              </Button>
-            </div>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-[#D4AF37]" />
+              Invoices
+            </CardTitle>
+            <CardDescription>All your event invoices and payment status</CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="all">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="all">Todas</TabsTrigger>
-                <TabsTrigger value="pending">Pendentes</TabsTrigger>
-                <TabsTrigger value="paid">Pagas</TabsTrigger>
-                <TabsTrigger value="overdue">Vencidas</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="pending">Pending</TabsTrigger>
+                <TabsTrigger value="paid">Paid</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="all" className="space-y-3 mt-4">
-                {invoices.map((invoice) => {
-                  const statusBadge = getStatusBadge(invoice.status);
-                  return (
-                    <div
-                      key={invoice.id}
-                      className="flex items-center justify-between p-4 rounded-lg border-2 hover:border-accent/50 transition-all"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className={`h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center`}>
-                          <FileText className={`h-6 w-6 ${statusBadge.color}`} />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-foreground">{invoice.eventTitle}</h3>
-                            <Badge variant="outline" className="text-xs">
-                              {invoice.invoiceNumber}
-                            </Badge>
-                          </div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <p className="text-sm text-muted-foreground">
-                              Evento: {format(invoice.eventDate, "dd/MM/yyyy", { locale: ptBR })}
-                            </p>
-                            <span className="text-muted-foreground">•</span>
-                            <p className="text-sm text-muted-foreground">
-                              Vencimento: {format(invoice.dueDate, "dd/MM/yyyy", { locale: ptBR })}
-                            </p>
-                          </div>
-                        </div>
+              {["all", "pending", "paid"].map((tab) => {
+                const filteredEvents = tab === "all" ? events :
+                  tab === "paid" ? completedEvents : pendingEvents;
+
+                return (
+                  <TabsContent key={tab} value={tab} className="space-y-3 mt-4">
+                    {filteredEvents.length === 0 ? (
+                      <div className="text-center py-12 text-gray-400">
+                        <FileText className="h-12 w-12 mx-auto mb-3 opacity-30" />
+                        <p className="font-medium">No invoices {tab === "all" ? "yet" : `in ${tab}`}</p>
+                        <p className="text-sm">Your event invoices will appear here</p>
                       </div>
-
-                      <div className="text-right flex items-center gap-4">
-                        <div>
-                          <div className={`text-xl font-bold ${statusBadge.color}`}>
-                            £ {invoice.amount.toFixed(2)}
-                          </div>
-                          <Badge variant={statusBadge.variant} className="mt-1">
-                            {statusBadge.label}
-                          </Badge>
-                          {invoice.paidDate && (
-                            <p className="text-xs text-muted-foreground mt-1">
-                              Pago em {format(invoice.paidDate, "dd/MM/yyyy")}
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Button size="sm" variant="outline" className="gap-2">
-                            <Download className="h-3 w-3" />
-                            NF
-                          </Button>
-                          {invoice.status !== "paid" && (
-                            <Button size="sm" className="gap-2">
-                              <CreditCard className="h-3 w-3" />
-                              Pagar
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </TabsContent>
-
-              <TabsContent value="pending" className="space-y-3 mt-4">
-                {invoices
-                  .filter((i) => i.status === "pending")
-                  .map((invoice) => {
-                    const statusBadge = getStatusBadge(invoice.status);
-                    return (
-                      <div
-                        key={invoice.id}
-                        className="flex items-center justify-between p-4 rounded-lg border-2 hover:border-accent/50 transition-all"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center">
-                            <FileText className="h-6 w-6 text-yellow-600" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-foreground">{invoice.eventTitle}</h3>
-                            <p className="text-sm text-muted-foreground">
-                              Vence em {format(invoice.dueDate, "dd/MM/yyyy")}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="text-right flex items-center gap-4">
-                          <div>
-                            <div className="text-xl font-bold text-yellow-600">
-                              £ {invoice.amount.toFixed(2)}
+                    ) : (
+                      filteredEvents.map((event) => {
+                        const statusBadge = getStatusBadge(event);
+                        const StatusIcon = statusBadge.icon;
+                        return (
+                          <div key={event.id} className="flex items-center justify-between p-4 rounded-lg border-2 hover:border-[#D4AF37]/50 transition-all">
+                            <div className="flex items-center gap-4">
+                              <div className="h-12 w-12 rounded-full bg-[#D4AF37]/10 flex items-center justify-center">
+                                <StatusIcon className={`h-6 w-6 ${statusBadge.color}`} />
+                              </div>
+                              <div>
+                                <h3 className="font-semibold text-foreground">{event.title}</h3>
+                                <p className="text-sm text-muted-foreground">
+                                  {event.eventDate ? format(new Date(event.eventDate), "dd/MM/yyyy", { locale: enGB }) : 'Date TBD'}
+                                  {event.location ? ` • ${event.location}` : ''}
+                                </p>
+                                <p className="text-xs text-muted-foreground capitalize">{event.status}</p>
+                              </div>
                             </div>
-                            <Badge variant={statusBadge.variant} className="mt-1">
-                              {statusBadge.label}
-                            </Badge>
-                          </div>
-                          <Button size="sm" className="gap-2">
-                            <CreditCard className="h-3 w-3" />
-                            Pagar Agora
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </TabsContent>
-
-              <TabsContent value="paid" className="space-y-3 mt-4">
-                {invoices
-                  .filter((i) => i.status === "paid")
-                  .map((invoice) => {
-                    const statusBadge = getStatusBadge(invoice.status);
-                    return (
-                      <div
-                        key={invoice.id}
-                        className="flex items-center justify-between p-4 rounded-lg border-2 hover:border-accent/50 transition-all"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                            <CheckCircle className="h-6 w-6 text-green-600" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-foreground">{invoice.eventTitle}</h3>
-                            <p className="text-sm text-muted-foreground">
-                              Pago em {invoice.paidDate && format(invoice.paidDate, "dd/MM/yyyy")}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="text-right flex items-center gap-4">
-                          <div>
-                            <div className="text-xl font-bold text-green-600">
-                              £ {invoice.amount.toFixed(2)}
+                            <div className="text-right">
+                              <div className={`text-xl font-bold ${statusBadge.color}`}>
+                                £ {parseFloat(event.totalPrice || '0').toFixed(2)}
+                              </div>
+                              <Badge variant={statusBadge.variant} className="mt-1">{statusBadge.label}</Badge>
                             </div>
-                            <Badge variant={statusBadge.variant} className="mt-1">
-                              {statusBadge.label}
-                            </Badge>
                           </div>
-                          <Button size="sm" variant="outline" className="gap-2">
-                            <Download className="h-3 w-3" />
-                            Baixar NF
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </TabsContent>
-
-              <TabsContent value="overdue" className="space-y-3 mt-4">
-                {invoices
-                  .filter((i) => i.status === "overdue")
-                  .map((invoice) => {
-                    const statusBadge = getStatusBadge(invoice.status);
-                    return (
-                      <div
-                        key={invoice.id}
-                        className="flex items-center justify-between p-4 rounded-lg border-2 border-red-200 bg-red-50/50"
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
-                            <AlertCircle className="h-6 w-6 text-red-600" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-foreground">{invoice.eventTitle}</h3>
-                            <p className="text-sm text-red-600 font-medium">
-                              Venceu em {format(invoice.dueDate, "dd/MM/yyyy")}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="text-right flex items-center gap-4">
-                          <div>
-                            <div className="text-xl font-bold text-red-600">
-                              £ {invoice.amount.toFixed(2)}
-                            </div>
-                            <Badge variant={statusBadge.variant} className="mt-1">
-                              {statusBadge.label}
-                            </Badge>
-                          </div>
-                          <Button size="sm" variant="destructive" className="gap-2">
-                            <CreditCard className="h-3 w-3" />
-                            Regularizar
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </TabsContent>
+                        );
+                      })
+                    )}
+                  </TabsContent>
+                );
+              })}
             </Tabs>
-          </CardContent>
-        </Card>
-
-        {/* Payment Methods */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Formas de Pagamento</CardTitle>
-            <CardDescription>Escolha como deseja efetuar o pagamento</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button variant="outline" className="h-20 flex-col gap-2">
-                <CreditCard className="h-6 w-6" />
-                <span>Cartão de Crédito</span>
-              </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2">
-                <FileText className="h-6 w-6" />
-                <span>Boleto Bancário</span>
-              </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2">
-                <DollarSign className="h-6 w-6" />
-                <span>PIX</span>
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </div>
