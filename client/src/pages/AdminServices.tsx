@@ -11,61 +11,72 @@ import { Plus, Edit, Eye, EyeOff, Star, Package } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+type ServiceForm = {
+  name: string;
+  slug: string;
+  shortDescription: string;
+  description: string;
+  basePrice: string;
+  isActive: boolean;
+  isFeatured: boolean;
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string;
+};
+
+const emptyForm: ServiceForm = {
+  name: "",
+  slug: "",
+  shortDescription: "",
+  description: "",
+  basePrice: "",
+  isActive: true,
+  isFeatured: false,
+  seoTitle: "",
+  seoDescription: "",
+  seoKeywords: "",
+};
+
 export default function AdminServices() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [formDate, setFormDate] = useState({
-    name: "",
-    slug: "",
-    shortDescription: "",
-    description: "",
-    basePrice: "",
-    isActive: true,
-    isFeatured: false,
-    seoTitle: "",
-    seoDescription: "",
-    seoKeywords: "",
-  });
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
+  const [formData, setFormData] = useState<ServiceForm>(emptyForm);
+  const [editFormData, setEditFormData] = useState<ServiceForm>(emptyForm);
 
   const { data: services, isLoading, refetch } = trpc.services.listAll.useQuery();
+
   const createService = trpc.services.create.useMutation({
     onSuccess: () => {
-      toast.success("Serviço criado com sucesso!");
+      toast.success("Service created successfully!");
       setIsCreateDialogOpen(false);
       refetch();
-      resetForm();
+      setFormData(emptyForm);
     },
     onError: (error) => {
-      toast.error(`Erro ao criar serviço: ${error.message}`);
+      toast.error(`Error creating service: ${error.message}`);
     },
   });
 
   const updateService = trpc.services.update.useMutation({
     onSuccess: () => {
-      toast.success("Serviço atualizado com sucesso!");
+      toast.success("Service updated successfully!");
+      setIsEditDialogOpen(false);
+      setEditingServiceId(null);
       refetch();
     },
     onError: (error) => {
-      toast.error(`Erro ao atualizar serviço: ${error.message}`);
+      toast.error(`Error updating service: ${error.message}`);
     },
   });
 
-  const resetForm = () => {
-    setFormDate({
-      name: "",
-      slug: "",
-      shortDescription: "",
-      description: "",
-      basePrice: "",
-      isActive: true,
-      isFeatured: false,
-      seoTitle: "",
-      seoDescription: "",
-      seoKeywords: "",
-    });
+  const handleCreateService = () => {
+    createService.mutate(formData);
   };
 
-  const handleCreateService = () => {
-    createService.mutate(formDate);
+  const handleEditService = () => {
+    if (editingServiceId === null) return;
+    updateService.mutate({ id: editingServiceId, ...editFormData });
   };
 
   const handleToggleActive = (id: number, isActive: boolean) => {
@@ -86,8 +97,139 @@ export default function AdminServices() {
   };
 
   const handleNameChange = (name: string) => {
-    setFormDate({ ...formDate, name, slug: generateSlug(name) });
+    setFormData({ ...formData, name, slug: generateSlug(name) });
   };
+
+  const openEditDialog = (service: NonNullable<typeof services>[number]) => {
+    setEditingServiceId(service.id);
+    setEditFormData({
+      name: service.name,
+      slug: service.slug,
+      shortDescription: service.shortDescription || "",
+      description: service.description || "",
+      basePrice: service.basePrice ? String(service.basePrice) : "",
+      isActive: service.isActive ?? true,
+      isFeatured: service.isFeatured ?? false,
+      seoTitle: service.seoTitle || "",
+      seoDescription: service.seoDescription || "",
+      seoKeywords: service.seoKeywords || "",
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const ServiceFormFields = ({
+    data,
+    onChange,
+    onNameChange,
+  }: {
+    data: ServiceForm;
+    onChange: (d: ServiceForm) => void;
+    onNameChange?: (name: string) => void;
+  }) => (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <Label>Service Name *</Label>
+        <Input
+          value={data.name}
+          onChange={(e) => onNameChange ? onNameChange(e.target.value) : onChange({ ...data, name: e.target.value })}
+          placeholder="Ex: Bar de Gin Premium"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Slug (URL) *</Label>
+        <Input
+          value={data.slug}
+          onChange={(e) => onChange({ ...data, slug: e.target.value })}
+          placeholder="bar-de-gin-premium"
+        />
+        <p className="text-xs text-muted-foreground">URL: /services/{data.slug || "slug-do-servico"}</p>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Short Description</Label>
+        <Input
+          value={data.shortDescription}
+          onChange={(e) => onChange({ ...data, shortDescription: e.target.value })}
+          placeholder="Summary for cards and previews"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Full Description</Label>
+        <Textarea
+          value={data.description}
+          onChange={(e) => onChange({ ...data, description: e.target.value })}
+          placeholder="Detailed service description"
+          rows={4}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Base Price (£)</Label>
+        <Input
+          type="number"
+          step="0.01"
+          value={data.basePrice}
+          onChange={(e) => onChange({ ...data, basePrice: e.target.value })}
+          placeholder="0.00"
+        />
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="space-y-0.5">
+          <Label>Active Service</Label>
+          <p className="text-xs text-muted-foreground">Show on public website</p>
+        </div>
+        <Switch
+          checked={data.isActive}
+          onCheckedChange={(checked) => onChange({ ...data, isActive: checked })}
+        />
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="space-y-0.5">
+          <Label>Featured Service</Label>
+          <p className="text-xs text-muted-foreground">Appears on home banner</p>
+        </div>
+        <Switch
+          checked={data.isFeatured}
+          onCheckedChange={(checked) => onChange({ ...data, isFeatured: checked })}
+        />
+      </div>
+
+      <div className="border-t pt-4">
+        <h3 className="font-semibold mb-4">SEO</h3>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label>SEO Title</Label>
+            <Input
+              value={data.seoTitle}
+              onChange={(e) => onChange({ ...data, seoTitle: e.target.value })}
+              placeholder="Title for search engines"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>SEO Description</Label>
+            <Textarea
+              value={data.seoDescription}
+              onChange={(e) => onChange({ ...data, seoDescription: e.target.value })}
+              placeholder="Description for search engines"
+              rows={2}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Keywords</Label>
+            <Input
+              value={data.seoKeywords}
+              onChange={(e) => onChange({ ...data, seoKeywords: e.target.value })}
+              placeholder="bar, gin, premium, events"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <DashboardLayout>
@@ -98,6 +240,8 @@ export default function AdminServices() {
             <h1 className="text-3xl font-bold text-foreground mb-2">Services Management</h1>
             <p className="text-muted-foreground">Dynamic CMS - Services appear automatically on the website</p>
           </div>
+
+          {/* Create Dialog */}
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button className="gap-2">
@@ -109,140 +253,38 @@ export default function AdminServices() {
               <DialogHeader>
                 <DialogTitle>Create New Service</DialogTitle>
                 <DialogDescription>
-                  The service will be automatically published on the website with URL /services/{formDate.slug || "slug-do-servico"}
+                  The service will be automatically published on the website with URL /services/{formData.slug || "slug-do-servico"}
                 </DialogDescription>
               </DialogHeader>
-              
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Service Name *</Label>
-                  <Input
-                    id="name"
-                    value={formDate.name}
-                    onChange={(e) => handleNameChange(e.target.value)}
-                    placeholder="Ex: Bar de Gin Premium"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="slug">Slug (URL) *</Label>
-                  <Input
-                    id="slug"
-                    value={formDate.slug}
-                    onChange={(e) => setFormDate({ ...formDate, slug: e.target.value })}
-                    placeholder="bar-de-gin-premium"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    URL: /services/{formDate.slug || "slug-do-servico"}
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="shortDescription">Description Curta</Label>
-                  <Input
-                    id="shortDescription"
-                    value={formDate.shortDescription}
-                    onChange={(e) => setFormDate({ ...formDate, shortDescription: e.target.value })}
-                    placeholder="Resumo para cards e previews"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description Completa</Label>
-                  <Textarea
-                    id="description"
-                    value={formDate.description}
-                    onChange={(e) => setFormDate({ ...formDate, description: e.target.value })}
-                    placeholder="Description detalhada do serviço"
-                    rows={4}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="basePrice">Base Price (£)</Label>
-                  <Input
-                    id="basePrice"
-                    type="number"
-                    step="0.01"
-                    value={formDate.basePrice}
-                    onChange={(e) => setFormDate({ ...formDate, basePrice: e.target.value })}
-                    placeholder="0.00"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="isActive">Serviço Active</Label>
-                    <p className="text-xs text-muted-foreground">Exibir no site público</p>
-                  </div>
-                  <Switch
-                    id="isActive"
-                    checked={formDate.isActive}
-                    onCheckedChange={(checked) => setFormDate({ ...formDate, isActive: checked })}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="isFeatured">Serviço em Featured</Label>
-                    <p className="text-xs text-muted-foreground">Aparece no banner da home</p>
-                  </div>
-                  <Switch
-                    id="isFeatured"
-                    checked={formDate.isFeatured}
-                    onCheckedChange={(checked) => setFormDate({ ...formDate, isFeatured: checked })}
-                  />
-                </div>
-
-                <div className="border-t pt-4">
-                  <h3 className="font-semibold mb-4">SEO</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="seoTitle">Título SEO</Label>
-                      <Input
-                        id="seoTitle"
-                        value={formDate.seoTitle}
-                        onChange={(e) => setFormDate({ ...formDate, seoTitle: e.target.value })}
-                        placeholder="Título para mecanismos de busca"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="seoDescription">Description SEO</Label>
-                      <Textarea
-                        id="seoDescription"
-                        value={formDate.seoDescription}
-                        onChange={(e) => setFormDate({ ...formDate, seoDescription: e.target.value })}
-                        placeholder="Description para mecanismos de busca"
-                        rows={2}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="seoKeywords">Palavras-chave</Label>
-                      <Input
-                        id="seoKeywords"
-                        value={formDate.seoKeywords}
-                        onChange={(e) => setFormDate({ ...formDate, seoKeywords: e.target.value })}
-                        placeholder="bar, gin, premium, Events"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              <ServiceFormFields data={formData} onChange={setFormData} onNameChange={handleNameChange} />
               <DialogFooter>
-                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleCreateService} disabled={!formDate.name || !formDate.slug}>
-                  Create Serviço
+                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>Cancel</Button>
+                <Button onClick={handleCreateService} disabled={!formData.name || !formData.slug || createService.isPending}>
+                  {createService.isPending ? "Creating..." : "Create Service"}
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
+
+        {/* Edit Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={(open) => { setIsEditDialogOpen(open); if (!open) setEditingServiceId(null); }}>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Service</DialogTitle>
+              <DialogDescription>
+                Update the service details below.
+              </DialogDescription>
+            </DialogHeader>
+            <ServiceFormFields data={editFormData} onChange={setEditFormData} />
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleEditService} disabled={!editFormData.name || !editFormData.slug || updateService.isPending}>
+                {updateService.isPending ? "Saving..." : "Save Changes"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Services List */}
         {isLoading ? (
@@ -284,15 +326,9 @@ export default function AdminServices() {
                       onClick={() => handleToggleActive(service.id, !service.isActive)}
                     >
                       {service.isActive ? (
-                        <>
-                          <Eye className="h-4 w-4" />
-                          Active
-                        </>
+                        <><Eye className="h-4 w-4" />Active</>
                       ) : (
-                        <>
-                          <EyeOff className="h-4 w-4" />
-                          Inactive
-                        </>
+                        <><EyeOff className="h-4 w-4" />Inactive</>
                       )}
                     </Button>
                     <Button
@@ -304,7 +340,12 @@ export default function AdminServices() {
                       <Star className={`h-4 w-4 ${service.isFeatured ? 'fill-accent text-accent' : ''}`} />
                       {service.isFeatured ? 'Featured' : 'Normal'}
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => openEditDialog(service)}
+                      title="Edit service"
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                   </div>

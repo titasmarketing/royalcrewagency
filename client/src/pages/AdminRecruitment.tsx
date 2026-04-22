@@ -153,18 +153,18 @@ export default function AdminRecruitment() {
                                   <User className="w-8 h-8 text-gray-400" />
                                 )}
                               </div>
-                            <div>
-                              <h3 className="text-xl font-bold text-foreground mb-1">{app.name}</h3>
-                              <div className="flex flex-wrap gap-2 mb-2">
-                                {app.specialties &&
-                                  Array.isArray(app.specialties) &&
-                                  app.specialties.map((spec, idx) => (
-                                    <Badge key={idx} variant="outline">
-                                      {spec}
-                                    </Badge>
-                                  ))}
+                              <div>
+                                <h3 className="text-xl font-bold text-foreground mb-1">{app.name}</h3>
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                  {app.specialties &&
+                                    Array.isArray(app.specialties) &&
+                                    app.specialties.map((spec, idx) => (
+                                      <Badge key={idx} variant="outline">
+                                        {spec}
+                                      </Badge>
+                                    ))}
+                                </div>
                               </div>
-                            </div>
                             </div>
                             <Badge variant="secondary" className="gap-1">
                               <Clock className="h-3 w-3" />
