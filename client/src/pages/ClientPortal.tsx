@@ -62,10 +62,6 @@ export default function ClientPortal() {
     "Cleaning",
     "Coordinator",
     "Valet",
-    "Driver",
-    "Porter",
-    "Kitchen Assistant",
-    "Setup/Breakdown",
   ];
 
   return (
