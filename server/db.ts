@@ -142,6 +142,12 @@ export async function updateService(id: number, service: Partial<InsertService>)
   await db.update(services).set(service).where(eq(services.id, id));
 }
 
+export async function deleteService(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(services).where(eq(services.id, id));
+}
+
 export async function getServiceBySlug(slug: string) {
   const db = await getDb();
   if (!db) return undefined;

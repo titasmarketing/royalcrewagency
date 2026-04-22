@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
-import { Plus, Edit, Eye, EyeOff, Star, Package } from "lucide-react";
+import { Plus, Edit, Eye, EyeOff, Star, Package, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -69,6 +69,24 @@ export default function AdminServices() {
       toast.error(`Error updating service: ${error.message}`);
     },
   });
+
+  const deleteService = trpc.services.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Service deleted successfully!");
+      setIsEditDialogOpen(false);
+      setEditingServiceId(null);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error deleting service: ${error.message}`);
+    },
+  });
+
+  const handleDeleteService = () => {
+    if (editingServiceId === null) return;
+    if (!confirm("Are you sure you want to delete this service? This action cannot be undone.")) return;
+    deleteService.mutate({ id: editingServiceId });
+  };
 
   const handleCreateService = () => {
     createService.mutate(formData);
@@ -277,11 +295,22 @@ export default function AdminServices() {
               </DialogDescription>
             </DialogHeader>
             <ServiceFormFields data={editFormData} onChange={setEditFormData} />
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
-              <Button onClick={handleEditService} disabled={!editFormData.name || !editFormData.slug || updateService.isPending}>
-                {updateService.isPending ? "Saving..." : "Save Changes"}
+            <DialogFooter className="flex items-center justify-between w-full">
+              <Button
+                variant="destructive"
+                onClick={handleDeleteService}
+                disabled={deleteService.isPending}
+                className="gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deleteService.isPending ? "Deleting..." : "Delete Service"}
               </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
+                <Button onClick={handleEditService} disabled={!editFormData.name || !editFormData.slug || updateService.isPending}>
+                  {updateService.isPending ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
             </DialogFooter>
           </DialogContent>
         </Dialog>

@@ -91,6 +91,13 @@ export const appRouter = router({
         await db.updateService(id, data);
         return { success: true };
       }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteService(input.id);
+        return { success: true };
+      }),
   }),
 
   // ============================================================================
