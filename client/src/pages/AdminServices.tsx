@@ -37,119 +37,40 @@ const emptyForm: ServiceForm = {
   seoKeywords: "",
 };
 
-export default function AdminServices() {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<ServiceForm>(emptyForm);
-  const [editFormData, setEditFormData] = useState<ServiceForm>(emptyForm);
-
-  const { data: services, isLoading, refetch } = trpc.services.listAll.useQuery();
-
-  const createService = trpc.services.create.useMutation({
-    onSuccess: () => {
-      toast.success("Service created successfully!");
-      setIsCreateDialogOpen(false);
-      refetch();
-      setFormData(emptyForm);
-    },
-    onError: (error) => {
-      toast.error(`Error creating service: ${error.message}`);
-    },
-  });
-
-  const updateService = trpc.services.update.useMutation({
-    onSuccess: () => {
-      toast.success("Service updated successfully!");
-      setIsEditDialogOpen(false);
-      setEditingServiceId(null);
-      refetch();
-    },
-    onError: (error) => {
-      toast.error(`Error updating service: ${error.message}`);
-    },
-  });
-
-  const deleteService = trpc.services.delete.useMutation({
-    onSuccess: () => {
-      toast.success("Service deleted successfully!");
-      setIsEditDialogOpen(false);
-      setEditingServiceId(null);
-      refetch();
-    },
-    onError: (error) => {
-      toast.error(`Error deleting service: ${error.message}`);
-    },
-  });
-
-  const handleDeleteService = () => {
-    if (editingServiceId === null) return;
-    if (!confirm("Are you sure you want to delete this service? This action cannot be undone.")) return;
-    deleteService.mutate({ id: editingServiceId });
-  };
-
-  const handleCreateService = () => {
-    createService.mutate(formData);
-  };
-
-  const handleEditService = () => {
-    if (editingServiceId === null) return;
-    updateService.mutate({ id: editingServiceId, ...editFormData });
-  };
-
-  const handleToggleActive = (id: number, isActive: boolean) => {
-    updateService.mutate({ id, isActive });
-  };
-
-  const handleToggleFeatured = (id: number, isFeatured: boolean) => {
-    updateService.mutate({ id, isFeatured });
-  };
-
-  const generateSlug = (name: string) => {
-    return name
+// ============================================================================
+// ServiceFormFields — definido FORA do componente pai para evitar re-mount
+// ============================================================================
+function ServiceFormFields({
+  data,
+  onChange,
+  onNameChange,
+}: {
+  data: ServiceForm;
+  onChange: (d: ServiceForm) => void;
+  onNameChange?: (name: string) => void;
+}) {
+  const generateSlug = (name: string) =>
+    name
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-  };
 
-  const handleNameChange = (name: string) => {
-    setFormData({ ...formData, name, slug: generateSlug(name) });
-  };
-
-  const openEditDialog = (service: NonNullable<typeof services>[number]) => {
-    setEditingServiceId(service.id);
-    setEditFormData({
-      name: service.name,
-      slug: service.slug,
-      shortDescription: service.shortDescription || "",
-      description: service.description || "",
-      basePrice: service.basePrice ? String(service.basePrice) : "",
-      isActive: service.isActive ?? true,
-      isFeatured: service.isFeatured ?? false,
-      seoTitle: service.seoTitle || "",
-      seoDescription: service.seoDescription || "",
-      seoKeywords: service.seoKeywords || "",
-    });
-    setIsEditDialogOpen(true);
-  };
-
-  const ServiceFormFields = ({
-    data,
-    onChange,
-    onNameChange,
-  }: {
-    data: ServiceForm;
-    onChange: (d: ServiceForm) => void;
-    onNameChange?: (name: string) => void;
-  }) => (
+  return (
     <div className="space-y-4">
       <div className="space-y-2">
         <Label>Service Name *</Label>
         <Input
           value={data.name}
-          onChange={(e) => onNameChange ? onNameChange(e.target.value) : onChange({ ...data, name: e.target.value })}
+          onChange={(e) => {
+            const name = e.target.value;
+            if (onNameChange) {
+              onNameChange(name);
+            } else {
+              onChange({ ...data, name, slug: generateSlug(name) });
+            }
+          }}
           placeholder="Ex: Bar de Gin Premium"
         />
       </div>
@@ -248,6 +169,105 @@ export default function AdminServices() {
       </div>
     </div>
   );
+}
+
+export default function AdminServices() {
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
+  const [formData, setFormData] = useState<ServiceForm>(emptyForm);
+  const [editFormData, setEditFormData] = useState<ServiceForm>(emptyForm);
+
+  const { data: services, isLoading, refetch } = trpc.services.listAll.useQuery();
+
+  const createService = trpc.services.create.useMutation({
+    onSuccess: () => {
+      toast.success("Service created successfully!");
+      setIsCreateDialogOpen(false);
+      refetch();
+      setFormData(emptyForm);
+    },
+    onError: (error) => {
+      toast.error(`Error creating service: ${error.message}`);
+    },
+  });
+
+  const updateService = trpc.services.update.useMutation({
+    onSuccess: () => {
+      toast.success("Service updated successfully!");
+      setIsEditDialogOpen(false);
+      setEditingServiceId(null);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error updating service: ${error.message}`);
+    },
+  });
+
+  const deleteService = trpc.services.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Service deleted successfully!");
+      setIsEditDialogOpen(false);
+      setEditingServiceId(null);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error deleting service: ${error.message}`);
+    },
+  });
+
+  const handleDeleteService = () => {
+    if (editingServiceId === null) return;
+    if (!confirm("Are you sure you want to delete this service? This action cannot be undone.")) return;
+    deleteService.mutate({ id: editingServiceId });
+  };
+
+  const handleCreateService = () => {
+    createService.mutate(formData);
+  };
+
+  const handleEditService = () => {
+    if (editingServiceId === null) return;
+    updateService.mutate({ id: editingServiceId, ...editFormData });
+  };
+
+  const handleToggleActive = (id: number, isActive: boolean) => {
+    updateService.mutate({ id, isActive });
+  };
+
+  const handleToggleFeatured = (id: number, isFeatured: boolean) => {
+    updateService.mutate({ id, isFeatured });
+  };
+
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  };
+
+  const handleNameChange = (name: string) => {
+    setFormData({ ...formData, name, slug: generateSlug(name) });
+  };
+
+  const openEditDialog = (service: NonNullable<typeof services>[number]) => {
+    setEditingServiceId(service.id);
+    setEditFormData({
+      name: service.name,
+      slug: service.slug,
+      shortDescription: service.shortDescription || "",
+      description: service.description || "",
+      basePrice: service.basePrice ? String(service.basePrice) : "",
+      isActive: service.isActive ?? true,
+      isFeatured: service.isFeatured ?? false,
+      seoTitle: service.seoTitle || "",
+      seoDescription: service.seoDescription || "",
+      seoKeywords: service.seoKeywords || "",
+    });
+    setIsEditDialogOpen(true);
+  };
 
   return (
     <DashboardLayout>

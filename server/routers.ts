@@ -202,9 +202,21 @@ export const appRouter = router({
         return { success: true };
       }),
 
+    getAssignments: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getStaffAssignedEvents(input.id);
+      }),
+
     delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
+        // Remove assignments first, then delete staff member
+        const drizzleDb = await db.getDb();
+        if (!drizzleDb) throw new Error("Database not available");
+        const { eventStaffAssignments: esa } = await import("../drizzle/schema");
+        const { eq } = await import("drizzle-orm");
+        await drizzleDb.delete(esa).where(eq(esa.staffId, input.id));
         await db.deleteStaffMember(input.id);
         return { success: true };
       }),

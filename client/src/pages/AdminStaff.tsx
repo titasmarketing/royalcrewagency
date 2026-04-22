@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
-import { Plus, Users, Star, MapPin, DollarSign, Edit, Trash2 } from "lucide-react";
+import { Plus, Users, Star, MapPin, DollarSign, Edit, Trash2, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -71,6 +71,13 @@ export default function AdminStaff() {
     isActive: true,
     specialties: [] as string[],
   });
+
+  // Delete confirmation state
+  const [deleteConfirm, setDeleteConfirm] = useState<StaffMember | null>(null);
+  const { data: staffAssignments } = trpc.staffAdmin.getAssignments.useQuery(
+    { id: deleteConfirm?.id ?? 0 },
+    { enabled: !!deleteConfirm }
+  );
 
   const { data: staff, isLoading, refetch } = trpc.staffAdmin.list.useQuery();
 
@@ -147,8 +154,14 @@ export default function AdminStaff() {
 
   const handleDelete = () => {
     if (!editingMember) return;
-    if (!confirm("Are you sure you want to delete this staff member? This action cannot be undone.")) return;
-    deleteStaff.mutate({ id: editingMember.id });
+    setDeleteConfirm(editingMember);
+    setIsEditDialogOpen(false);
+  };
+
+  const confirmDeleteStaff = () => {
+    if (!deleteConfirm) return;
+    deleteStaff.mutate({ id: deleteConfirm.id });
+    setDeleteConfirm(null);
   };
 
   const handleCreateStaff = () => {
@@ -568,6 +581,61 @@ export default function AdminStaff() {
           </Card>
         )}
       </div>
+      {/* Delete Staff Confirmation Dialog */}
+      <Dialog open={deleteConfirm !== null} onOpenChange={(open) => { if (!open) setDeleteConfirm(null); }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="h-5 w-5" />
+              Delete Staff Member
+            </DialogTitle>
+            <DialogDescription>
+              You are about to permanently delete <strong>{deleteConfirm?.user?.name || "this staff member"}</strong>.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2 space-y-3">
+            {staffAssignments && staffAssignments.length > 0 ? (
+              <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4 space-y-2">
+                <p className="text-sm font-semibold text-destructive flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Event Assignments Warning
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  This staff member is assigned to <strong>{staffAssignments.length} event{staffAssignments.length > 1 ? 's' : ''}</strong>:
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1 max-h-32 overflow-y-auto">
+                  {staffAssignments.map((a) => (
+                    <li key={a.id} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-destructive inline-block" />
+                      {a.event?.title || `Event #${a.eventId}`}
+                      {a.event?.eventDate ? ` — ${new Date(a.event.eventDate).toLocaleDateString('en-GB')}` : ''}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-sm font-medium text-destructive">
+                  All assignments will be removed from these events.
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                This staff member has no event assignments.
+              </p>
+            )}
+            <p className="text-sm text-muted-foreground">This action cannot be undone.</p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDeleteStaff}
+              disabled={deleteStaff.isPending}
+            >
+              <Trash2 className="h-4 w-4 mr-1" />
+              {deleteStaff.isPending ? "Deleting..." : "Delete Staff Member"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }
