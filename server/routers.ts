@@ -285,13 +285,37 @@ export const appRouter = router({
         const drizzleDb = await db.getDb();
         if (!drizzleDb) throw new Error("Database not available");
         const { users: usersTable, clients: clientsTable } = await import("../drizzle/schema");
-        const userResult = await drizzleDb.insert(usersTable).values({
-          openId: `manual-client-${Date.now()}-${Math.random().toString(36).substring(7)}`,
-          name: input.name,
-          email: input.email,
-          role: "client",
-        });
-        const userId = (userResult[0] as any).insertId;
+        const { eq } = await import("drizzle-orm");
+        
+        // Check if a user with this email already exists (orphaned from a deleted client)
+        const existingUsers = await drizzleDb.select().from(usersTable).where(eq(usersTable.email, input.email)).limit(1);
+        let userId: number;
+        
+        if (existingUsers.length > 0) {
+          // Reuse the existing user (email was from a deleted client)
+          const existingUser = existingUsers[0];
+          // Check it's not linked to an active client
+          const linkedClients = await drizzleDb.select().from(clientsTable).where(eq(clientsTable.userId, existingUser.id)).limit(1);
+          if (linkedClients.length > 0) {
+            throw new TRPCError({ code: 'CONFLICT', message: 'A client with this email already exists.' });
+          }
+          // Update the existing user with new info and reuse it
+          await drizzleDb.update(usersTable).set({
+            name: input.name,
+            role: "client",
+            openId: `manual-client-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+          }).where(eq(usersTable.id, existingUser.id));
+          userId = existingUser.id;
+        } else {
+          const userResult = await drizzleDb.insert(usersTable).values({
+            openId: `manual-client-${Date.now()}-${Math.random().toString(36).substring(7)}`,
+            name: input.name,
+            email: input.email,
+            role: "client",
+          });
+          userId = (userResult[0] as any).insertId;
+        }
+        
         await drizzleDb.insert(clientsTable).values({
           userId,
           companyName: input.companyName || null,
