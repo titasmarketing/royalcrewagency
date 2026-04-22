@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useRef } from "react";
-import { Crown, CheckCircle, Users, DollarSign, Calendar, Star, Building2, Camera, X } from "lucide-react";
+import { Crown, CheckCircle, Users, DollarSign, Calendar, Star, Building2, Camera, X, Smartphone, Download } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 
@@ -176,6 +176,38 @@ export default function RecruitmentPortal() {
                   <span>Start receiving job opportunities!</span>
                 </li>
               </ul>
+            </div>
+            {/* App Download Section */}
+            <div className="border-t border-accent/20 pt-6 mb-6">
+              <h3 className="font-semibold text-foreground mb-2 flex items-center justify-center gap-2">
+                <Smartphone className="h-4 w-4 text-accent" />
+                Install the Staff App
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Once approved, you'll use our app to manage your jobs, check-in at events and share your location.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href="/install"
+                  className="inline-flex items-center justify-center gap-2 bg-[#0c1b33] text-white px-5 py-3 rounded-xl font-medium text-sm hover:bg-[#0c1b33]/90 transition-colors"
+                >
+                  <span className="text-lg">🍎</span>
+                  <div className="text-left">
+                    <div className="text-[10px] text-white/60 leading-none">Add to Home Screen</div>
+                    <div className="text-sm font-semibold leading-tight">iPhone / iPad</div>
+                  </div>
+                </a>
+                <a
+                  href="/install"
+                  className="inline-flex items-center justify-center gap-2 bg-[#0c1b33] text-white px-5 py-3 rounded-xl font-medium text-sm hover:bg-[#0c1b33]/90 transition-colors"
+                >
+                  <span className="text-lg">🤖</span>
+                  <div className="text-left">
+                    <div className="text-[10px] text-white/60 leading-none">Install App</div>
+                    <div className="text-sm font-semibold leading-tight">Android</div>
+                  </div>
+                </a>
+              </div>
             </div>
             <Button onClick={() => (window.location.href = "/")} size="lg">
               Back to Home
