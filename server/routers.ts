@@ -211,6 +211,23 @@ export const appRouter = router({
         return { success: true };
       }),
 
+    update: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        companyName: z.string().optional(),
+        document: z.string().optional(),
+        address: z.string().optional(),
+        city: z.string().optional(),
+        county: z.string().optional(),
+        zipCode: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateClient(id, data);
+        return { success: true };
+      }),
+
     delete: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {

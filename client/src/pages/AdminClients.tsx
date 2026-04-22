@@ -1,19 +1,70 @@
 import DashboardLayout from "@/components/DashboardLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { Users, Building, Eye, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
+
+type Client = {
+  id: number;
+  companyName: string | null;
+  document: string | null;
+  address: string | null;
+  city: string | null;
+  county?: string | null;
+  zipCode: string | null;
+  notes: string | null;
+  createdAt: Date;
+  state?: string | null;
+  [key: string]: unknown;
+};
 
 export default function AdminClients() {
   const { data: clients, isLoading, refetch } = trpc.clients.list.useQuery();
   const [, setLocation] = useLocation();
-  const [editingClient, setEditingClient] = useState<number | null>(null);
+  const [editingClient, setEditingClient] = useState<Client | null>(null);
+  const [form, setForm] = useState({
+    companyName: "",
+    document: "",
+    address: "",
+    city: "",
+    county: "",
+    zipCode: "",
+    notes: "",
+  });
+
+  useEffect(() => {
+    if (editingClient) {
+      setForm({
+        companyName: editingClient.companyName || "",
+        document: editingClient.document || "",
+        address: editingClient.address || "",
+        city: editingClient.city || "",
+        county: editingClient.county || "",
+        zipCode: editingClient.zipCode || "",
+        notes: editingClient.notes || "",
+      });
+    }
+  }, [editingClient]);
+
+  const updateClient = trpc.clients.update.useMutation({
+    onSuccess: () => {
+      toast.success("Client updated successfully!");
+      setEditingClient(null);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error updating client: ${error.message}`);
+    },
+  });
 
   const deleteClient = trpc.clients.delete.useMutation({
     onSuccess: () => {
@@ -25,6 +76,11 @@ export default function AdminClients() {
     },
   });
 
+  const handleSave = () => {
+    if (!editingClient) return;
+    updateClient.mutate({ id: editingClient.id, ...form });
+  };
+
   const handleDelete = (id: number, name: string) => {
     if (!confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) return;
     deleteClient.mutate({ id });
@@ -32,12 +88,7 @@ export default function AdminClients() {
 
   const getInitials = (name: string | null) => {
     if (!name) return "??";
-    return name
-      .split(" ")
-      .map(n => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+    return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
   };
 
   return (
@@ -58,34 +109,25 @@ export default function AdminClients() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Total de Clients</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">
-                {clients?.length || 0}
-              </div>
+              <div className="text-2xl font-bold text-foreground">{clients?.length || 0}</div>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Empresas</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
-                {clients?.filter(c => c.companyName).length || 0}
-              </div>
+              <div className="text-2xl font-bold text-blue-600">{clients?.filter(c => c.companyName).length || 0}</div>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Pessoas Físicas</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">
-                {clients?.filter(c => !c.companyName).length || 0}
-              </div>
+              <div className="text-2xl font-bold text-green-600">{clients?.filter(c => !c.companyName).length || 0}</div>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">News este Month</CardTitle>
@@ -119,9 +161,7 @@ export default function AdminClients() {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <CardTitle className="truncate">
-                        {client.companyName || "Cliente"}
-                      </CardTitle>
+                      <CardTitle className="truncate">{client.companyName || "Cliente"}</CardTitle>
                       <div className="flex items-center gap-2 mt-2">
                         {client.companyName ? (
                           <Badge variant="default">Empresa</Badge>
@@ -139,10 +179,10 @@ export default function AdminClients() {
                       <span>{client.companyName ? 'CNPJ' : 'CPF'}: {client.document}</span>
                     </div>
                   )}
-                  {client.city && client.state && (
+                  {client.city && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Building className="h-4 w-4" />
-                      <span>{client.city}, {client.state}</span>
+                      <span>{client.city}{(client as any).state ? `, ${(client as any).state}` : ''}</span>
                     </div>
                   )}
                   {client.address && (
@@ -153,20 +193,20 @@ export default function AdminClients() {
                   )}
 
                   <div className="flex items-center gap-2 pt-3 border-t">
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
+                    <Button
+                      size="sm"
+                      variant="outline"
                       className="flex-1"
                       onClick={() => setLocation(`/admin/clients/${client.id}/events`)}
                     >
                       <Eye className="w-4 h-4 mr-1" />
                       Ver Events
                     </Button>
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
+                    <Button
+                      size="sm"
+                      variant="outline"
                       className="flex-1"
-                      onClick={() => setEditingClient(client.id)}
+                      onClick={() => setEditingClient(client as unknown as Client)}
                     >
                       <Pencil className="w-4 h-4 mr-1" />
                       Edit
@@ -193,16 +233,91 @@ export default function AdminClients() {
           </Card>
         )}
       </div>
-      
+
       {/* Edit Client Dialog */}
-      <Dialog open={editingClient !== null} onOpenChange={() => setEditingClient(null)}>
-        <DialogContent>
+      <Dialog open={editingClient !== null} onOpenChange={(open) => { if (!open) setEditingClient(null); }}>
+        <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>Edit Client</DialogTitle>
           </DialogHeader>
-          <div className="text-center py-8 text-muted-foreground">
-            Client editing form coming soon...
+          <div className="space-y-4 py-2">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-2 space-y-1">
+                <Label>Company Name</Label>
+                <Input
+                  value={form.companyName}
+                  onChange={e => setForm(f => ({ ...f, companyName: e.target.value }))}
+                  placeholder="Company or client name"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Document (CPF/CNPJ)</Label>
+                <Input
+                  value={form.document}
+                  onChange={e => setForm(f => ({ ...f, document: e.target.value }))}
+                  placeholder="Document number"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Postcode</Label>
+                <Input
+                  value={form.zipCode}
+                  onChange={e => setForm(f => ({ ...f, zipCode: e.target.value }))}
+                  placeholder="SW1A 1AA"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>City</Label>
+                <Input
+                  value={form.city}
+                  onChange={e => setForm(f => ({ ...f, city: e.target.value }))}
+                  placeholder="London"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>County</Label>
+                <Input
+                  value={form.county}
+                  onChange={e => setForm(f => ({ ...f, county: e.target.value }))}
+                  placeholder="Greater London"
+                />
+              </div>
+              <div className="col-span-2 space-y-1">
+                <Label>Address</Label>
+                <Input
+                  value={form.address}
+                  onChange={e => setForm(f => ({ ...f, address: e.target.value }))}
+                  placeholder="Full address"
+                />
+              </div>
+              <div className="col-span-2 space-y-1">
+                <Label>Notes</Label>
+                <Textarea
+                  value={form.notes}
+                  onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+                  placeholder="Internal notes about this client..."
+                  rows={3}
+                />
+              </div>
+            </div>
           </div>
+          <DialogFooter className="flex gap-2">
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (editingClient) handleDelete(editingClient.id, editingClient.companyName || "Client");
+                setEditingClient(null);
+              }}
+              disabled={deleteClient.isPending}
+            >
+              <Trash2 className="w-4 h-4 mr-1" />
+              Delete
+            </Button>
+            <Button variant="outline" onClick={() => setEditingClient(null)}>Cancel</Button>
+            <Button onClick={handleSave} disabled={updateClient.isPending}>
+              {updateClient.isPending ? "Saving..." : "Save Changes"}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </DashboardLayout>

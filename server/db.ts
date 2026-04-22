@@ -218,6 +218,12 @@ export async function deleteClient(id: number) {
   await db.delete(clients).where(eq(clients.id, id));
 }
 
+export async function updateClient(id: number, data: Partial<InsertClient>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.update(clients).set(data).where(eq(clients.id, id));
+}
+
 // ============================================================================
 // STAFF OPERATIONS
 // ============================================================================
