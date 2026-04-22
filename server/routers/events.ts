@@ -16,9 +16,9 @@ export const eventsRouter = router({
       email: z.string().email(),
       phone: z.string().optional(),
       companyName: z.string().optional(),
-      address: z.string().min(1),
-      city: z.string().min(1),
-      postalCode: z.string().min(1),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      postalCode: z.string().optional(),
       vatNumber: z.string().optional(),
       
       // Event data
