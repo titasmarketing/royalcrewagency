@@ -584,7 +584,7 @@ export default function EventDetails() {
           </CardContent>
         </Card>
 
-        {/* Menu */}
+        {/* Menu - disabled
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -716,8 +716,9 @@ export default function EventDetails() {
             )}
           </CardContent>
         </Card>
+        disabled */}
 
-        {/* Inventory */}
+        {/* Inventory - disabled
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -793,6 +794,7 @@ export default function EventDetails() {
             <p className="text-sm text-gray-600">No inventory items added yet.</p>
           </CardContent>
         </Card>
+        disabled */}
 
         {/* Total Price */}
         <Card>
