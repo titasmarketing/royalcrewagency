@@ -430,6 +430,44 @@ export const eventsRouter = router({
   }),
 
   // ============================================================================
+  // ADMIN: CREATE EVENT FOR EXISTING CLIENT
+  // ============================================================================
+  createForExistingClient: adminProcedure
+    .input(z.object({
+      clientId: z.number(),
+      eventDate: z.string(),
+      eventType: z.string(),
+      serviceHours: z.number().min(1),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      postalCode: z.string().optional(),
+      location: z.string().optional(),
+      staffNeeds: z.array(z.object({
+        type: z.string(),
+        count: z.number().min(1),
+      })).optional(),
+    }))
+    .mutation(async ({ input }) => {
+      // Get client info to build title
+      const clientData = await db.getClientById(input.clientId);
+      if (!clientData) throw new TRPCError({ code: 'NOT_FOUND', message: 'Client not found' });
+      const clientName = clientData.user?.name || `Client #${input.clientId}`;
+      const eventTitle = `${input.eventType} - ${clientName}`;
+      const staffSummary = (input.staffNeeds || []).map(s => `${s.count}x ${s.type}`).join(', ');
+      const eventResult = await db.createEvent({
+        clientId: input.clientId,
+        title: eventTitle,
+        description: `Event type: ${input.eventType}\nDuration: ${input.serviceHours} hours${staffSummary ? `\nStaff needs: ${staffSummary}` : ''}`,
+        status: 'quote',
+        eventDate: new Date(input.eventDate),
+        location: input.location || [input.address, input.city].filter(Boolean).join(', ') || undefined,
+        notes: 'Created manually by admin',
+      });
+      const eventId = (eventResult[0] as any).insertId;
+      return { success: true, eventId, clientId: input.clientId };
+    }),
+
+  // ============================================================================
   // CLIENT: CONFIRM BOOKING
   // ============================================================================
   confirmBooking: protectedProcedure

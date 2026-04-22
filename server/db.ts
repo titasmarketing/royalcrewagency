@@ -201,15 +201,39 @@ export async function getClientById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
   
-  const result = await db.select().from(clients).where(eq(clients.id, id)).limit(1);
-  return result.length > 0 ? result[0] : undefined;
+  const result = await db
+    .select({ client: clients, user: users })
+    .from(clients)
+    .leftJoin(users, eq(clients.userId, users.id))
+    .where(eq(clients.id, id))
+    .limit(1);
+  if (result.length === 0) return undefined;
+  return {
+    ...result[0].client,
+    user: result[0].user ?? null,
+    name: result[0].user?.name ?? null,
+    email: result[0].user?.email ?? null,
+    phone: result[0].user?.phone ?? null,
+  };
 }
 
 export async function getAllClients() {
   const db = await getDb();
   if (!db) return [];
   
-  return await db.select().from(clients).orderBy(desc(clients.createdAt));
+  const result = await db
+    .select({ client: clients, user: users })
+    .from(clients)
+    .leftJoin(users, eq(clients.userId, users.id))
+    .orderBy(desc(clients.createdAt));
+  
+  return result.map(r => ({
+    ...r.client,
+    user: r.user ?? null,
+    name: r.user?.name ?? null,
+    email: r.user?.email ?? null,
+    phone: r.user?.phone ?? null,
+  }));
 }
 
 export async function deleteClient(id: number) {
