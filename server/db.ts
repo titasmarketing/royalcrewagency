@@ -248,6 +248,14 @@ export async function deleteEventsByClientId(clientId: number) {
   await db.delete(events).where(eq(events.clientId, clientId));
 }
 
+export async function deleteEvent(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  // Remove staff assignments first
+  await db.delete(eventStaffAssignments).where(eq(eventStaffAssignments.eventId, id));
+  await db.delete(events).where(eq(events.id, id));
+}
+
 export async function updateClient(id: number, data: Partial<InsertClient>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

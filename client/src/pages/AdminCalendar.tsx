@@ -7,7 +7,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useState, useMemo, useEffect } from 'react';
-import { Calendar, Plus, Search, UserCheck, UserPlus } from "lucide-react";
+import { Calendar, Plus, Search, UserCheck, UserPlus, Trash2, ExternalLink, AlertTriangle } from "lucide-react";
 import { useLocation } from "wouter";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -40,6 +40,7 @@ export default function AdminCalendar() {
   const { data: clients } = trpc.clients.list.useQuery();
 
   const [showNewEventDialog, setShowNewEventDialog] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: number; title: string } | null>(null);
   const [clientMode, setClientMode] = useState<ClientMode>('existing');
   const [selectedClientId, setSelectedClientId] = useState<string>('');
   const [clientSearch, setClientSearch] = useState('');
@@ -138,6 +139,15 @@ export default function AdminCalendar() {
 
   const isPending = createForExistingClient.isPending || createBookingMutation.isPending;
 
+  const deleteEventMutation = trpc.events.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Event deleted successfully!");
+      setDeleteConfirm(null);
+      refetch();
+    },
+    onError: (error) => toast.error(`Error: ${error.message}`),
+  });
+
   // Transform events for FullCalendar
   const calendarEvents = useMemo(() => {
     if (!events) return [];
@@ -165,7 +175,8 @@ export default function AdminCalendar() {
   const [, navigate] = useLocation();
 
   const handleEventClick = (info: any) => {
-    navigate(`/admin/events/${info.event.id}`);
+    // Show delete confirm with option to navigate
+    setDeleteConfirm({ id: parseInt(info.event.id), title: info.event.title });
   };
 
   return (
@@ -400,6 +411,50 @@ export default function AdminCalendar() {
           </CardContent>
         </Card>
       </div>
+      {/* Delete Event Confirmation Dialog */}
+      <Dialog open={deleteConfirm !== null} onOpenChange={(open) => { if (!open) setDeleteConfirm(null); }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-accent" />
+              Event Options
+            </DialogTitle>
+            <DialogDescription>
+              <strong>{deleteConfirm?.title}</strong>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3 py-2">
+            <Button
+              className="w-full gap-2 justify-start"
+              variant="outline"
+              onClick={() => {
+                if (deleteConfirm) {
+                  navigate(`/admin/events/${deleteConfirm.id}`);
+                  setDeleteConfirm(null);
+                }
+              }}
+            >
+              <ExternalLink className="h-4 w-4" />
+              View Event Details
+            </Button>
+            <div className="border-t border-border pt-3">
+              <p className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-destructive" />
+                Deleting this event will also remove all staff assignments.
+              </p>
+              <Button
+                variant="destructive"
+                className="w-full gap-2"
+                onClick={() => deleteConfirm && deleteEventMutation.mutate({ id: deleteConfirm.id })}
+                disabled={deleteEventMutation.isPending}
+              >
+                <Trash2 className="h-4 w-4" />
+                {deleteEventMutation.isPending ? "Deleting..." : "Delete Event"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 }

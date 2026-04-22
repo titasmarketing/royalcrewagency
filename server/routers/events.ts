@@ -430,6 +430,16 @@ export const eventsRouter = router({
   }),
 
   // ============================================================================
+  // ADMIN: DELETE EVENT
+  // ============================================================================
+  delete: adminProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      await db.deleteEvent(input.id);
+      return { success: true };
+    }),
+
+  // ============================================================================
   // ADMIN: CREATE EVENT FOR EXISTING CLIENT
   // ============================================================================
   createForExistingClient: adminProcedure
