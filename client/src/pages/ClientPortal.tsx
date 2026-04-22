@@ -102,7 +102,7 @@ export default function ClientPortal() {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link href="/">
             <div className="flex items-center cursor-pointer">
-              <img src="/manus-storage/royal-crew-logo-transparent_0418b250.png" alt="Royal Crew Agency" className="h-12 w-auto" />
+              <img src="/manus-storage/royal-crew-logo-final_967d03a1.png" alt="Royal Crew Agency" className="h-12 w-auto" />
             </div>
           </Link>
           <div className="flex items-center gap-6">
