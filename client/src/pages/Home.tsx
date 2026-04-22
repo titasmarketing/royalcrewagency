@@ -7,7 +7,7 @@ import {
   Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle, 
   Calendar, Clock, PartyPopper, ArrowRight, Zap, ShieldCheck,
   Award, TrendingUp, Package, Coffee, X, User as UserIcon, Building2, Check,
-  Car, Camera
+  Car, Camera, Menu
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState, useRef } from "react";
@@ -68,6 +68,7 @@ export default function Home() {
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const workRef = useRef<HTMLDivElement | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Booking Form State
   const [showCompleteModal, setShowCompleteModal] = useState(false);
@@ -193,15 +194,38 @@ export default function Home() {
               <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Work With Us</button>
             </div>
 
-            <div className="flex items-center gap-4">
-              <Link href="/client">
+            <div className="flex items-center gap-3">
+              <Link href="/client" className="hidden md:block">
                 <Button className="flex items-center gap-2 text-[10px] h-11 bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 tracking-[0.3em]">
                   <LayoutDashboard className="w-4 h-4" /> CLIENT PORTAL
                 </Button>
               </Link>
+              {/* Hamburger mobile */}
+              <button
+                className="md:hidden text-[#D4AF37] p-2"
+                onClick={() => setMobileMenuOpen(prev => !prev)}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
             </div>
           </div>
         </div>
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#0c1b33] border-t border-[#D4AF37]/20 px-6 py-4 flex flex-col gap-4">
+            <button onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Home</button>
+            <button onClick={() => { scrollTo(aboutRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">About</button>
+            <button onClick={() => { scrollTo(servicesRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Services</button>
+            <button onClick={() => { scrollTo(galleryRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Gallery</button>
+            <button onClick={() => { scrollTo(workRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Work With Us</button>
+            <Link href="/client" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="flex items-center gap-2 text-[10px] h-11 w-full bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 tracking-[0.3em] mt-2">
+                <LayoutDashboard className="w-4 h-4" /> CLIENT PORTAL
+              </Button>
+            </Link>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section with Quick Booking Form */}
@@ -221,7 +245,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="flex items-center gap-4 justify-center">
                <div className="h-px w-12 bg-[#D4AF37]"></div>
-               <Crown className="w-8 h-8 text-[#D4AF37]" />
+               <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
                <div className="h-px w-12 bg-[#D4AF37]"></div>
             </div>
             <h1 className="text-4xl md:text-6xl font-light tracking-[0.1em] text-[#D4AF37] uppercase leading-tight">
@@ -239,7 +263,7 @@ export default function Home() {
             </h3>
             
             <form onSubmit={handleStartBooking} className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Event Date</Label>
                   <Input 
