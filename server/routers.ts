@@ -156,6 +156,13 @@ export const appRouter = router({
         await db.updateStaffMember(id, data);
         return { success: true };
       }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteStaffMember(input.id);
+        return { success: true };
+      }),
   }),
 
   // ============================================================================
@@ -201,6 +208,13 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         await db.createClient(input);
+        return { success: true };
+      }),
+
+    delete: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await db.deleteClient(input.id);
         return { success: true };
       }),
   }),

@@ -4,15 +4,31 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
-import { Users, Mail, Phone, Building, Calendar, DollarSign, Eye, Pencil } from "lucide-react";
+import { Users, Building, Eye, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
+import { toast } from "sonner";
 
 export default function AdminClients() {
-  const { data: clients, isLoading } = trpc.clients.list.useQuery();
+  const { data: clients, isLoading, refetch } = trpc.clients.list.useQuery();
   const [, setLocation] = useLocation();
   const [editingClient, setEditingClient] = useState<number | null>(null);
+
+  const deleteClient = trpc.clients.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Client deleted successfully!");
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error deleting client: ${error.message}`);
+    },
+  });
+
+  const handleDelete = (id: number, name: string) => {
+    if (!confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) return;
+    deleteClient.mutate({ id });
+  };
 
   const getInitials = (name: string | null) => {
     if (!name) return "??";
@@ -154,6 +170,14 @@ export default function AdminClients() {
                     >
                       <Pencil className="w-4 h-4 mr-1" />
                       Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(client.id, client.companyName || "Client")}
+                      disabled={deleteClient.isPending}
+                    >
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
                 </CardContent>

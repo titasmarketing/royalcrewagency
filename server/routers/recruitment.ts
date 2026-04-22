@@ -169,4 +169,14 @@ export const recruitmentRouter = router({
         message: "Candidatura rejeitada.",
       };
     }),
+
+  // Admin: Apagar candidatura
+  deleteApplication: adminProcedure
+    .input(z.object({ staffId: z.number() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database not available");
+      await db.delete(staffMembers).where(eq(staffMembers.id, input.staffId));
+      return { success: true };
+    }),
 });

@@ -212,6 +212,12 @@ export async function getAllClients() {
   return await db.select().from(clients).orderBy(desc(clients.createdAt));
 }
 
+export async function deleteClient(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(clients).where(eq(clients.id, id));
+}
+
 // ============================================================================
 // STAFF OPERATIONS
 // ============================================================================
@@ -229,6 +235,12 @@ export async function updateStaffMember(id: number, staff: Partial<InsertStaffMe
   if (!db) throw new Error("Database not available");
   
   await db.update(staffMembers).set(staff).where(eq(staffMembers.id, id));
+}
+
+export async function deleteStaffMember(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(staffMembers).where(eq(staffMembers.id, id));
 }
 
 export async function getStaffMemberByUserId(userId: number) {

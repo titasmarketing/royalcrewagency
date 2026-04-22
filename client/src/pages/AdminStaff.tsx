@@ -6,29 +6,91 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
-import { Plus, Users, Star, MapPin, DollarSign, Calendar } from "lucide-react";
+import { Plus, Users, Star, MapPin, DollarSign, Calendar, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+type StaffMember = {
+  id: number;
+  hourlyRate: string | null;
+  isActive: boolean | null;
+  city: string | null;
+  county: string | null;
+  rating: string | null;
+  totalEvents: number | null;
+  profileImage: string | null;
+  specialties: string[] | null;
+  bio: string | null;
+  address: string | null;
+  user?: { name: string | null; email: string | null } | null;
+};
+
 export default function AdminStaff() {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingMember, setEditingMember] = useState<StaffMember | null>(null);
+  const [editForm, setEditForm] = useState({
+    hourlyRate: "",
+    city: "",
+    county: "",
+    address: "",
+    bio: "",
+    isActive: true,
+  });
 
   const { data: staff, isLoading, refetch } = trpc.staffAdmin.list.useQuery();
-  
+
   const updateStaff = trpc.staffAdmin.update.useMutation({
     onSuccess: () => {
-      toast.success("Staff atualizado com sucesso!");
+      toast.success("Staff updated successfully!");
+      setIsEditDialogOpen(false);
+      setEditingMember(null);
       refetch();
     },
     onError: (error) => {
-      toast.error(`Erro ao atualizar staff: ${error.message}`);
+      toast.error(`Error updating staff: ${error.message}`);
+    },
+  });
+
+  const deleteStaff = trpc.staffAdmin.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Staff member deleted successfully!");
+      setIsEditDialogOpen(false);
+      setEditingMember(null);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Error deleting staff: ${error.message}`);
     },
   });
 
   const handleToggleActive = (id: number, isActive: boolean) => {
     updateStaff.mutate({ id, isActive });
+  };
+
+  const openEditDialog = (member: StaffMember) => {
+    setEditingMember(member);
+    setEditForm({
+      hourlyRate: member.hourlyRate || "",
+      city: member.city || "",
+      county: member.county || "",
+      address: member.address || "",
+      bio: member.bio || "",
+      isActive: member.isActive ?? true,
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingMember) return;
+    updateStaff.mutate({ id: editingMember.id, ...editForm });
+  };
+
+  const handleDelete = () => {
+    if (!editingMember) return;
+    if (!confirm("Are you sure you want to delete this staff member? This action cannot be undone.")) return;
+    deleteStaff.mutate({ id: editingMember.id });
   };
 
   const getInitials = (name: string | null) => {
@@ -50,32 +112,6 @@ export default function AdminStaff() {
             <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Staff</h1>
             <p className="text-muted-foreground">Gerencie equipe, disponibilidade e escalas</p>
           </div>
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="gap-2">
-                <Plus className="h-4 w-4" />
-                Add Staff
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add New Member</DialogTitle>
-                <DialogDescription>
-                  Adicione um novo membro à equipe da Royal Crew
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  Funcionalidade em desenvolvimento. Por enquanto, os membros são criados automaticamente quando um usuário com role "staff" faz login.
-                </p>
-              </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                  Close
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
 
         {/* Stats */}
@@ -126,6 +162,90 @@ export default function AdminStaff() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Edit Dialog */}
+        <Dialog open={isEditDialogOpen} onOpenChange={(open) => { setIsEditDialogOpen(open); if (!open) setEditingMember(null); }}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Edit Staff Member</DialogTitle>
+              <DialogDescription>
+                {editingMember?.user?.name || "Staff member"} — {editingMember?.user?.email}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Hourly Rate (£)</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={editForm.hourlyRate}
+                    onChange={(e) => setEditForm({ ...editForm, hourlyRate: e.target.value })}
+                    placeholder="0.00"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>City</Label>
+                  <Input
+                    value={editForm.city}
+                    onChange={(e) => setEditForm({ ...editForm, city: e.target.value })}
+                    placeholder="London"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>County</Label>
+                  <Input
+                    value={editForm.county}
+                    onChange={(e) => setEditForm({ ...editForm, county: e.target.value })}
+                    placeholder="Greater London"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Address</Label>
+                  <Input
+                    value={editForm.address}
+                    onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                    placeholder="123 Main St"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Bio</Label>
+                <Input
+                  value={editForm.bio}
+                  onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
+                  placeholder="Brief description..."
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>Active</Label>
+                <Switch
+                  checked={editForm.isActive}
+                  onCheckedChange={(checked) => setEditForm({ ...editForm, isActive: checked })}
+                />
+              </div>
+            </div>
+            <DialogFooter className="flex items-center justify-between w-full">
+              <Button
+                variant="destructive"
+                onClick={handleDelete}
+                disabled={deleteStaff.isPending}
+                className="gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deleteStaff.isPending ? "Deleting..." : "Delete"}
+              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
+                <Button onClick={handleSaveEdit} disabled={updateStaff.isPending}>
+                  {updateStaff.isPending ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Staff List */}
         {isLoading ? (
@@ -209,7 +329,13 @@ export default function AdminStaff() {
                     >
                       {member.isActive ? "Desativar" : "Ativar"}
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 gap-2"
+                      onClick={() => openEditDialog(member as StaffMember)}
+                    >
+                      <Edit className="h-3 w-3" />
                       Edit
                     </Button>
                   </div>
@@ -221,11 +347,7 @@ export default function AdminStaff() {
           <Card>
             <CardContent className="flex flex-col items-center justify-center h-64">
               <Users className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground mb-4">None membro de staff cadastrado ainda</p>
-              <Button onClick={() => setIsCreateDialogOpen(true)} className="gap-2">
-                <Plus className="h-4 w-4" />
-                Add First Membro
-              </Button>
+              <p className="text-muted-foreground mb-4">Nenhum membro de staff cadastrado ainda</p>
             </CardContent>
           </Card>
         )}

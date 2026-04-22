@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle, XCircle, Clock, Mail, Phone, MapPin, Briefcase, User } from "lucide-react";
+import { CheckCircle, XCircle, Clock, Mail, Phone, MapPin, Briefcase, User, Trash2 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -41,6 +41,22 @@ export default function AdminRecruitment() {
   const handleReject = (staffId: number) => {
     if (confirm("Tem certeza que deseja rejeitar esta candidatura?")) {
       rejectMutation.mutate({ staffId });
+    }
+  };
+
+  const deleteApplication = trpc.recruitment.deleteApplication.useMutation({
+    onSuccess: () => {
+      toast.success("Candidatura apagada!");
+      refetch();
+    },
+    onError: () => {
+      toast.error("Erro ao apagar candidatura");
+    },
+  });
+
+  const handleDelete = (staffId: number) => {
+    if (confirm("Tem certeza que deseja APAGAR esta candidatura? Esta ação não pode ser desfeita.")) {
+      deleteApplication.mutate({ staffId });
     }
   };
 
@@ -234,6 +250,14 @@ export default function AdminRecruitment() {
                             >
                               <XCircle className="h-4 w-4" />
                               Reject
+                            </Button>
+                            <Button
+                              onClick={() => handleDelete(app.id)}
+                              variant="outline"
+                              className="gap-2 border-red-300 text-red-600 hover:bg-red-50"
+                              disabled={deleteApplication.isPending}
+                            >
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
                         </CardContent>
