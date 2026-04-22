@@ -386,7 +386,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Our Expertise</span>
-            <h2 className="text-5xl font-light text-[#D4AF37] tracking-tight uppercase">High-Level <span className="font-bold text-[#D4AF37]">Team</span></h2>
+            <h2 className="text-5xl font-light text-[#D4AF37] tracking-tight uppercase">High-Level Team</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
