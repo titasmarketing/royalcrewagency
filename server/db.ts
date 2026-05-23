@@ -1,5 +1,6 @@
 import { eq, and, gte, lte, desc, asc, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { createPool } from "mysql2";
 import { 
   InsertUser, users,
   services, InsertService,
@@ -29,12 +30,21 @@ import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
-const HOSTINGER_DB_URL = process.env.DATABASE_URL || 'mysql://u219024948_reginaldo:Pagotto24@localhost:3306/u219024948_reginaldo';
-
 export async function getDb() {
   if (!_db) {
     try {
-      _db = drizzle(HOSTINGER_DB_URL);
+      const pool = createPool({
+        host: 'localhost',
+        port: 3306,
+        user: 'u219024948_reginaldo',
+        password: 'Pagotto24',
+        database: 'u219024948_reginaldo',
+        waitForConnections: true,
+        connectionLimit: 10,
+        ssl: undefined,
+      });
+      _db = drizzle(pool);
+      console.log('[Database] Connected to MySQL successfully');
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
