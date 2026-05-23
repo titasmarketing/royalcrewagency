@@ -29,7 +29,7 @@ import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
-const HOSTINGER_DB_URL = process.env.DATABASE_URL || 'mysql://u759827701_events:Pagotto24@127.0.0.1:3306/u759827701_events';
+const HOSTINGER_DB_URL = process.env.DATABASE_URL || 'mysql://u219024948_reginaldo:Pagotto24@localhost:3306/u219024948_reginaldo';
 
 export async function getDb() {
   if (!_db) {
