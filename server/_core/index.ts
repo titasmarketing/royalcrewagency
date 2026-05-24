@@ -42,6 +42,25 @@ async function startServer() {
   registerStorageProxy(app);
   // Upload API
   app.use("/api", uploadRouter);
+  // DB test endpoint
+  app.get('/api/db-test', async (req, res) => {
+    const mysql2 = await import('mysql2/promise');
+    try {
+      const conn = await mysql2.createConnection({
+        host: '127.0.0.1',
+        port: 3306,
+        user: 'u219024948_reginaldo',
+        password: 'Pagotto24',
+        database: 'u219024948_reginaldo',
+      });
+      const [rows] = await conn.execute('SELECT COUNT(*) as total FROM users');
+      await conn.end();
+      res.json({ ok: true, rows });
+    } catch (err: any) {
+      res.json({ ok: false, error: err.message, code: err.code });
+    }
+  });
+
   // tRPC API
   app.use(
     "/api/trpc",

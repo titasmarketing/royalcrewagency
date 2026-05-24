@@ -34,14 +34,13 @@ export async function getDb() {
   if (!_db) {
     try {
       const pool = createPool({
-        host: 'localhost',
+        host: '127.0.0.1',
         port: 3306,
         user: 'u219024948_reginaldo',
         password: 'Pagotto24',
         database: 'u219024948_reginaldo',
         waitForConnections: true,
         connectionLimit: 10,
-        ssl: undefined,
       });
       _db = drizzle(pool);
       console.log('[Database] Connected to MySQL successfully');
