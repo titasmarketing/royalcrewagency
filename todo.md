@@ -674,3 +674,7 @@
 - [x] Remover botão "Back to Home" do AdminDashboard
 - [x] Adicionar link "Ver Site" no menu dropdown do admin (abre em nova janela)
 - [x] Corrigir erro de insert users ao confirmar booking (adicionar defaults para createdAt, updatedAt, lastSignedIn)
+- [x] Adicionar seção "Contact Us" na home page com email info@royalcrewagency.com
+- [x] Adicionar WhatsApp com ícone MessageCircle na seção Contact Us
+- [x] Adicionar formulário de mensagem rápida na seção Contact Us
+- [x] Adicionar links para redes sociais (Instagram, LinkedIn, Facebook) na seção Contact Us

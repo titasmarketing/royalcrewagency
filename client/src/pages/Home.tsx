@@ -7,7 +7,7 @@ import {
   Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle, 
   Calendar, Clock, PartyPopper, ArrowRight, Zap, ShieldCheck,
   Award, TrendingUp, Package, Coffee, X, User as UserIcon, Building2, Check,
-  Car, Camera, Menu, ArrowLeft
+  Car, Camera, Menu, ArrowLeft, MessageCircle
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState, useRef } from "react";
@@ -598,6 +598,67 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Contact Us Section */}
+      <section className="py-32 bg-gradient-to-br from-[#0c1b33] to-[#050b1a] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Get In Touch</span>
+            <h2 className="text-5xl font-light text-white tracking-tight uppercase">Contact <span className="font-light text-[#D4AF37]">Us</span></h2>
+            <p className="text-gray-400 mt-6 max-w-2xl mx-auto text-lg">Have questions or ready to book? Reach out to our team.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center max-w-4xl mx-auto">
+            {/* Contact Info */}
+            <div className="space-y-8">
+              <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-xl hover:border-[#D4AF37]/50 transition-all">
+                <h3 className="text-[#D4AF37] font-bold text-sm uppercase tracking-widest mb-4">Email</h3>
+                <a href="mailto:info@royalcrewagency.com" className="text-white text-lg hover:text-[#D4AF37] transition-colors">
+                  info@royalcrewagency.com
+                </a>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-xl hover:border-[#D4AF37]/50 transition-all">
+                <h3 className="text-[#D4AF37] font-bold text-sm uppercase tracking-widest mb-4">WhatsApp</h3>
+                <a href="https://wa.me/447700900000" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white hover:text-[#D4AF37] transition-colors">
+                  <MessageCircle className="w-6 h-6" />
+                  <span className="text-lg">Message Us</span>
+                </a>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-xl hover:border-[#D4AF37]/50 transition-all">
+                <h3 className="text-[#D4AF37] font-bold text-sm uppercase tracking-widest mb-4">Follow Us</h3>
+                <div className="flex gap-4">
+                  <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition-colors text-sm uppercase tracking-widest">Instagram</a>
+                  <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition-colors text-sm uppercase tracking-widest">LinkedIn</a>
+                  <a href="#" className="text-gray-400 hover:text-[#D4AF37] transition-colors text-sm uppercase tracking-widest">Facebook</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Message */}
+            <div className="bg-white/5 backdrop-blur border border-white/10 p-8 rounded-xl">
+              <form className="space-y-4">
+                <div>
+                  <Label className="text-white text-xs uppercase tracking-widest">Name</Label>
+                  <Input placeholder="Your name" className="bg-white/10 border-white/20 text-white mt-2" />
+                </div>
+                <div>
+                  <Label className="text-white text-xs uppercase tracking-widest">Email</Label>
+                  <Input type="email" placeholder="your@email.com" className="bg-white/10 border-white/20 text-white mt-2" />
+                </div>
+                <div>
+                  <Label className="text-white text-xs uppercase tracking-widest">Message</Label>
+                  <textarea placeholder="Your message..." className="w-full bg-white/10 border border-white/20 text-white rounded-lg p-3 mt-2 text-sm focus:outline-none focus:border-[#D4AF37]" rows={4}></textarea>
+                </div>
+                <Button className="w-full h-12 bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 tracking-[0.3em] uppercase font-bold">
+                  Send Message
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-[#050b1a] text-gray-500 py-24 border-t border-white/5">
