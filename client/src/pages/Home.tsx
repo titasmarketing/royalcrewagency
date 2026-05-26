@@ -68,6 +68,7 @@ export default function Home() {
   const aboutRef = useRef<HTMLDivElement | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
   const workRef = useRef<HTMLDivElement | null>(null);
+  const contactRef = useRef<HTMLDivElement | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Booking Form State
@@ -192,6 +193,7 @@ export default function Home() {
               <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Services</button>
               <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Gallery</button>
               <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Work With Us</button>
+              <button onClick={() => scrollTo(contactRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Contact Us</button>
             </div>
 
             <div className="flex items-center gap-3">
@@ -219,6 +221,7 @@ export default function Home() {
             <button onClick={() => { scrollTo(servicesRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Services</button>
             <button onClick={() => { scrollTo(galleryRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Gallery</button>
             <button onClick={() => { scrollTo(workRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Work With Us</button>
+            <button onClick={() => { scrollTo(contactRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Contact Us</button>
             <Link href="/client" onClick={() => setMobileMenuOpen(false)}>
               <Button className="flex items-center gap-2 text-[10px] h-11 w-full bg-[#D4AF37] text-[#0c1b33] hover:bg-[#D4AF37]/90 tracking-[0.3em] mt-2">
                 <LayoutDashboard className="w-4 h-4" /> CLIENT PORTAL
@@ -600,7 +603,7 @@ export default function Home() {
       )}
 
       {/* Contact Us Section */}
-      <section className="py-32 bg-gradient-to-br from-[#0c1b33] to-[#050b1a] relative overflow-hidden">
+      <section ref={contactRef} className="py-32 bg-gradient-to-br from-[#0c1b33] to-[#050b1a] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-4">Get In Touch</span>

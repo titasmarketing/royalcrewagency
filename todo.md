@@ -678,3 +678,6 @@
 - [x] Adicionar WhatsApp com ícone MessageCircle na seção Contact Us
 - [x] Adicionar formulário de mensagem rápida na seção Contact Us
 - [x] Adicionar links para redes sociais (Instagram, LinkedIn, Facebook) na seção Contact Us
+- [x] Adicionar "Contact Us" no menu navbar (desktop e mobile) que rola até a seção
+- [x] Criar página AdminContactSettings para editar email, WhatsApp e redes sociais
+- [x] Adicionar "Contact Settings" no menu do admin com ícone Mail

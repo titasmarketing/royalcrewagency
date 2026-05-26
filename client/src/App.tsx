@@ -32,6 +32,7 @@ import EventDetails from "./pages/admin/EventDetails";
 import AdminEventTracking from "./pages/admin/AdminEventTracking";
 import AdminStaffMap from "./pages/admin/AdminStaffMap";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminContactSettings from "./pages/AdminContactSettings";
 import Gallery from "./pages/Gallery";
 import Menu from "./pages/Menu";
 import Login from "./pages/Login";
@@ -66,6 +67,7 @@ function Router() {
       <Route path={'/admin/events/:id/tracking'} component={AdminEventTracking} />
       <Route path={'/admin/staff-map'} component={AdminStaffMap} />
       <Route path={'/admin/messages'} component={AdminMessages} />
+      <Route path={'/admin/contact-settings'} component={AdminContactSettings} />
       <Route path="/gallery" component={Gallery} />
         <Route path="/menu" component={Menu} />
       <Route path={"/services"} component={Services} />
