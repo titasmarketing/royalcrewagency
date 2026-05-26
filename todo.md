@@ -671,5 +671,6 @@
 
 ### 🔧 CORREÇÕES RECENTES (MAIO 2026)
 - [x] Corrigir "About" para "About Us" em todos os menus (navbar, mobile, footer)
-- [x] Adicionar botão "Back to Home" no AdminDashboard
+- [x] Remover botão "Back to Home" do AdminDashboard
+- [x] Adicionar link "Ver Site" no menu dropdown do admin (abre em nova janela)
 - [x] Corrigir erro de insert users ao confirmar booking (adicionar defaults para createdAt, updatedAt, lastSignedIn)

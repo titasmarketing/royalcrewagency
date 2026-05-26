@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/useMobile";
-import { Box, Building2, Calendar, FileText, Image, LayoutDashboard, LogOut, Map, Package, PanelLeft, Target, UtensilsCrossed, UserCircle, UserPlus, Users } from "lucide-react";
+import { Box, Building2, Calendar, FileText, Image, LayoutDashboard, LogOut, Map, Package, PanelLeft, Target, UtensilsCrossed, UserCircle, UserPlus, Users, ExternalLink } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -231,6 +231,13 @@ function DashboardLayoutContent({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem
+                  onClick={() => window.open('/', '_blank')}
+                  className="cursor-pointer"
+                >
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  <span>Ver Site</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={logout}
                   className="cursor-pointer text-destructive focus:text-destructive"
