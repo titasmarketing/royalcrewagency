@@ -636,7 +636,15 @@ export async function createUser(user: InsertUser) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  const result = await db.insert(users).values(user);
+  // Ensure required fields have defaults
+  const userWithDefaults: InsertUser = {
+    ...user,
+    role: user.role || "client",
+    loginMethod: user.loginMethod || "email",
+    lastSignedIn: user.lastSignedIn || new Date(),
+  };
+  
+  const result = await db.insert(users).values(userWithDefaults);
   const userId = result[0].insertId;
   const newUser = await getUserById(userId);
   return newUser;

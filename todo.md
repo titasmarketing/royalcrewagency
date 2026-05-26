@@ -668,3 +668,8 @@
 - [x] ClientFinancial: substituir mock data por dados reais (trpc.events.clientListEvents)
 - [x] AdminMatchmaking: substituir mock data por lógica real usando server/matchmaking.ts
 - [ ] AdminDocuments: geração de PDF usa dados hardcoded (clientName, staffMembers) - melhorar
+
+### 🔧 CORREÇÕES RECENTES (MAIO 2026)
+- [x] Corrigir "About" para "About Us" em todos os menus (navbar, mobile, footer)
+- [x] Adicionar botão "Back to Home" no AdminDashboard
+- [x] Corrigir erro de insert users ao confirmar booking (adicionar defaults para createdAt, updatedAt, lastSignedIn)

@@ -7,7 +7,7 @@ import {
   Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle, 
   Calendar, Clock, PartyPopper, ArrowRight, Zap, ShieldCheck,
   Award, TrendingUp, Package, Coffee, X, User as UserIcon, Building2, Check,
-  Car, Camera, Menu
+  Car, Camera, Menu, ArrowLeft
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useState, useRef } from "react";
@@ -188,7 +188,7 @@ export default function Home() {
             
             <div className="hidden md:flex items-center space-x-10">
               <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Home</button>
-              <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">About</button>
+              <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">About Us</button>
               <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Services</button>
               <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Gallery</button>
               <button onClick={() => scrollTo(workRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Work With Us</button>
@@ -215,7 +215,7 @@ export default function Home() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-[#0c1b33] border-t border-[#D4AF37]/20 px-6 py-4 flex flex-col gap-4">
             <button onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Home</button>
-            <button onClick={() => { scrollTo(aboutRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">About</button>
+            <button onClick={() => { scrollTo(aboutRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">About Us</button>
             <button onClick={() => { scrollTo(servicesRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Services</button>
             <button onClick={() => { scrollTo(galleryRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Gallery</button>
             <button onClick={() => { scrollTo(workRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Work With Us</button>
@@ -390,14 +390,28 @@ export default function Home() {
             />
           </div>
           <div className="space-y-8">
-            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block">Royal Excellence</span>
+            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block">About Royal Crew Agency</span>
             <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight leading-tight">Where <span className="font-bold">Elegance</span> meets <span className="font-bold">Professionalism</span></h2>
             <p className="text-gray-600 leading-relaxed text-lg font-light">
-              We're not just a staffing agency. We're the strategic partner that ensures every interaction at your event reflects the highest standards of luxury hospitality.
+              Royal Crew Agency is Europe's premier hospitality staffing solution, specializing in elite event management and professional staffing across 12 countries. We deliver exceptional service for weddings, corporate galas, VIP private parties, and exclusive events.
             </p>
             <p className="text-gray-600 leading-relaxed text-base font-light">
-              Our agency was created with a clear purpose: to provide reliable staffing and logistical support that allows events and businesses to run seamlessly. What began as a small team dedicated to assisting catering companies and private events has evolved into a professional service agency offering skilled porters, drivers porters, cleaners, photographers and event support staff. We understand that behind every successful event there is a strong, well-organized team working with precision and professionalism. Our mission is to connect clients with experienced professionals who deliver efficiency, discretion, and excellence in every detail. Whether supporting corporate functions, private celebrations, or hospitality operations, we focus on quality service, flexibility, and trust. We don't just supply staff — we provide solutions that help our clients create exceptional experiences.
+              Our agency was founded with a clear mission: to provide reliable, professional staffing and logistical support that allows events and businesses to run seamlessly. What began as a dedicated team assisting catering companies and private events has evolved into a comprehensive service agency offering skilled porters, drivers, cleaners, photographers, event coordinators, and hospitality staff. We understand that behind every successful event is a strong, well-organized team working with precision and professionalism. Our commitment is to connect clients with experienced professionals who deliver efficiency, discretion, and excellence in every detail. Whether supporting corporate functions, private celebrations, or hospitality operations, we focus on quality service, flexibility, and trust. We don't just supply staff — we provide solutions that help our clients create exceptional experiences.
             </p>
+            <div className="grid grid-cols-3 gap-4 pt-4">
+              <div className="text-center">
+                <p className="text-3xl font-bold text-[#D4AF37]">450+</p>
+                <p className="text-xs uppercase text-gray-500 font-bold">Events</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold text-[#D4AF37]">12</p>
+                <p className="text-xs uppercase text-gray-500 font-bold">Countries</p>
+              </div>
+              <div className="text-center">
+                <p className="text-3xl font-bold text-[#D4AF37]">99%</p>
+                <p className="text-xs uppercase text-gray-500 font-bold">Satisfaction</p>
+              </div>
+            </div>
             <p className="text-[#D4AF37] font-bold tracking-widest text-sm italic">Discreet, Professional, Exceptional…</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
               <div className="flex gap-4 items-start">
@@ -600,7 +614,7 @@ export default function Home() {
               <div>
                  <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Navigation</h4>
                  <ul className="space-y-4 text-[10px] uppercase tracking-widest">
-                    <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About</li>
+                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About Us</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(servicesRef)}>Services</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(galleryRef)}>Gallery</li>
                     <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/work-with-us">Recruitment</Link></li>

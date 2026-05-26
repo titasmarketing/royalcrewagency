@@ -1,10 +1,12 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { Calendar, Users, Package, TrendingUp, FileText, DollarSign, User, Warehouse, Sparkles, UserPlus } from "lucide-react";
-import { Link } from "wouter";
+import { Calendar, Users, Package, TrendingUp, FileText, DollarSign, User, Warehouse, Sparkles, UserPlus, ArrowLeft } from "lucide-react";
+import { Link, useLocation } from "wouter";
 
 export default function AdminDashboard() {
+  const [, navigate] = useLocation();
   const { data: events, isLoading: eventsLoading } = trpc.events.list.useQuery();
   const { data: staff, isLoading: staffLoading } = trpc.staffAdmin.list.useQuery();
   const { data: clients, isLoading: clientsLoading } = trpc.clients.list.useQuery();
@@ -46,10 +48,20 @@ export default function AdminDashboard() {
   return (
     <DashboardLayout>
       <div className="space-y-8">
-        {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Visão geral da plataforma GOD MODE</p>
+        {/* Header with Back Button */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
+            <p className="text-muted-foreground">Visão geral da plataforma GOD MODE</p>
+          </div>
+          <Button
+            onClick={() => navigate('/')}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Button>
         </div>
 
         {/* Stats Grid */}
