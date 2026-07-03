@@ -184,7 +184,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-              <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-16 w-auto" />
+              <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-16 w-auto" />
             </div>
             
             <div className="hidden md:flex items-center space-x-10">
@@ -248,7 +248,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="flex items-center gap-4 justify-center">
                <div className="h-px w-12 bg-[#D4AF37]"></div>
-               <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
+               <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
                <div className="h-px w-12 bg-[#D4AF37]"></div>
             </div>
             <h1 className="text-4xl md:text-6xl font-light tracking-[0.1em] text-[#D4AF37] uppercase leading-tight">
@@ -493,7 +493,7 @@ export default function Home() {
       }}>
         <div className="absolute inset-0 bg-[#0c1b33]/90"></div>
         <div className="relative z-10 flex flex-col items-center justify-center py-16">
-          <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-auto h-48 md:h-64 drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
+          <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-auto h-48 md:h-64 drop-shadow-[0_0_80px_rgba(212,175,55,0.6)]" />
         </div>
       </section>
 
@@ -501,7 +501,7 @@ export default function Home() {
       <section ref={workRef} className="py-32 bg-white text-center px-6">
         <div className="max-w-4xl mx-auto bg-[#f8fafc] p-12 md:p-20 rounded-3xl border border-gray-100 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-5">
-            <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-[400px] h-auto opacity-5" />
+            <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-[400px] h-auto opacity-5" />
           </div>
           <div className="relative z-10">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block mb-6">Premium Careers</span>
@@ -527,7 +527,7 @@ export default function Home() {
              </button>
 
              <div className="text-center mb-10">
-                <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-12 h-auto mx-auto mb-4" />
+                <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-12 h-auto mx-auto mb-4" />
                 <h2 className="text-2xl font-bold text-[#0c1b33] tracking-widest uppercase">Almost there!</h2>
                 <p className="text-xs text-gray-400 font-bold tracking-widest uppercase mt-1">Complete your details to finalise the booking</p>
              </div>
@@ -669,7 +669,7 @@ export default function Home() {
            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
               <div className="col-span-1 md:col-span-2">
                  <div className="flex flex-col items-start mb-6">
-                    <img src="https://dados.royalcrewagency.com/gallery/1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-20 w-auto" />
+                    <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-20 w-auto" />
                  </div>
                  <p className="text-sm max-w-sm leading-relaxed">
                    Elevating hospitality standards in Europe with elite staff for exclusive events.

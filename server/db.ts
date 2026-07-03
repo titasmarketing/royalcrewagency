@@ -36,9 +36,9 @@ export async function getDb() {
       const pool = createPool({
         host: '127.0.0.1',
         port: 3306,
-        user: 'u219024948_reginaldo',
-        password: 'Pagotto24',
-        database: 'u219024948_reginaldo',
+        user: 'god_mode',
+        password: 'RoyalCrew@2024',
+        database: 'god_mode_db',
         waitForConnections: true,
         connectionLimit: 10,
       });
