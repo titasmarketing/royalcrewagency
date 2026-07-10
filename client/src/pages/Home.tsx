@@ -3,8 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle, 
+import {
+  Crown, LayoutDashboard, Star, MapPin, Users, CheckCircle,
   Calendar, Clock, PartyPopper, ArrowRight, Zap, ShieldCheck,
   Award, TrendingUp, Package, Coffee, X, User as UserIcon, Building2, Check,
   Car, Camera, Menu, ArrowLeft, MessageCircle
@@ -150,13 +150,13 @@ export default function Home() {
 
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation
     if (!clientData.name || !clientData.phone || !clientData.address || !clientData.city || !clientData.postalCode) {
       toast.error("Please fill in all required fields.");
       return;
     }
-    
+
     // Call backend
     createBookingMutation.mutate({
       clientType: clientData.clientType,
@@ -178,17 +178,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0c1b33] font-sans selection:bg-[#D4AF37] selection:text-white relative">
-      
+
       {/* Navbar Royal */}
       <nav className="bg-[#0c1b33]/90 backdrop-blur-md border-b border-[#D4AF37]/20 sticky top-0 z-50 py-2">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+            <div className="flex items-center cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-16 w-auto" />
             </div>
-            
+
             <div className="hidden md:flex items-center space-x-10">
-              <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Home</button>
+              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Home</button>
               <button onClick={() => scrollTo(aboutRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">About Us</button>
               <button onClick={() => scrollTo(servicesRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Services</button>
               <button onClick={() => scrollTo(galleryRef)} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] hover:text-[#D4AF37]/80 transition-colors">Gallery</button>
@@ -216,7 +216,7 @@ export default function Home() {
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-[#0c1b33] border-t border-[#D4AF37]/20 px-6 py-4 flex flex-col gap-4">
-            <button onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Home</button>
+            <button onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Home</button>
             <button onClick={() => { scrollTo(aboutRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">About Us</button>
             <button onClick={() => { scrollTo(servicesRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Services</button>
             <button onClick={() => { scrollTo(galleryRef); setMobileMenuOpen(false); }} className="text-[11px] uppercase tracking-[0.3em] font-bold text-[#D4AF37] text-left py-2 border-b border-[#D4AF37]/10">Gallery</button>
@@ -232,7 +232,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section with Quick Booking Form */}
-      <section 
+      <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden py-20"
         style={{
           backgroundImage: 'url(https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=2000&q=80)',
@@ -242,17 +242,17 @@ export default function Home() {
         }}
       >
         <div className="absolute inset-0 bg-[#0c1b33]/75" />
-        
+
         <div className="relative z-10 px-6 max-w-5xl mx-auto w-full flex flex-col items-center justify-center text-center space-y-8">
           {/* Hero Text */}
           <div className="space-y-8">
             <div className="flex items-center gap-4 justify-center">
-               <div className="h-px w-12 bg-[#D4AF37]"></div>
-               <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
-               <div className="h-px w-12 bg-[#D4AF37]"></div>
+              <div className="h-px w-12 bg-[#D4AF37]"></div>
+              <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-24 w-auto" />
+              <div className="h-px w-12 bg-[#D4AF37]"></div>
             </div>
             <h1 className="text-4xl md:text-6xl font-light tracking-[0.1em] text-[#D4AF37] uppercase leading-tight">
-              The Elite of <br/>Hospitality
+              The Elite of <br />Hospitality
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 font-light tracking-wide leading-relaxed italic max-w-2xl mx-auto">
               Elevating hospitality standards in Europe with elite staff for exclusive events.
@@ -264,22 +264,22 @@ export default function Home() {
             <h3 className="text-white font-bold tracking-[0.2em] uppercase text-sm mb-6 flex items-center gap-2 justify-center">
               <Zap className="w-4 h-4 text-[#D4AF37]" /> Instant Booking
             </h3>
-            
+
             <form onSubmit={handleStartBooking} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Event Date</Label>
-                  <Input 
-                    type="date" 
-                    value={bookingData.date} 
-                    onChange={e => setBookingData({...bookingData, date: e.target.value})} 
-                    required 
+                  <Input
+                    type="date"
+                    value={bookingData.date}
+                    onChange={e => setBookingData({ ...bookingData, date: e.target.value })}
+                    required
                     className="bg-white/10 border-white/20 text-white"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Event Type</Label>
-                  <Select value={bookingData.type} onValueChange={value => setBookingData({...bookingData, type: value})}>
+                  <Select value={bookingData.type} onValueChange={value => setBookingData({ ...bookingData, type: value })}>
                     <SelectTrigger className="bg-white/10 border-white/20 text-white">
                       <SelectValue />
                     </SelectTrigger>
@@ -294,22 +294,22 @@ export default function Home() {
                 </div>
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Service Hours</Label>
-                  <Input 
-                    type="number" 
-                    min="1" 
-                    value={bookingData.hours} 
-                    onChange={e => setBookingData({...bookingData, hours: parseInt(e.target.value)})} 
+                  <Input
+                    type="number"
+                    min="1"
+                    value={bookingData.hours}
+                    onChange={e => setBookingData({ ...bookingData, hours: parseInt(e.target.value) })}
                     className="bg-white/10 border-white/20 text-white"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label className="text-white text-[10px] uppercase tracking-widest">Contact Email</Label>
-                  <Input 
-                    type="email" 
-                    value={bookingData.email} 
-                    onChange={e => setBookingData({...bookingData, email: e.target.value})} 
-                    required 
-                    placeholder="Ex: royal@event.uk" 
+                  <Input
+                    type="email"
+                    value={bookingData.email}
+                    onChange={e => setBookingData({ ...bookingData, email: e.target.value })}
+                    required
+                    placeholder="Ex: royal@event.uk"
                     className="bg-white/10 border-white/20 text-white placeholder:text-gray-500"
                   />
                 </div>
@@ -386,20 +386,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
           <div className="relative">
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-3xl"></div>
-            <img 
-              src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800" 
-              alt="Luxury Agency" 
-              className="relative rounded-2xl shadow-2xl z-10 w-full" 
+            <img
+              src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800"
+              alt="Luxury Agency"
+              className="relative rounded-2xl shadow-2xl z-10 w-full"
             />
           </div>
           <div className="space-y-8">
             <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block">About Royal Crew Agency</span>
-            <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight leading-tight">Where <span className="font-bold">Elegance</span> meets <span className="font-bold">Professionalism</span></h2>
+            <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight leading-tight"><span className="font-bold">Where Elegance meets Professionalism</span></h2>
             <p className="text-gray-600 leading-relaxed text-lg font-light">
               Royal Crew Agency is Europe's premier hospitality staffing solution, specializing in elite event management and professional staffing across 12 countries. We deliver exceptional service for weddings, corporate galas, VIP private parties, and exclusive events.
             </p>
             <p className="text-gray-600 leading-relaxed text-base font-light">
-              Our agency was founded with a clear mission: to provide reliable, professional staffing and logistical support that allows events and businesses to run seamlessly. What began as a dedicated team assisting catering companies and private events has evolved into a comprehensive service agency offering skilled porters, drivers, cleaners, photographers, event coordinators, and hospitality staff. We understand that behind every successful event is a strong, well-organized team working with precision and professionalism. Our commitment is to connect clients with experienced professionals who deliver efficiency, discretion, and excellence in every detail. Whether supporting corporate functions, private celebrations, or hospitality operations, we focus on quality service, flexibility, and trust. We don't just supply staff — we provide solutions that help our clients create exceptional experiences.
+              Our agency was founded with a clear mission: to provide reliable, professional staffing and logistical support that allows events and businesses to run seamlessly. What began as a dedicated team assisting catering companies and private events has evolved into a comprehensive service agency offering skilled porters, drivers, cleaners, photographers, event coordinators, and hospitality staff. We understand that behind every successful event is a strong, well-organized team working with precision and professionalism. Our commitment is to connect clients with experienced professionals who deliver efficiency, discretion, and excellence in every detail. Whether supporting corporate functions, private celebrations, or hospitality operations, we focus on quality service, flexibility, and trust. We don't just supply staff, we provide solutions that help our clients create exceptional experiences.
             </p>
             <div className="grid grid-cols-3 gap-4 pt-4">
               <div className="text-center">
@@ -522,82 +522,82 @@ export default function Home() {
       {showCompleteModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0c1b33]/90 backdrop-blur-md p-4 overflow-y-auto">
           <div className="max-w-xl w-full bg-white rounded-2xl shadow-2xl p-8 relative animate-in zoom-in duration-300">
-             <button onClick={() => setShowCompleteModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-red-500">
-               <X className="w-6 h-6" />
-             </button>
+            <button onClick={() => setShowCompleteModal(false)} className="absolute top-6 right-6 text-gray-400 hover:text-red-500">
+              <X className="w-6 h-6" />
+            </button>
 
-             <div className="text-center mb-10">
-                <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-12 h-auto mx-auto mb-4" />
-                <h2 className="text-2xl font-bold text-[#0c1b33] tracking-widest uppercase">Almost there!</h2>
-                <p className="text-xs text-gray-400 font-bold tracking-widest uppercase mt-1">Complete your details to finalise the booking</p>
-             </div>
+            <div className="text-center mb-10">
+              <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="w-12 h-auto mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-[#0c1b33] tracking-widest uppercase">Almost there!</h2>
+              <p className="text-xs text-gray-400 font-bold tracking-widest uppercase mt-1">Complete your details to finalise the booking</p>
+            </div>
 
-             <form onSubmit={handleFinalSubmit} className="space-y-6">
-                <div className="flex gap-4 p-1 bg-gray-100 rounded-lg">
-                  <button 
-                    type="button" 
-                    onClick={() => setClientData({...clientData, clientType: 'INDIVIDUAL'})}
-                    className={`flex-1 py-3 text-[10px] font-bold uppercase rounded-md transition-all ${clientData.clientType === 'INDIVIDUAL' ? 'bg-white shadow-sm text-[#0c1b33]' : 'text-gray-400'}`}
-                  >
-                    <UserIcon className="w-3 h-3 inline mr-2" /> Individual
-                  </button>
-                  <button 
-                    type="button" 
-                    onClick={() => setClientData({...clientData, clientType: 'BUSINESS'})}
-                    className={`flex-1 py-3 text-[10px] font-bold uppercase rounded-md transition-all ${clientData.clientType === 'BUSINESS' ? 'bg-white shadow-sm text-[#0c1b33]' : 'text-gray-400'}`}
-                  >
-                    <Building2 className="w-3 h-3 inline mr-2" /> Business (UK)
-                  </button>
+            <form onSubmit={handleFinalSubmit} className="space-y-6">
+              <div className="flex gap-4 p-1 bg-gray-100 rounded-lg">
+                <button
+                  type="button"
+                  onClick={() => setClientData({ ...clientData, clientType: 'INDIVIDUAL' })}
+                  className={`flex-1 py-3 text-[10px] font-bold uppercase rounded-md transition-all ${clientData.clientType === 'INDIVIDUAL' ? 'bg-white shadow-sm text-[#0c1b33]' : 'text-gray-400'}`}
+                >
+                  <UserIcon className="w-3 h-3 inline mr-2" /> Individual
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setClientData({ ...clientData, clientType: 'BUSINESS' })}
+                  className={`flex-1 py-3 text-[10px] font-bold uppercase rounded-md transition-all ${clientData.clientType === 'BUSINESS' ? 'bg-white shadow-sm text-[#0c1b33]' : 'text-gray-400'}`}
+                >
+                  <Building2 className="w-3 h-3 inline mr-2" /> Business (UK)
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>{clientData.clientType === 'BUSINESS' ? 'Contact Name' : 'Full Name'}</Label>
+                  <Input value={clientData.name} onChange={e => setClientData({ ...clientData, name: e.target.value })} required />
+                </div>
+                <div className="space-y-2">
+                  <Label>Phone Number</Label>
+                  <Input value={clientData.phone} onChange={e => setClientData({ ...clientData, phone: e.target.value })} required />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>{clientData.clientType === 'BUSINESS' ? 'Contact Name' : 'Full Name'}</Label>
-                    <Input value={clientData.name} onChange={e => setClientData({...clientData, name: e.target.value})} required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Phone Number</Label>
-                    <Input value={clientData.phone} onChange={e => setClientData({...clientData, phone: e.target.value})} required />
-                  </div>
-                  
-                  {clientData.clientType === 'BUSINESS' && (
-                    <>
-                      <div className="space-y-2">
-                        <Label>Company Name</Label>
-                        <Input value={clientData.companyName} onChange={e => setClientData({...clientData, companyName: e.target.value})} required />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>VAT Number (Optional)</Label>
-                        <Input value={clientData.vatNumber} onChange={e => setClientData({...clientData, vatNumber: e.target.value})} />
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border-b border-gray-100 pb-2">UK Address</p>
-                  <div className="space-y-2">
-                    <Label>Address Line 1</Label>
-                    <Input value={clientData.address} onChange={e => setClientData({...clientData, address: e.target.value})} required />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
+                {clientData.clientType === 'BUSINESS' && (
+                  <>
                     <div className="space-y-2">
-                      <Label>City</Label>
-                      <Input value={clientData.city} onChange={e => setClientData({...clientData, city: e.target.value})} required />
+                      <Label>Company Name</Label>
+                      <Input value={clientData.companyName} onChange={e => setClientData({ ...clientData, companyName: e.target.value })} required />
                     </div>
                     <div className="space-y-2">
-                      <Label>Postcode (UK)</Label>
-                      <Input placeholder="E.g. SW1A 1AA" value={clientData.postalCode} onChange={e => setClientData({...clientData, postalCode: e.target.value.toUpperCase()})} required />
+                      <Label>VAT Number (Optional)</Label>
+                      <Input value={clientData.vatNumber} onChange={e => setClientData({ ...clientData, vatNumber: e.target.value })} />
                     </div>
+                  </>
+                )}
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest border-b border-gray-100 pb-2">UK Address</p>
+                <div className="space-y-2">
+                  <Label>Address Line 1</Label>
+                  <Input value={clientData.address} onChange={e => setClientData({ ...clientData, address: e.target.value })} required />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>City</Label>
+                    <Input value={clientData.city} onChange={e => setClientData({ ...clientData, city: e.target.value })} required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Postcode (UK)</Label>
+                    <Input placeholder="E.g. SW1A 1AA" value={clientData.postalCode} onChange={e => setClientData({ ...clientData, postalCode: e.target.value.toUpperCase() })} required />
                   </div>
                 </div>
+              </div>
 
-                <div className="pt-6">
-                  <Button type="submit" className="w-full h-14 tracking-[0.4em] bg-[#0c1b33] text-white">
-                    Confirm Booking <Check className="w-4 h-4 ml-2 inline-block" />
-                  </Button>
-                </div>
-             </form>
+              <div className="pt-6">
+                <Button type="submit" className="w-full h-14 tracking-[0.4em] bg-[#0c1b33] text-white">
+                  Confirm Booking <Check className="w-4 h-4 ml-2 inline-block" />
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -666,47 +666,47 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-[#050b1a] text-gray-500 py-24 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
-           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-              <div className="col-span-1 md:col-span-2">
-                 <div className="flex flex-col items-start mb-6">
-                    <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-20 w-auto" />
-                 </div>
-                 <p className="text-sm max-w-sm leading-relaxed">
-                   Elevating hospitality standards in Europe with elite staff for exclusive events.
-                 </p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex flex-col items-start mb-6">
+                <img src="/uploads/images/gallery_1776897529584-r25iv.png" alt="Royal Crew Agency" className="h-20 w-auto" />
               </div>
-              <div>
-                 <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Navigation</h4>
-                 <ul className="space-y-4 text-[10px] uppercase tracking-widest">
-                     <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About Us</li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(servicesRef)}>Services</li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(galleryRef)}>Gallery</li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/work-with-us">Recruitment</Link></li>
-                 </ul>
-              </div>
-              <div>
-                 <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
-                 <ul className="space-y-4 text-[10px] uppercase tracking-widest">
-                    <li className="hover:text-[#D4AF37] cursor-pointer">Terms of Service</li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer">Privacy Policy</li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/admin">Admin</Link></li>
-                    <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/staff">Staff Portal</Link></li>
-                 </ul>
-              </div>
-           </div>
-           
-           <div className="border-t border-gray-800 pt-8 text-center text-[10px] uppercase tracking-widest">
-              <p>
-                <a 
-                  href="https://agencyl1.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-[#D4AF37] transition-colors"
-                >
-                  agencyl1.com &copy; <span dangerouslySetInnerHTML={{__html: new Date().getFullYear().toString()}} />
-                </a>
+              <p className="text-sm max-w-sm leading-relaxed">
+                Elevating hospitality standards in Europe with elite staff for exclusive events.
               </p>
-           </div>
+            </div>
+            <div>
+              <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Navigation</h4>
+              <ul className="space-y-4 text-[10px] uppercase tracking-widest">
+                <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(aboutRef)}>About Us</li>
+                <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(servicesRef)}>Services</li>
+                <li className="hover:text-[#D4AF37] cursor-pointer" onClick={() => scrollTo(galleryRef)}>Gallery</li>
+                <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/work-with-us">Recruitment</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-[#D4AF37] font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
+              <ul className="space-y-4 text-[10px] uppercase tracking-widest">
+                <li className="hover:text-[#D4AF37] cursor-pointer">Terms of Service</li>
+                <li className="hover:text-[#D4AF37] cursor-pointer">Privacy Policy</li>
+                <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/admin">Admin</Link></li>
+                <li className="hover:text-[#D4AF37] cursor-pointer"><Link href="/staff">Staff Portal</Link></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800 pt-8 text-center text-[10px] uppercase tracking-widest">
+            <p>
+              <a
+                href="https://agencyl1.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#D4AF37] transition-colors"
+              >
+                agencyl1.com &copy; <span dangerouslySetInnerHTML={{ __html: new Date().getFullYear().toString() }} />
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
     </div>
