@@ -13,7 +13,7 @@ import { Link, useLocation } from "wouter";
 import { useState, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 function GallerySection() {
   const { data: photos } = trpc.gallery.featured.useQuery({ limit: 4 });
   const [, navigate] = useLocation();
@@ -356,7 +356,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full h-14 mt-6 tracking-[0.3em] bg-[#D4AF37] text-[#0c1b33] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all">
+              <Button type="submit" className="w-full h-14 mt-6 tracking-[0.3em] bg-[#D4AF37] text-[#0c1b33] hover:bg-[#0c1b33] hover:text-white hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all border border-transparent hover:border-[#D4AF37]/50">
                 Request Quote <ArrowRight className="w-4 h-4 ml-2 inline-block" />
               </Button>
             </form>
@@ -365,7 +365,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-white py-16">
+      <section className="bg-white py-8">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { label: 'Events Delivered', value: '450+' },
@@ -382,69 +382,102 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section ref={aboutRef} className="py-32 bg-[#fcfcfc] relative z-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-          <div className="relative">
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#D4AF37]/10 rounded-full blur-3xl"></div>
-            <img
-              src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800"
-              alt="Luxury Agency"
-              className="relative rounded-2xl shadow-2xl z-10 w-full"
-            />
-          </div>
-          <div className="space-y-8">
-            <span className="text-[#D4AF37] text-xs font-bold tracking-[0.5em] uppercase block">About Royal Crew Agency</span>
-            <h2 className="text-5xl font-light text-[#0c1b33] tracking-tight leading-tight"><span className="font-bold">Where Elegance meets Professionalism</span></h2>
-            <p className="text-gray-600 leading-relaxed text-lg font-light">
-              Royal Crew Agency is Europe's premier hospitality staffing solution, specializing in elite event management and professional staffing across 12 countries. We deliver exceptional service for weddings, corporate galas, VIP private parties, and exclusive events.
-            </p>
-            <p className="text-gray-600 leading-relaxed text-base font-light">
-              Our agency was founded with a clear mission: to provide reliable, professional staffing and logistical support that allows events and businesses to run seamlessly. What began as a dedicated team assisting catering companies and private events has evolved into a comprehensive service agency offering skilled porters, drivers, cleaners, photographers, event coordinators, and hospitality staff. We understand that behind every successful event is a strong, well-organized team working with precision and professionalism. Our commitment is to connect clients with experienced professionals who deliver efficiency, discretion, and excellence in every detail. Whether supporting corporate functions, private celebrations, or hospitality operations, we focus on quality service, flexibility, and trust. We don't just supply staff, we provide solutions that help our clients create exceptional experiences.
-            </p>
-            <div className="grid grid-cols-3 gap-4 pt-4">
-              <div className="text-center">
-                <p className="text-3xl font-bold text-[#D4AF37]">450+</p>
-                <p className="text-xs uppercase text-gray-500 font-bold">Events</p>
+      <section ref={aboutRef} className="py-32 bg-[#0a1426] relative z-20 overflow-hidden text-white">
+        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-[#D4AF37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+
+            {/* Imagens e Estatísticas (Esquerda) */}
+            <div className="relative">
+              <div className="grid grid-cols-2 gap-6 relative z-10">
+                <img
+                  src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=600"
+                  alt="Luxury Event"
+                  className="rounded-2xl shadow-2xl object-cover h-[400px] w-full mt-12"
+                />
+                <div className="space-y-6">
+                  <img
+                    src="/uploads/images/royalcrew-catering.jpg"
+                    alt="Professional Staff"
+                    className="rounded-2xl shadow-2xl object-cover h-[250px] w-full"
+                  />
+                  <div className="bg-gradient-to-br from-[#D4AF37] to-[#b38f20] rounded-2xl p-8 shadow-xl text-center">
+                    <p className="text-4xl font-bold text-[#0c1b33] mb-1">12+</p>
+                    <p className="text-[10px] uppercase font-bold text-[#0c1b33]/70 tracking-widest">Countries</p>
+                    <p className="text-[10px] uppercase font-bold text-[#0c1b33]/70 tracking-widest">Covered in Europe</p>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-[#D4AF37]">12</p>
-                <p className="text-xs uppercase text-gray-500 font-bold">Countries</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-bold text-[#D4AF37]">99%</p>
-                <p className="text-xs uppercase text-gray-500 font-bold">Satisfaction</p>
-              </div>
+
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full border border-[#D4AF37]/20 rounded-2xl rotate-3 scale-[1.05] -z-10"></div>
             </div>
-            <p className="text-[#D4AF37] font-bold tracking-widest text-sm italic">Discreet, Professional, Exceptional…</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
-              <div className="flex gap-4 items-start">
-                <ShieldCheck className="text-[#D4AF37] w-6 h-6 shrink-0" />
-                <div>
-                  <h4 className="text-sm font-bold text-[#0c1b33] uppercase">Secure & Verified</h4>
-                  <p className="text-xs text-gray-500 mt-1">Rigorous DBS selection and background checks.</p>
+
+            {/* Conteúdo de Texto (Direita) */}
+            <div className="space-y-10">
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-px w-8 bg-[#D4AF37]"></div>
+                  <span className="text-[#D4AF37] text-xs font-bold tracking-[0.4em] uppercase">The Royal Standard</span>
+                </div>
+                <h2 className="text-5xl md:text-6xl font-light tracking-tight leading-[1.1] mb-6">
+                  Where <span className="text-[#D4AF37] italic font-serif">Elegance</span> <br />Meets Professionalism
+                </h2>
+                <p className="text-gray-300 leading-relaxed text-lg font-light mb-4">
+                  Royal Crew Agency is Europe's premier hospitality staffing solution, specializing in elite event management and professional staffing across 12 countries. We deliver exceptional service for weddings, corporate galas, VIP private parties, and exclusive events.
+                </p>
+                <p className="text-gray-400 leading-relaxed text-sm font-light">
+                  We don't just supply staff; we provide comprehensive solutions that help our clients create exceptional experiences. From skilled porters and drivers to photographers and event coordinators, we connect you with experienced professionals who deliver efficiency, discretion, and excellence in every detail.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 border-t border-white/10 pt-10">
+                {/* 1. Events Delivered */}
+                <div className="bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 rounded-2xl p-6 hover:border-[#D4AF37]/45 hover:bg-white/[0.04] transition-all duration-500 group shadow-lg hover:shadow-[#D4AF37]/5">
+                  <p className="text-4xl font-extralight bg-gradient-to-r from-[#D4AF37] to-[#F5E0A5] bg-clip-text text-transparent mb-2 tracking-tight">
+                    450<span className="text-2xl font-light text-[#D4AF37]">+</span>
+                  </p>
+                  <p className="text-[10px] uppercase text-gray-400 font-bold tracking-[0.2em] group-hover:text-white transition-colors">
+                    Events Delivered
+                  </p>
+                </div>
+
+                {/* 2. Client Satisfaction */}
+                <div className="bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 rounded-2xl p-6 hover:border-[#D4AF37]/45 hover:bg-white/[0.04] transition-all duration-500 group shadow-lg hover:shadow-[#D4AF37]/5">
+                  <p className="text-4xl font-extralight bg-gradient-to-r from-[#D4AF37] to-[#F5E0A5] bg-clip-text text-transparent mb-2 tracking-tight">
+                    99<span className="text-2xl font-light text-[#D4AF37]">%</span>
+                  </p>
+                  <p className="text-[10px] uppercase text-gray-400 font-bold tracking-[0.2em] group-hover:text-white transition-colors">
+                    Client Satisfaction
+                  </p>
+                </div>
+
+                {/* 3. Verified */}
+                <div className="bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 rounded-2xl p-6 hover:border-[#D4AF37]/45 hover:bg-white/[0.04] transition-all duration-500 group shadow-lg hover:shadow-[#D4AF37]/5 flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#D4AF37]/10 group-hover:border-[#D4AF37]/50 transition-all duration-300">
+                    <ShieldCheck className="text-[#D4AF37] w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[0.15em] group-hover:text-[#D4AF37] transition-colors">Verified</h4>
+                    <p className="text-[11px] text-gray-400 mt-1 leading-relaxed">
+                      Rigorous background checks.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 4. 24/7 Support */}
+                <div className="bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 rounded-2xl p-6 hover:border-[#D4AF37]/45 hover:bg-white/[0.04] transition-all duration-500 group shadow-lg hover:shadow-[#D4AF37]/5 flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#D4AF37]/10 group-hover:border-[#D4AF37]/50 transition-all duration-300">
+                    <Clock className="text-[#D4AF37] w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[0.15em] group-hover:text-[#D4AF37] transition-colors">24/7 Support</h4>
+                    <p className="text-[11px] text-gray-400 mt-1 leading-relaxed">
+                      Team available at any time.
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4 items-start">
-                <Clock className="text-[#D4AF37] w-6 h-6 shrink-0" />
-                <div>
-                  <h4 className="text-sm font-bold text-[#0c1b33] uppercase">24/7 Support</h4>
-                  <p className="text-xs text-gray-500 mt-1">Team available at any time.</p>
-                </div>
-              </div>
-              <div className="flex gap-4 items-start">
-                <TrendingUp className="text-[#D4AF37] w-6 h-6 shrink-0" />
-                <div>
-                  <h4 className="text-sm font-bold text-[#0c1b33] uppercase">AI Matchmaking</h4>
-                  <p className="text-xs text-gray-500 mt-1">Intelligent staff selection algorithm.</p>
-                </div>
-              </div>
-              <div className="flex gap-4 items-start">
-                <Package className="text-[#D4AF37] w-6 h-6 shrink-0" />
-                <div>
-                  <h4 className="text-sm font-bold text-[#0c1b33] uppercase">Competitive Rates</h4>
-                  <p className="text-xs text-gray-500 mt-1">Prices according quotations.</p>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -458,24 +491,52 @@ export default function Home() {
             <h2 className="text-5xl font-light tracking-tight uppercase"><span className="text-white">High-Level</span> <span className="text-[#D4AF37]">Team</span></h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: 'Professional Drivers', icon: Car, desc: 'Full qualified driver for any job and anywhere in Europe.' },
-              { title: 'High Service', icon: Users, desc: 'Elite trained staff for any event and logistics standards.' },
-              { title: 'VIP Reception', icon: Crown, desc: 'Multilingual hosts and reception models to make the best first impression.' },
-              { title: 'Photographer', icon: Camera, desc: 'High-end event photography for sophisticated occasions delivering discretion and elegance.' },
-              { title: 'Coordinators', icon: ArrowRight, desc: 'Team leaders to manage all staff logistics at the event venue.' },
-              { title: 'Support Team', icon: Zap, desc: 'Setup and quick cleaning staff so you don\'t have to worry about anything.' },
-            ].map((service, i) => (
-              <div key={i} className="group hover:border-[#D4AF37] transition-all duration-500 bg-white/5 border border-white/10 p-6 rounded-xl">
-                <div className="mb-6 text-[#D4AF37] w-12 h-12 flex items-center justify-center bg-white/5 rounded-xl group-hover:scale-110 transition-transform">
-                  <service.icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-bold text-[#D4AF37] mb-4 uppercase tracking-wider">{service.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6">{service.desc}</p>
-              </div>
-            ))}
-          </div>
+          <AnimatedTestimonials
+            testimonials={[
+              {
+                name: "Professional Drivers",
+                designation: "Elite Logistics",
+                quote: "Fully qualified drivers for any job and anywhere in Europe. Our private chauffeurs ensure your travel is comfortable, discrete, and on time.",
+                src: "https://images.unsplash.com/photo-1549317336-206569e8475c?auto=format&fit=crop&q=80&w=800",
+                icon: Car
+              },
+              {
+                name: "High Service",
+                designation: "Premium Hospitality",
+                quote: "Elite trained staff for any event and logistics standards. We bring impeccable attention to detail to ensure your guests receive the royal treatment.",
+                src: "https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=800",
+                icon: Users
+              },
+              {
+                name: "VIP Reception",
+                designation: "First Impressions",
+                quote: "Multilingual hosts and reception models to make the best first impression. Elegance and professionalism tailored to your brand.",
+                src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800",
+                icon: Crown
+              },
+              {
+                name: "Event Photographers",
+                designation: "Capturing Memories",
+                quote: "High-end event photography for sophisticated occasions, delivering discretion and elegance while ensuring every perfect moment is immortalized.",
+                src: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
+                icon: Camera
+              },
+              {
+                name: "Coordinators",
+                designation: "Seamless Execution",
+                quote: "Expert team leaders dedicated to managing all staff logistics at the event venue. Ensuring everything runs perfectly from start to finish.",
+                src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800",
+                icon: ArrowRight
+              },
+              {
+                name: "Support Team",
+                designation: "Behind The Scenes",
+                quote: "Highly efficient setup and quick cleaning staff so you don't have to worry about anything. The backbone of a flawlessly executed event.",
+                src: "https://images.unsplash.com/photo-1581622558663-b2eca5d496e5?auto=format&fit=crop&q=80&w=800",
+                icon: Zap
+              }
+            ]}
+          />
         </div>
       </section>
 
