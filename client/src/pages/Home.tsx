@@ -497,42 +497,42 @@ export default function Home() {
                 name: "Professional Drivers",
                 designation: "Elite Logistics",
                 quote: "Fully qualified drivers for any job and anywhere in Europe. Our private chauffeurs ensure your travel is comfortable, discrete, and on time.",
-                src: "https://images.unsplash.com/photo-1549317336-206569e8475c?auto=format&fit=crop&q=80&w=800",
+                src: "/uploads/images/Wedding%20Chauffeur%20Hire.jpg",
                 icon: Car
               },
               {
                 name: "High Service",
                 designation: "Premium Hospitality",
                 quote: "Elite trained staff for any event and logistics standards. We bring impeccable attention to detail to ensure your guests receive the royal treatment.",
-                src: "https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=800",
+                src: "/uploads/images/Affordable%20Event%20Photography%20in%20DC_%20Quality%20Meets%20Budget%20-%20Event%20Photojournalism.jpg",
                 icon: Users
               },
               {
                 name: "VIP Reception",
                 designation: "First Impressions",
                 quote: "Multilingual hosts and reception models to make the best first impression. Elegance and professionalism tailored to your brand.",
-                src: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800",
+                src: "/uploads/images/521323abfce3232744b5601568ebaa47.jpg",
                 icon: Crown
               },
               {
                 name: "Event Photographers",
                 designation: "Capturing Memories",
                 quote: "High-end event photography for sophisticated occasions, delivering discretion and elegance while ensuring every perfect moment is immortalized.",
-                src: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
+                src: "/uploads/images/Love%20Stories%20in%20Focus_%20Finding%20the%20Dream%20Wedding%20Photographer%20for%20You%20-%20Photography%20Videography%20Services.jpg",
                 icon: Camera
               },
               {
                 name: "Coordinators",
                 designation: "Seamless Execution",
                 quote: "Expert team leaders dedicated to managing all staff logistics at the event venue. Ensuring everything runs perfectly from start to finish.",
-                src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800",
+                src: "/uploads/images/0615ebf387029cf001ac40192117862a.jpg",
                 icon: ArrowRight
               },
               {
                 name: "Support Team",
                 designation: "Behind The Scenes",
                 quote: "Highly efficient setup and quick cleaning staff so you don't have to worry about anything. The backbone of a flawlessly executed event.",
-                src: "https://images.unsplash.com/photo-1581622558663-b2eca5d496e5?auto=format&fit=crop&q=80&w=800",
+                src: "/uploads/images/Perfekte%20Location%20f%C3%BCr%20Ihres%20Catering.jpg",
                 icon: Zap
               }
             ]}
